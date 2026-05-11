@@ -9,8 +9,8 @@ export function Logo({ shrink = false }: { shrink?: boolean }) {
     <Link href="/" className="flex items-center group">
       <motion.div
         animate={{ 
-          height: shrink ? 50 : 65,
-          width: shrink ? 50 : 65 
+          height: shrink ? 60 : 85,
+          width: shrink ? 60 : 85 
         }}
         className="relative overflow-hidden rounded-xl bg-transparent flex-shrink-0"
       >
