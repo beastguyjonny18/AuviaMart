@@ -43,7 +43,8 @@ export function Navbar() {
 
   if (!mounted) return null;
 
-  const isAdmin = session?.email === 'sololvlar@gmail.com';
+  const ADMIN_EMAILS = ['sololvlar@gmail.com', 'sololvlar69@gmail.com', 'roshiim1001@gmail.com'];
+  const isAdmin = session && ADMIN_EMAILS.includes(session.email);
 
   return (
     <nav

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const ADMIN_EMAIL = 'sololvlar@gmail.com';
+const ADMIN_EMAILS = ['sololvlar@gmail.com', 'sololvlar69@gmail.com', 'roshiim1001@gmail.com'];
 
 export async function middleware(request: NextRequest) {
   const session = request.cookies.get('session');
@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
       const payloadBase64 = session.value.split('.')[1];
       const payload = JSON.parse(Buffer.from(payloadBase64, 'base64').toString());
 
-      if (payload.email !== ADMIN_EMAIL) {
+      if (!ADMIN_EMAILS.includes(payload.email)) {
         return NextResponse.redirect(new URL('/', request.url));
       }
     } catch {
@@ -31,16 +31,15 @@ export async function middleware(request: NextRequest) {
       try {
         const payloadBase64 = session.value.split('.')[1];
         const payload = JSON.parse(Buffer.from(payloadBase64, 'base64').toString());
-        
+
         // If admin, go to dashboard. If normal user, go to home.
-        const dest = payload.email === ADMIN_EMAIL ? '/dashboard' : '/';
+        const dest = ADMIN_EMAILS.includes(payload.email) ? '/dashboard' : '/';
         return NextResponse.redirect(new URL(dest, request.url));
       } catch {
         return NextResponse.next();
       }
     }
   }
-
   return NextResponse.next();
 }
 

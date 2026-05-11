@@ -232,3 +232,42 @@ export async function getUsersAction() {
     return [];
   }
 }
+
+export async function getSiteSettingsAction() {
+  try {
+    const doc = await adminDb.collection('settings').doc('site').get();
+    if (!doc.exists) {
+      // Return defaults if not exists
+      return {
+        ctaTitle: "Smart *Living*",
+        ctaDescription: "Discover the future of home decor and appliances. From 3D DIY clocks to portable cooling solutions.",
+        ctaButtonText: "Shop Now",
+        ctaImage: "/products/1778482258100.jpeg",
+        instagram: "https://instagram.com/auvia_org",
+        facebook: "https://facebook.com/auvia_org",
+        twitter: "https://twitter.com/auvia_org",
+        linkedin: "https://linkedin.com/company/auvia_org",
+        supportEmail: "support@auviamart.pk",
+        footerText: "Pure. Curated. Delivered. The destination for high-end organic essentials in Pakistan."
+      };
+    }
+    return doc.data();
+  } catch (error: any) {
+    console.error('Error fetching site settings:', error);
+    return null;
+  }
+}
+
+export async function updateSiteSettingsAction(data: any) {
+  try {
+    await adminDb.collection('settings').doc('site').set({
+      ...data,
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+    revalidatePath('/');
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error updating site settings:', error);
+    return { error: error.message };
+  }
+}
