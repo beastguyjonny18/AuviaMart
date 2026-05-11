@@ -5,10 +5,40 @@ import { Logo } from '@/components/shared/logo';
 import { Eye, EyeOff, Mail, Lock, Globe } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
+import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Failed to sign in');
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Failed to sign in with Google');
+    }
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -49,7 +79,13 @@ export default function SignInPage() {
             <h1 className="text-3xl font-serif mb-2">Welcome Back</h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8">Please enter your details to sign in.</p>
 
-            <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); setIsLoading(true); }}>
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-xl mb-6 text-sm">
+                {error}
+              </div>
+            )}
+
+            <form className="space-y-6" onSubmit={handleSignIn}>
               <div className="space-y-2">
                 <label className="text-sm font-medium">Email Address</label>
                 <div className="relative">
@@ -57,6 +93,8 @@ export default function SignInPage() {
                   <input
                     type="email"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full bg-white dark:bg-white border border-gray-200 dark:border-gray-300 rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-brand-teal outline-none transition-all"
                     placeholder="name@example.com"
                   />
@@ -73,6 +111,8 @@ export default function SignInPage() {
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="w-full bg-white dark:bg-surface-input-dark border border-gray-200 dark:border-white/10 rounded-xl py-3 pl-12 pr-12 focus:ring-2 focus:ring-brand-teal outline-none transition-all"
                     placeholder="••••••••"
                   />
@@ -114,6 +154,7 @@ export default function SignInPage() {
 
               <button
                 type="button"
+                onClick={handleGoogleSignIn}
                 className="w-full bg-white dark:bg-white border border-gray-200 dark:border-gray-300 py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-100 transition-all"
               >
                 <Globe size={20} />

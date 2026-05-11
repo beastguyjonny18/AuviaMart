@@ -2,16 +2,25 @@
 
 import { motion } from 'framer-motion';
 import { Logo } from '@/components/shared/logo';
-import { Eye, EyeOff, Mail, Lock, User, Phone, Globe, CheckCircle2 } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, Phone, Globe } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import confetti from 'canvas-confetti';
+import { auth, db } from '@/lib/firebase';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [strength, setStrength] = useState(0);
+  const [error, setError] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     // Basic password strength logic
@@ -23,18 +32,57 @@ export default function SignUpPage() {
     setStrength(s);
   }, [password]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
+    setError('');
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await updateProfile(user, { displayName: fullName });
+
+      // Save additional user data to Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        fullName,
+        email,
+        phoneNumber,
+        createdAt: new Date().toISOString(),
+      });
+
       confetti({
         particleCount: 150,
         spread: 70,
         origin: { y: 0.6 },
         colors: ['#1a5f7a', '#0d3b55', '#e8a44a']
       });
+
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 2000);
+    } catch (err: any) {
+      setError(err.message || 'Failed to create account');
       setIsLoading(false);
-    }, 1500);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Check if user exists in Firestore, if not create
+      await setDoc(doc(db, 'users', user.uid), {
+        fullName: user.displayName,
+        email: user.email,
+        createdAt: new Date().toISOString(),
+      }, { merge: true });
+
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Failed to sign up with Google');
+    }
   };
 
   return (
@@ -75,6 +123,12 @@ export default function SignUpPage() {
             <h1 className="text-3xl font-serif mb-2">Create Account</h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8">Join the AuviaMart community today.</p>
 
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-xl mb-6 text-sm">
+                {error}
+              </div>
+            )}
+
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="space-y-1">
                 <label className="text-sm font-medium">Full Name</label>
@@ -83,6 +137,8 @@ export default function SignUpPage() {
                   <input
                     type="text"
                     required
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
                     className="w-full bg-white dark:bg-white border border-gray-200 dark:border-gray-300 rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-brand-teal outline-none transition-all"
                     placeholder="John Doe"
                   />
@@ -96,6 +152,8 @@ export default function SignUpPage() {
                   <input
                     type="email"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full bg-white dark:bg-surface-input-dark border border-gray-200 dark:border-white/10 rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-brand-teal outline-none transition-all"
                     placeholder="name@example.com"
                   />
@@ -110,6 +168,8 @@ export default function SignUpPage() {
                   <input
                     type="tel"
                     required
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                     className="w-full bg-white dark:bg-surface-input-dark border border-gray-200 dark:border-white/10 rounded-xl py-3 pl-24 pr-4 focus:ring-2 focus:ring-brand-teal outline-none transition-all"
                     placeholder="1234 5678"
                   />
@@ -181,6 +241,7 @@ export default function SignUpPage() {
 
               <button
                 type="button"
+                onClick={handleGoogleSignUp}
                 className="w-full bg-white dark:bg-white border border-gray-200 dark:border-gray-300 py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-100 transition-all"
               >
                 <Globe size={20} />

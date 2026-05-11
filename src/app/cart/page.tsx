@@ -17,6 +17,23 @@ export default function CartPage() {
     setMounted(true);
   }, []);
 
+  const handleWhatsAppCheckout = () => {
+    const phoneNumber = "97412345678"; // Replace with actual business number
+    const itemDetails = items.map(item => 
+      `*${item.name}* (x${item.quantity}) - QAR ${(item.price * item.quantity).toFixed(2)}`
+    ).join('\n');
+    
+    const message = encodeURIComponent(
+      `🛍️ *New Order from AuviaMart*\n\n` +
+      `Hello! I would like to place an order for the following items:\n\n` +
+      `${itemDetails}\n\n` +
+      `*Total Amount:* QAR ${totalPrice().toFixed(2)}\n\n` +
+      `Please confirm my order. Thank you!`
+    );
+
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  };
+
   if (!mounted) return null;
 
   return (
@@ -136,8 +153,11 @@ export default function CartPage() {
                     <button className="absolute right-4 top-1/2 -translate-y-1/2 text-brand-teal font-bold text-sm">Apply</button>
                   </div>
                   
-                  <button className="w-full bg-brand-teal text-white py-5 rounded-2xl text-lg font-bold shadow-xl shadow-brand-teal/20 hover:bg-brand-navy transition-all flex items-center justify-center gap-3">
-                    Proceed to Checkout
+                  <button 
+                    onClick={handleWhatsAppCheckout}
+                    className="w-full bg-brand-teal text-white py-5 rounded-2xl text-lg font-bold shadow-xl shadow-brand-teal/20 hover:bg-brand-navy transition-all flex items-center justify-center gap-3"
+                  >
+                    Checkout via WhatsApp
                     <ArrowRight size={20} />
                   </button>
                 </div>

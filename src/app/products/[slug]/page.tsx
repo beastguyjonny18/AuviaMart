@@ -142,7 +142,7 @@ export default function ProductDetailPage() {
                 </div>
                 
                 <button
-                  onClick={() => toggleItem(product.id)}
+                  onClick={() => toggleItem(product)}
                   className={cn(
                     "tap-target rounded-full border dark:border-white/10 transition-colors",
                     isWishlisted ? "text-red-500 bg-red-50 dark:bg-red-500/10 border-red-200" : "hover:text-brand-teal"

@@ -40,7 +40,7 @@ export function ProductCard({ id, slug, name, brand, price, image, badge, rating
 
   const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
-    toggleItem(id);
+    toggleItem({ id, name, brand, price, image });
   };
 
   return (

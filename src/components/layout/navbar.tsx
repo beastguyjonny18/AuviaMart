@@ -27,67 +27,67 @@ export function Navbar() {
   return (
     <nav
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300 border-b",
+        "sticky top-0 z-50 w-full transition-all duration-300 border-b border-white/10",
         isScrolled 
-          ? "bg-white/95 dark:bg-surface-dark/90 backdrop-blur-md py-2" 
-          : "bg-white dark:bg-surface-dark py-4"
+          ? "bg-brand-navy/95 backdrop-blur-md py-1 shadow-lg" 
+          : "bg-brand-navy py-2"
       )}
     >
-      <div className="container mx-auto px-4 flex items-center justify-between gap-8">
+      <div className="container mx-auto px-4 flex items-center justify-between gap-4 md:gap-8">
         <Logo shrink={isScrolled} />
 
         <div className="hidden lg:flex flex-1 max-w-[480px] relative group">
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-teal">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-navy">
             <Search size={20} />
           </div>
           <input
             type="text"
             placeholder="Search for tech, decor, and more..."
-            className="w-full bg-white dark:bg-white rounded-full py-3 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-brand-teal transition-all"
+            className="w-full bg-white rounded-full py-2.5 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-brand-teal transition-all text-brand-navy placeholder:text-gray-400"
           />
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300">
             <Mic size={20} />
           </div>
         </div>
 
-        <div className="flex items-center gap-2 md:gap-4">
-          <Link href="/wishlist" className="tap-target relative hover:text-brand-teal transition-colors hidden sm:flex">
+        <div className="flex items-center gap-2 md:gap-4 text-white">
+          <Link href="/wishlist" className="tap-target relative hover:text-accent-gold transition-colors hidden sm:flex">
             <Heart size={24} />
             {wishlistCount > 0 && (
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="absolute top-2 right-2 bg-brand-teal text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full"
+                className="absolute -top-1 -right-1 bg-accent-gold text-brand-navy text-[10px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold"
               >
                 {wishlistCount}
               </motion.span>
             )}
           </Link>
 
-          <Link href="/cart" className="tap-target relative hover:text-brand-teal transition-colors">
+          <Link href="/cart" className="tap-target relative hover:text-accent-gold transition-colors">
             <ShoppingCart size={24} />
             {cartCount > 0 && (
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="absolute top-2 right-2 bg-brand-teal text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold"
+                className="absolute -top-1 -right-1 bg-accent-gold text-brand-navy text-[10px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold"
               >
                 {cartCount}
               </motion.span>
             )}
           </Link>
 
-          <button className="tap-target hover:text-brand-teal transition-colors hidden md:flex items-center gap-1">
+          <button className="tap-target hover:text-accent-gold transition-colors hidden md:flex items-center gap-1">
             <Globe size={20} />
             <span className="text-sm font-medium">EN</span>
           </button>
 
-          <Link href="/auth/signin" className="hidden lg:flex items-center gap-2 bg-brand-teal text-white px-6 py-2.5 rounded-full hover:bg-brand-navy transition-colors">
+          <Link href="/auth/signin" className="hidden lg:flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-6 py-2 rounded-full transition-colors">
             <User size={20} />
             <span className="text-sm font-medium">Sign In</span>
           </Link>
           
-          <Link href="/profile" className="lg:hidden tap-target">
+          <Link href="/auth/signin" className="lg:hidden tap-target">
             <User size={24} />
           </Link>
         </div>
