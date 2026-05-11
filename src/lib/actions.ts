@@ -360,7 +360,13 @@ export async function updateOrderStatusAction(orderId: string, status: string) {
       status,
       updatedAt: new Date().toISOString()
     });
+    
+    // Revalidate all affected routes
     revalidatePath('/dashboard/orders');
+    revalidatePath('/dashboard');
+    revalidatePath('/orders');
+    revalidatePath('/profile');
+    
     return { success: true };
   } catch (error: any) {
     console.error('Error updating order status:', error);
