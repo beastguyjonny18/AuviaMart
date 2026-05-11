@@ -32,7 +32,7 @@ export const products: Product[] = [
     name: 'Luxe 3D Crystal Wall Clock',
     brand: 'AUVIA HOME',
     price: 4500,
-    image: '/products/1778480407790.jpeg',
+    image: '/products/Airpods.jpeg', // Adjusted path
     badge: 'NEW',
     rating: 4.9,
     category: 'Home Decor',
@@ -45,7 +45,7 @@ export const products: Product[] = [
     name: 'Islamic Calligraphy Masterpiece',
     brand: 'AUVIA ISLAMIC',
     price: 6800,
-    image: '/products/1778480407791.jpeg',
+    image: '/products/Portable fan cooler.jpeg', // Adjusted path
     badge: 'BEST SELLER',
     rating: 5.0,
     category: 'Home Decor',

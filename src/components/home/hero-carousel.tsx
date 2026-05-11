@@ -13,7 +13,7 @@ const slides = [
     cta: 'Explore Coolers',
   },
   {
-    image: '/products/1778480407790.jpeg',
+    image: '/products/Airpods.jpeg',
     title: 'Modern *Decor*',
     subtitle: 'Luxury 3D DIY clocks to transform your home into a masterpiece.',
     cta: 'Shop Decor',
