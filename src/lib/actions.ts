@@ -271,3 +271,70 @@ export async function updateSiteSettingsAction(data: any) {
     return { error: error.message };
   }
 }
+
+// Order Management
+
+export async function createOrderAction(orderData: { items: any[], totalPrice: number, userEmail?: string, userId?: string }) {
+  try {
+    const orderId = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    const orderRef = adminDb.collection('orders').doc(orderId);
+    
+    await orderRef.set({
+      ...orderData,
+      id: orderId,
+      status: 'Pending',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+
+    revalidatePath('/dashboard/orders');
+    return { success: true, orderId };
+  } catch (error: any) {
+    console.error('Error creating order:', error);
+    return { error: error.message };
+  }
+}
+
+export async function getUserOrdersAction(userEmail: string) {
+  try {
+    const snapshot = await adminDb.collection('orders')
+      .where('userEmail', '==', userEmail)
+      .orderBy('createdAt', 'desc')
+      .get();
+      
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (error: any) {
+    console.error('Error fetching user orders:', error);
+    return [];
+  }
+}
+
+export async function getOrdersAction() {
+  try {
+    const snapshot = await adminDb.collection('orders').orderBy('createdAt', 'desc').get();
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (error: any) {
+    console.error('Error fetching all orders:', error);
+    return [];
+  }
+}
+
+export async function updateOrderStatusAction(orderId: string, status: string) {
+  try {
+    await adminDb.collection('orders').doc(orderId).update({
+      status,
+      updatedAt: new Date().toISOString()
+    });
+    revalidatePath('/dashboard/orders');
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error updating order status:', error);
+    return { error: error.message };
+  }
+}

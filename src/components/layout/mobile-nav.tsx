@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Home, LayoutGrid, ShoppingCart, Heart, User } from 'lucide-react';
+import { Home, LayoutGrid, ShoppingCart, Heart, User, ShoppingBag } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -9,9 +9,9 @@ import { cn } from '@/lib/utils';
 const navItems = [
   { icon: Home, label: 'Home', href: '/' },
   { icon: LayoutGrid, label: 'Categories', href: '/categories' },
+  { icon: ShoppingBag, label: 'Orders', href: '/orders' },
   { icon: ShoppingCart, label: 'Cart', href: '/cart' },
   { icon: Heart, label: 'Wishlist', href: '/wishlist' },
-  { icon: User, label: 'Profile', href: '/auth/signin' },
 ];
 
 export function MobileNav() {
