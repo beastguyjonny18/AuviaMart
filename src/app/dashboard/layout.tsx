@@ -40,12 +40,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className="min-h-screen bg-gray-50/50">
       {/* Sidebar - Desktop */}
-      <aside className="hidden lg:flex flex-col w-64 fixed inset-y-0 left-0 bg-brand-teal text-white z-50">
-        <div className="p-8">
-          <Logo shrink />
+      <aside className="hidden lg:flex flex-col w-64 fixed inset-y-0 left-0 bg-brand-navy text-white z-50 shadow-2xl">
+        <div className="p-8 flex justify-center">
+          <Logo shrink transparent />
         </div>
         
-        <nav className="flex-1 px-4 space-y-2">
+        <nav className="flex-1 px-4 space-y-2 mt-4">
           {menuItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -53,13 +53,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all group",
+                  "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all group relative",
                   isActive 
-                    ? "bg-white/10 text-white shadow-sm border border-white/10" 
-                    : "text-white/70 hover:bg-white/5 hover:text-white"
+                    ? "bg-white/10 text-white shadow-lg" 
+                    : "text-white/60 hover:bg-white/5 hover:text-white"
                 )}
               >
-                <item.icon size={20} className={cn(isActive ? "text-white" : "text-white/60 group-hover:text-white")} />
+                {isActive && (
+                  <motion.div 
+                    layoutId="sidebar-active"
+                    className="absolute left-0 w-1 h-6 bg-brand-teal rounded-r-full"
+                  />
+                )}
+                <item.icon size={20} className={cn(isActive ? "text-brand-teal" : "text-white/40 group-hover:text-white")} />
                 {item.label}
               </Link>
             );
