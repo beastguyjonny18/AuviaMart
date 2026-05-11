@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Logo } from '@/components/shared/logo';
-import { Eye, EyeOff, Mail, Lock, User, Phone, Chrome, CheckCircle2 } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, Phone, Globe, CheckCircle2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import confetti from 'canvas-confetti';
@@ -183,7 +183,7 @@ export default function SignUpPage() {
                 type="button"
                 className="w-full bg-white dark:bg-surface-card-dark border border-gray-200 dark:border-white/10 py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-white/5 transition-all"
               >
-                <Chrome size={20} />
+                <Globe size={20} />
                 <span className="font-medium">Sign up with Google</span>
               </button>
             </form>

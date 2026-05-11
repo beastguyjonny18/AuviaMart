@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Logo } from '@/components/shared/logo';
-import { Eye, EyeOff, Mail, Lock, Chrome } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, Globe } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -116,7 +116,7 @@ export default function SignInPage() {
                 type="button"
                 className="w-full bg-white dark:bg-surface-card-dark border border-gray-200 dark:border-white/10 py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-white/5 transition-all"
               >
-                <Chrome size={20} />
+                <Globe size={20} />
                 <span className="font-medium">Sign in with Google</span>
               </button>
             </form>
