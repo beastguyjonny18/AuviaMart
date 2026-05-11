@@ -8,7 +8,7 @@ import { CheckCircle2, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-const featuredProducts = [
+const featuredProducts: { id: string; name: string; brand: string; price: number; image: string; badge?: 'BEST SELLER' | 'NEW'; rating: number }[] = [
   { id: '1', name: 'Premium Manuka Honey MGO 500+', brand: 'NEW ZEALAND PURE', price: 245.00, image: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?q=80&w=800&auto=format&fit=crop', badge: 'BEST SELLER', rating: 4.9 },
   { id: '2', name: 'Organic Cold Pressed Extra Virgin Olive Oil', brand: 'TERRA DEL SOL', price: 85.00, image: 'https://images.unsplash.com/photo-1474979266404-7eaacbad93c5?q=80&w=800&auto=format&fit=crop', rating: 4.8 },
   { id: '3', name: 'Raw Organic Cacao Powder 500g', brand: 'VITALITY FOODS', price: 65.00, image: 'https://images.unsplash.com/photo-1512418490979-92798ccc13b0?q=80&w=800&auto=format&fit=crop', badge: 'NEW', rating: 4.7 },

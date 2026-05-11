@@ -8,6 +8,7 @@ import { Star, ShieldCheck, Truck, RefreshCcw, Minus, Plus, Heart, ShoppingCart,
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { useCartStore, useWishlistStore } from '@/store/use-store';
+import Link from 'next/link';
 
 const product = {
   id: '1',
@@ -254,9 +255,4 @@ export default function ProductDetailPage() {
       <MobileNav />
     </div>
   );
-}
-
-// Simple Link placeholder since I forgot to import it
-function Link({ href, children, className }: any) {
-  return <a href={href} className={className}>{children}</a>;
 }
