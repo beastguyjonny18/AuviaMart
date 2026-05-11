@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-brand-teal: #1a5f7a;
+  --color-brand-navy: #0d3b55;
+  --color-accent-gold: #e8a44a;
+  
+  --color-surface-light: #f7f5f0;
+  --color-surface-dark: #0f1a20;
+  --color-surface-card-dark: #1a2a35;
+  --color-surface-input-dark: #0d1f28;
+
+  --color-text-primary-light: #1a1a1a;
+  --color-text-primary-dark: #f0ede8;
+}
+
+:root {
+  --background: #f7f5f0;
+  --foreground: #1a1a1a;
+}
+
+.dark {
+  --background: #0f1a20;
+  --foreground: #f0ede8;
+}
+
+@layer base {
+  * {
+    @apply border-gray-200/50 dark:border-white/10;
+  }
+  body {
+    @apply bg-background text-foreground transition-colors duration-300;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .glass-morphism {
+    @apply backdrop-blur-lg bg-white/80 dark:bg-surface-dark/80 border-t border-gray-200/50 dark:border-white/10;
+  }
+  
+  .tap-target {
+    @apply min-w-[44px] min-h-[44px] flex items-center justify-center;
+  }
+}
