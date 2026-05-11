@@ -9,10 +9,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 const featuredProducts: { id: string; name: string; brand: string; price: number; image: string; badge?: 'BEST SELLER' | 'NEW'; rating: number }[] = [
-  { id: '1', name: 'Premium Manuka Honey MGO 500+', brand: 'NEW ZEALAND PURE', price: 245.00, image: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?q=80&w=800&auto=format&fit=crop', badge: 'BEST SELLER', rating: 4.9 },
-  { id: '2', name: 'Organic Cold Pressed Extra Virgin Olive Oil', brand: 'TERRA DEL SOL', price: 85.00, image: 'https://images.unsplash.com/photo-1474979266404-7eaacbad93c5?q=80&w=800&auto=format&fit=crop', rating: 4.8 },
-  { id: '3', name: 'Raw Organic Cacao Powder 500g', brand: 'VITALITY FOODS', price: 65.00, image: 'https://images.unsplash.com/photo-1512418490979-92798ccc13b0?q=80&w=800&auto=format&fit=crop', badge: 'NEW', rating: 4.7 },
-  { id: '4', name: 'Himalayan Pink Salt Grinder', brand: 'NATURAL HARVEST', price: 35.00, image: 'https://images.unsplash.com/photo-1549474843-ed8300404db3?q=80&w=800&auto=format&fit=crop', rating: 4.6 },
+  { id: '1', name: 'Premium Manuka Honey MGO 500+', brand: 'NEW ZEALAND PURE', price: 245.00, image: '/products/1778480407790.jpeg', badge: 'BEST SELLER', rating: 4.9 },
+  { id: '2', name: 'Organic Cold Pressed Extra Virgin Olive Oil', brand: 'TERRA DEL SOL', price: 85.00, image: '/products/1778480407791.jpeg', rating: 4.8 },
+  { id: '3', name: 'Raw Organic Cacao Powder 500g', brand: 'VITALITY FOODS', price: 65.00, image: '/products/1778480422145.jpeg', badge: 'NEW', rating: 4.7 },
+  { id: '4', name: 'Himalayan Pink Salt Grinder', brand: 'NATURAL HARVEST', price: 35.00, image: '/products/1778480424461.jpeg', rating: 4.6 },
 ];
 
 export default function Home() {
@@ -84,7 +84,7 @@ export default function Home() {
         {/* Happy House Section */}
         <section className="relative h-[60vh] min-h-[500px] flex items-center">
           <Image
-            src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2000&auto=format&fit=crop"
+            src="/products/1778482258100.jpeg"
             alt="Happy House"
             fill
             className="object-cover"
@@ -131,9 +131,9 @@ export default function Home() {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { title: 'The Benefits of Raw Manuka Honey', cat: 'WELLNESS', image: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?q=80&w=800&auto=format&fit=crop' },
-                { title: '5 Steps to a Plastic-Free Kitchen', cat: 'SUSTAINABILITY', image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=800&auto=format&fit=crop' },
-                { title: 'Morning Rituals for Vitality', cat: 'LIFESTYLE', image: 'https://images.unsplash.com/photo-1512418490979-92798ccc13b0?q=80&w=800&auto=format&fit=crop' },
+                { title: 'The Benefits of Raw Manuka Honey', cat: 'WELLNESS', image: '/products/1778482277813.jpeg' },
+                { title: '5 Steps to a Plastic-Free Kitchen', cat: 'SUSTAINABILITY', image: '/products/1778482277815.jpeg' },
+                { title: 'Morning Rituals for Vitality', cat: 'LIFESTYLE', image: '/products/1778482293739.jpeg' },
               ].map((article, i) => (
                 <Link key={i} href={`/blog/${i}`} className="group">
                   <div className="relative aspect-[4/3] overflow-hidden rounded-2xl mb-6 shadow-md group-hover:shadow-xl transition-shadow">

@@ -9,12 +9,12 @@ import { SlidersHorizontal, X, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const allProducts = [
-  { id: '1', name: 'Premium Manuka Honey MGO 500+', brand: 'NEW ZEALAND PURE', price: 245.00, image: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?q=80&w=800&auto=format&fit=crop', badge: 'BEST SELLER', rating: 4.9, category: 'Wellness' },
-  { id: '2', name: 'Organic Cold Pressed Extra Virgin Olive Oil', brand: 'TERRA DEL SOL', price: 85.00, image: 'https://images.unsplash.com/photo-1474979266404-7eaacbad93c5?q=80&w=800&auto=format&fit=crop', rating: 4.8, category: 'Organic Foods' },
-  { id: '3', name: 'Raw Organic Cacao Powder 500g', brand: 'VITALITY FOODS', price: 65.00, image: 'https://images.unsplash.com/photo-1544473244-f6895e69ad93?q=80&w=800&auto=format&fit=crop', badge: 'NEW', rating: 4.7, category: 'Organic Foods' },
-  { id: '4', name: 'Himalayan Pink Salt Grinder', brand: 'NATURAL HARVEST', price: 35.00, image: 'https://images.unsplash.com/photo-1549474843-ed8300404db3?q=80&w=800&auto=format&fit=crop', rating: 4.6, category: 'Organic Foods' },
-  { id: '5', name: 'Organic Turmeric Capsules', brand: 'WELLNESS CO', price: 120.00, image: 'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?q=80&w=800&auto=format&fit=crop', rating: 4.8, category: 'Wellness' },
-  { id: '6', name: 'Bamboo Kitchen Starter Set', brand: 'ECO HOUSE', price: 180.00, image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop', badge: 'NEW', rating: 4.5, category: 'Happy House' },
+  { id: '1', name: 'Premium Manuka Honey MGO 500+', brand: 'NEW ZEALAND PURE', price: 245.00, image: '/products/1778480407790.jpeg', badge: 'BEST SELLER', rating: 4.9, category: 'Wellness' },
+  { id: '2', name: 'Organic Cold Pressed Extra Virgin Olive Oil', brand: 'TERRA DEL SOL', price: 85.00, image: '/products/1778480407791.jpeg', rating: 4.8, category: 'Organic Foods' },
+  { id: '3', name: 'Raw Organic Cacao Powder 500g', brand: 'VITALITY FOODS', price: 65.00, image: '/products/1778480422145.jpeg', badge: 'NEW', rating: 4.7, category: 'Organic Foods' },
+  { id: '4', name: 'Himalayan Pink Salt Grinder', brand: 'NATURAL HARVEST', price: 35.00, image: '/products/1778480424461.jpeg', rating: 4.6, category: 'Organic Foods' },
+  { id: '5', name: 'Organic Turmeric Capsules', brand: 'WELLNESS CO', price: 120.00, image: '/products/1778482106500.jpeg', rating: 4.8, category: 'Wellness' },
+  { id: '6', name: 'Bamboo Kitchen Starter Set', brand: 'ECO HOUSE', price: 180.00, image: '/products/1778482258101.jpeg', badge: 'NEW', rating: 4.5, category: 'Happy House' },
 ];
 
 const categories = ['All', 'Organic Foods', 'Wellness', 'Happy House', 'Beauty', 'Baby'];

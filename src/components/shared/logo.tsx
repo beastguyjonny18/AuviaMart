@@ -2,37 +2,31 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function Logo({ shrink = false }: { shrink?: boolean }) {
   return (
-    <Link href="/" className="flex flex-col items-start">
+    <Link href="/" className="flex items-center gap-3 group">
       <motion.div
-        animate={{ height: shrink ? 40 : 60 }}
-        className="relative aspect-[2/1]"
+        animate={{ 
+          height: shrink ? 40 : 50,
+          width: shrink ? 40 : 50 
+        }}
+        className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#1a5f7a] to-[#0d3b55] shadow-md flex-shrink-0"
       >
-        <svg
-          viewBox="0 0 140 60"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-full w-auto"
-        >
-          {/* Custom M Monogram */}
-          <path
-            d="M20 50C20 30 35 15 50 15C65 15 70 30 70 30C70 30 75 15 90 15C105 15 120 30 120 50"
-            stroke="currentColor"
-            strokeWidth="8"
-            strokeLinecap="round"
-          />
-          <text
-            x="0"
-            y="55"
-            className="text-[20px] font-serif"
-            fill="currentColor"
-          >
-            Auvia Mart
-          </text>
-        </svg>
+        <Image
+          src="/logo.png"
+          alt="AuviaMart Logo"
+          fill
+          className="object-cover"
+          priority
+        />
       </motion.div>
+      {!shrink && (
+        <span className="text-xl font-serif font-bold tracking-tight text-brand-teal dark:text-white transition-colors">
+          Auvia Mart
+        </span>
+      )}
     </Link>
   );
 }

@@ -6,19 +6,19 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const slides = [
   {
-    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2000&auto=format&fit=crop',
+    image: '/products/1778480431596.jpeg',
     title: 'Spring *Renewal*',
     subtitle: 'Revitalize your home with our curated organic essentials.',
     cta: 'Shop Now',
   },
   {
-    image: 'https://images.unsplash.com/photo-1516594798141-f735d5108f3b?q=80&w=2000&auto=format&fit=crop',
+    image: '/products/1778480439773.jpeg',
     title: 'Pure *Elegance*',
     subtitle: 'Discover the beauty of sustainably sourced lifestyle products.',
     cta: 'Explore More',
   },
   {
-    image: 'https://images.unsplash.com/photo-1512418490979-92798ccc13b0?q=80&w=2000&auto=format&fit=crop',
+    image: '/products/1778480446230.jpeg',
     title: 'Daily *Vitality*',
     subtitle: 'Premium nutrients and organic snacks for your well-being.',
     cta: 'View Collection',
