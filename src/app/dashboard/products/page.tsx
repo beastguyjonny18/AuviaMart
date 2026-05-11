@@ -69,7 +69,7 @@ export default function DashboardProducts() {
                     </div>
                   </div>
                 </td>
-                <td className="p-6 text-sm font-bold">QAR {product.price.toFixed(2)}</td>
+                <td className="p-6 text-sm font-bold">Rs. {product.price.toFixed(2)}</td>
                 <td className="p-6 text-sm">
                   <span className={cn(
                     "font-bold",

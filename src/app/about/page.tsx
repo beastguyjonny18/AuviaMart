@@ -43,7 +43,7 @@ export default function AboutPage() {
               transition={{ delay: 0.1 }}
               className="text-xl md:text-2xl opacity-80 max-w-2xl mx-auto"
             >
-              Redefining modern living in Qatar through premium curation and exceptional service.
+              Redefining modern living in Pakistan through premium curation and exceptional service.
             </motion.p>
           </div>
         </section>
@@ -53,7 +53,7 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-serif mb-8">Our Mission</h2>
             <p className="text-lg md:text-xl leading-relaxed opacity-70 mb-12">
-              At Auvia Mart, we believe that your home is your sanctuary. Our mission is to provide Qatar with a 
+              At Auvia Mart, we believe that your home is your sanctuary. Our mission is to provide Pakistan with a 
               personally curated selection of high-end home decor, innovative appliances, and lifestyle essentials 
               that blend aesthetic beauty with modern functionality.
             </p>
@@ -77,7 +77,7 @@ export default function AboutPage() {
                 { icon: ShieldCheck, title: 'Uncompromising Quality', desc: 'Every product in our catalog undergoes rigorous quality checks before reaching your door.' },
                 { icon: Zap, title: 'Innovation First', desc: 'We source the latest tech and trends to keep your home at the forefront of modern living.' },
                 { icon: Heart, title: 'Customer Obsession', desc: 'Our relationship with you begins at checkout. We provide 24/7 support for all our products.' },
-                { icon: Globe, title: 'Global Sourcing', desc: 'We travel the world to bring unique, exclusive pieces that you won’t find anywhere else in Qatar.' },
+                { icon: Globe, title: 'Global Sourcing', desc: 'We travel the world to bring unique, exclusive pieces that you won’t find anywhere else in Pakistan.' },
               ].map((value, i) => (
                 <div key={i} className="p-8 bg-white dark:bg-white rounded-3xl shadow-sm hover:shadow-xl transition-shadow group">
                   <div className="w-16 h-16 bg-brand-teal/10 rounded-2xl flex items-center justify-center text-brand-teal mb-6 group-hover:scale-110 transition-transform">
@@ -107,8 +107,8 @@ export default function AboutPage() {
               <h2 className="text-4xl md:text-5xl font-serif italic mb-8">&ldquo;We curate for the discerning home.&rdquo;</h2>
               <div className="space-y-6 opacity-70 text-lg leading-relaxed">
                 <p>
-                  AuviaMart was born out of a simple need: the desire for premium, reliable, and stylish home essentials in Qatar. 
-                  As a resident of Doha, I found it difficult to find a single destination that offered both quality and aesthetic appeal.
+                  AuviaMart was born out of a simple need: the desire for premium, reliable, and stylish home essentials in Pakistan. 
+                  As a resident of Islamabad, I found it difficult to find a single destination that offered both quality and aesthetic appeal.
                 </p>
                 <p>
                   Today, we are proud to be that destination. Whether it is our signature 3D DIY clocks or our ultra-portable 

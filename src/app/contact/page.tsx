@@ -47,7 +47,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-sm uppercase tracking-widest opacity-40 mb-1">WhatsApp</h3>
-                    <p className="text-lg font-medium">+974 3344 5566</p>
+                    <p className="text-lg font-medium">+92 321 6817897</p>
                   </div>
                 </div>
 
@@ -57,7 +57,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-sm uppercase tracking-widest opacity-40 mb-1">Call Us</h3>
-                    <p className="text-lg font-medium">+974 4455 6677</p>
+                    <p className="text-lg font-medium">+92 321 6817897</p>
                   </div>
                 </div>
 
@@ -67,7 +67,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-sm uppercase tracking-widest opacity-40 mb-1">Visit Us</h3>
-                    <p className="text-lg font-medium">Lusail Marina, Tower A, Floor 12<br />Doha, Qatar</p>
+                    <p className="text-lg font-medium">Main Boulevard, Gulberg III<br />Lahore, Pakistan</p>
                   </div>
                 </div>
               </div>

@@ -17,7 +17,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "AuviaMart | Pure. Curated. Delivered.",
-  description: "High-end e-commerce platform for organic and premium products in Qatar.",
+  description: "High-end e-commerce platform for organic and premium products in Pakistan.",
 };
 
 export default function RootLayout({

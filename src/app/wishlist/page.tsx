@@ -76,7 +76,7 @@ export default function WishlistPage() {
                     
                     <div className="flex items-center justify-between">
                       <div className="text-xl font-bold text-brand-teal">
-                        QAR {item.price.toFixed(2)}
+                        Rs. {item.price.toFixed(2)}
                       </div>
                       <button
                         onClick={() => addItem({ ...item, quantity: 1 })}

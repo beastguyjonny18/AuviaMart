@@ -98,7 +98,7 @@ export function ProductCard({ id, slug, name, brand, price, image, badge, rating
           <h3 className="text-sm font-medium line-clamp-2 min-h-[40px] group-hover:text-brand-teal transition-colors">
             {name}
           </h3>
-          <p className="text-lg font-bold text-brand-teal">QAR {price.toFixed(2)}</p>
+          <p className="text-lg font-bold text-brand-teal">Rs. {price.toFixed(2)}</p>
         </div>
       </Link>
       

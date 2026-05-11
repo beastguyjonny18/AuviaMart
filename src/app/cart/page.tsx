@@ -20,14 +20,14 @@ export default function CartPage() {
   const handleWhatsAppCheckout = () => {
     const phoneNumber = "923216817897"; // Updated business number
     const itemDetails = items.map(item => 
-      `*${item.name}* (x${item.quantity}) - QAR ${(item.price * item.quantity).toFixed(2)}`
+      `*${item.name}* (x${item.quantity}) - Rs. ${(item.price * item.quantity).toFixed(2)}`
     ).join('\n');
     
     const message = encodeURIComponent(
       `🛍️ *New Order from AuviaMart*\n\n` +
       `Hello! I would like to place an order for the following items:\n\n` +
       `${itemDetails}\n\n` +
-      `*Total Amount:* QAR ${totalPrice().toFixed(2)}\n\n` +
+      `*Total Amount:* Rs. ${totalPrice().toFixed(2)}\n\n` +
       `Please confirm my order. Thank you!`
     );
 
@@ -114,7 +114,7 @@ export default function CartPage() {
                           </button>
                         </div>
                         <div className="text-xl font-bold text-brand-teal">
-                          QAR {(item.price * item.quantity).toFixed(2)}
+                          Rs. {(item.price * item.quantity).toFixed(2)}
                         </div>
                       </div>
                     </div>
@@ -131,7 +131,7 @@ export default function CartPage() {
                 <div className="space-y-4 mb-8">
                   <div className="flex justify-between text-gray-500">
                     <span>Subtotal ({totalItems()} items)</span>
-                    <span className="font-medium text-foreground">QAR {totalPrice().toFixed(2)}</span>
+                    <span className="font-medium text-foreground">Rs. {totalPrice().toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-gray-500">
                     <span>Delivery Fee</span>
@@ -139,7 +139,7 @@ export default function CartPage() {
                   </div>
                   <div className="pt-4 border-t dark:border-white/10 flex justify-between">
                     <span className="text-lg font-bold">Total</span>
-                    <span className="text-2xl font-bold text-brand-teal">QAR {totalPrice().toFixed(2)}</span>
+                    <span className="text-2xl font-bold text-brand-teal">Rs. {totalPrice().toFixed(2)}</span>
                   </div>
                 </div>
 

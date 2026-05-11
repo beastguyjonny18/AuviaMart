@@ -3,25 +3,26 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 const slides = [
   {
-    image: '/products/1778480431596.jpeg',
-    title: 'Smart *Living*',
-    subtitle: 'Innovative portable solutions for the modern lifestyle in Qatar.',
-    cta: 'Shop Appliances',
+    image: '/products/Portable fan cooler.jpeg',
+    title: 'Beat the *Heat*',
+    subtitle: 'Stay cool with our premium portable air coolers. Designed for the Pakistani summer.',
+    cta: 'Explore Coolers',
   },
   {
-    image: '/products/1778480407791.jpeg',
-    title: 'Modern *Art*',
-    subtitle: 'Transform your space with our premium 3D DIY wall clocks.',
-    cta: 'Explore Decor',
+    image: '/products/1778480407790.jpeg',
+    title: 'Modern *Decor*',
+    subtitle: 'Luxury 3D DIY clocks to transform your home into a masterpiece.',
+    cta: 'Shop Decor',
   },
   {
-    image: '/products/1778480422145.jpeg',
-    title: 'Tech *Companion*',
-    subtitle: 'Stay connected with the latest Ultra Series smartwatches.',
-    cta: 'View Tech',
+    image: '/products/10 series apple watch.jpeg',
+    title: 'Future *Tech*',
+    subtitle: 'Stay ahead with the latest Series 10 Smart Watches. Style meets performance.',
+    cta: 'View Watches',
   },
 ];
 
@@ -31,7 +32,7 @@ export function HeroCarousel() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
@@ -39,7 +40,7 @@ export function HeroCarousel() {
   const prev = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <section className="relative h-[100svh] lg:h-[75vh] w-full overflow-hidden bg-brand-teal/10 dark:bg-brand-navy">
+    <section className="relative h-[80svh] lg:h-[85vh] w-full overflow-hidden bg-brand-navy">
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -50,12 +51,13 @@ export function HeroCarousel() {
           className="absolute inset-0"
         >
           <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] scale-110 animate-slow-zoom"
-            style={{ backgroundImage: `url(${slides[current].image})` }}
+            className="absolute inset-0 bg-cover bg-center sm:bg-[center_top] transition-transform duration-[10s] scale-105 animate-slow-zoom opacity-60 sm:opacity-100"
+            style={{ backgroundImage: `url("${slides[current].image}")` }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/60 to-transparent dark:from-brand-navy dark:via-brand-navy/20" />
+          {/* Mobile Overlay: Stronger gradient for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/60 via-transparent to-brand-navy lg:bg-gradient-to-r lg:from-brand-navy lg:via-brand-navy/40 lg:to-transparent" />
           
-          <div className="relative h-full container mx-auto px-4 flex flex-col justify-center items-start text-slate-900 dark:text-white">
+          <div className="relative h-full container mx-auto px-6 flex flex-col justify-center items-start text-white">
             <motion.h1
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -67,20 +69,22 @@ export function HeroCarousel() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-lg md:text-2xl font-sans opacity-80 max-w-xl mb-10"
+              className="text-lg md:text-2xl font-sans opacity-90 max-w-xl mb-10 leading-relaxed"
             >
               {slides[current].subtitle}
             </motion.p>
-            <motion.button
+            <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.8 }}
-              whileHover={{ scale: 1.05, backgroundColor: '#1a5f7a' }}
-              whileTap={{ scale: 0.95 }}
-              className="px-10 py-4 border-2 border-white rounded-full transition-all text-lg font-medium"
             >
-              {slides[current].cta}
-            </motion.button>
+              <Link
+                href="/products"
+                className="px-10 py-4 bg-brand-teal text-white rounded-full transition-all text-lg font-bold shadow-xl shadow-brand-teal/20 hover:bg-white hover:text-brand-navy"
+              >
+                {slides[current].cta}
+              </Link>
+            </motion.div>
           </div>
         </motion.div>
       </AnimatePresence>

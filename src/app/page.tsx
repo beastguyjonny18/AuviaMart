@@ -30,7 +30,7 @@ export default function Home() {
               <div className="lg:w-1/3">
                 <h2 className="text-4xl md:text-5xl mb-6 italic">The *AuviaMart* Standard</h2>
                 <p className="text-lg opacity-80 mb-8 max-w-sm">
-                  Excellence in every detail. We curate high-end tech, home essentials, and lifestyle products for the modern home in Qatar.
+                  Excellence in every detail. We curate high-end tech, home essentials, and lifestyle products for the modern home in Pakistan.
                 </p>
                 <Link href="/about" className="text-brand-teal font-semibold flex items-center gap-2 group hover:underline">
                   Learn about our curation 
@@ -41,7 +41,7 @@ export default function Home() {
               <div className="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
                 {[
                   { title: 'Premium Quality', desc: 'Sourced from top manufacturers globally.' },
-                  { title: 'Delivered Across Qatar', desc: 'Same-day delivery in Doha, next-day across Qatar.' },
+                  { title: 'Delivered Across Pakistan', desc: 'Same-day delivery in Islamabad, next-day across Pakistan.' },
                   { title: 'Personally Curated', desc: 'Every product is tested for quality and durability.' },
                   { title: 'Modern Living', desc: 'Enhance your lifestyle with our innovative collections.' },
                 ].map((item, i) => (
@@ -64,7 +64,7 @@ export default function Home() {
             <div className="flex items-end justify-between mb-12">
               <div className="max-w-md">
                 <h2 className="text-4xl italic mb-4">AuviaMart Exclusives</h2>
-                <p className="opacity-70">Hand-picked premium selections found nowhere else in Qatar.</p>
+                <p className="opacity-70">Hand-picked premium selections found nowhere else in Pakistan.</p>
               </div>
               <Link href="/products" className="hidden sm:flex items-center gap-2 text-brand-teal font-semibold hover:underline">
                 Shop all 
@@ -113,27 +113,6 @@ export default function Home() {
                 Shop Now
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* Our Partners Section */}
-        <section className="py-24 bg-white dark:bg-surface-dark border-y">
-          <div className="container mx-auto px-4">
-            <h2 className="text-center text-2xl font-serif mb-16 opacity-40 uppercase tracking-widest">Trusted By Brands</h2>
-            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-              {[
-                { name: 'Vogue', icon: '✦' },
-                { name: 'Goop', icon: '◆' },
-                { name: 'Net-A-Porter', icon: '■' },
-                { name: 'Selfridges', icon: '★' },
-                { name: 'Harrods', icon: '●' },
-              ].map((partner) => (
-                <div key={partner.name} className="text-center group">
-                  <div className="text-4xl mb-2 opacity-20 group-hover:opacity-40 transition-opacity">{partner.icon}</div>
-                  <span className="text-sm font-semibold tracking-widest opacity-40 group-hover:opacity-60 transition-opacity">{partner.name}</span>
-                </div>
-              ))}
             </div>
           </div>
         </section>
@@ -219,7 +198,7 @@ export default function Home() {
             <div className="col-span-1 md:col-span-1">
               <span className="text-3xl font-serif mb-4 block">Auvia Mart</span>
               <p className="opacity-60 text-sm leading-relaxed max-w-xs mb-8">
-                Pure. Curated. Delivered. The destination for high-end organic essentials in Qatar.
+                Pure. Curated. Delivered. The destination for high-end organic essentials in Pakistan.
               </p>
               <div className="flex gap-4">
                 <a href="https://instagram.com/auvia_org" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/10 hover:bg-brand-teal transition-colors flex items-center justify-center rounded-full" aria-label="Instagram">
@@ -266,7 +245,7 @@ export default function Home() {
           </div>
           <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
             <div>
-              <p className="opacity-40 text-xs text-center md:text-left">© 2026 AuviaMart. Designed for Qatar.</p>
+              <p className="opacity-40 text-xs text-center md:text-left">© 2026 AuviaMart Pakistan. Designed for Pakistan.</p>
               <p className="opacity-40 text-xs text-center md:text-left mt-2">All rights reserved.</p>
             </div>
             <div className="flex gap-8">

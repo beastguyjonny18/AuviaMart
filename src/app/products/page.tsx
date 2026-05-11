@@ -52,8 +52,8 @@ export default function ProductsPage() {
               <div className="space-y-4">
                 <input type="range" className="w-full accent-brand-teal" />
                 <div className="flex justify-between text-xs text-gray-500">
-                  <span>QAR 0</span>
-                  <span>QAR 500+</span>
+                  <span>Rs. 0</span>
+                  <span>Rs. 500+</span>
                 </div>
               </div>
             </div>

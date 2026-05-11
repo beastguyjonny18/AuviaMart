@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 
 const messages = [
-  "Free delivery across Qatar on orders over QAR 150",
+  "Free delivery across Pakistan on orders over Rs. 150",
   "Exclusive brands you won't find anywhere else",
   "New arrivals every week"
 ];

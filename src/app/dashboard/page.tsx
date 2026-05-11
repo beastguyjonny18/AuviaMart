@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
 import CountUp from 'react-countup';
 
 const kpis = [
-  { label: 'Total Revenue', value: 124500, prefix: 'QAR ', change: '+12.5%', icon: DollarSign, color: 'text-brand-teal' },
+  { label: 'Total Revenue', value: 124500, prefix: 'Rs. ', change: '+12.5%', icon: DollarSign, color: 'text-brand-teal' },
   { label: 'Orders Today', value: 48, change: '+5.2%', icon: ShoppingCart, color: 'text-blue-500' },
   { label: 'Active Customers', value: 1240, change: '-2.1%', icon: Users, color: 'text-accent-gold' },
   { label: 'Conversion Rate', value: 3.42, suffix: '%', change: '+0.8%', icon: MousePointer2, color: 'text-purple-500' },
@@ -148,10 +148,10 @@ export default function DashboardOverview() {
           </thead>
           <tbody className="divide-y dark:divide-white/10">
             {[
-              { id: '#ORD-7241', user: 'Khalid Al-Thani', status: 'Delivered', amount: 'QAR 450.00', color: 'bg-green-500' },
-              { id: '#ORD-7242', user: 'Sarah Jenkins', status: 'Processing', amount: 'QAR 120.00', color: 'bg-blue-500' },
-              { id: '#ORD-7243', user: 'Ahmed Hassan', status: 'Pending', amount: 'QAR 85.00', color: 'bg-amber-500' },
-              { id: '#ORD-7244', user: 'Fatima Ali', status: 'Delivered', amount: 'QAR 230.00', color: 'bg-green-500' },
+              { id: '#ORD-7241', user: 'Khalid Al-Thani', status: 'Delivered', amount: 'Rs. 450.00', color: 'bg-green-500' },
+              { id: '#ORD-7242', user: 'Sarah Jenkins', status: 'Processing', amount: 'Rs. 120.00', color: 'bg-blue-500' },
+              { id: '#ORD-7243', user: 'Ahmed Hassan', status: 'Pending', amount: 'Rs. 85.00', color: 'bg-amber-500' },
+              { id: '#ORD-7244', user: 'Fatima Ali', status: 'Delivered', amount: 'Rs. 230.00', color: 'bg-green-500' },
             ].map((order) => (
               <tr key={order.id} className="group hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
                 <td className="py-4 text-sm font-bold">{order.id}</td>

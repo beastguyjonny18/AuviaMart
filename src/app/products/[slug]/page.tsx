@@ -126,7 +126,7 @@ export default function ProductDetailPage() {
             </div>
 
             <div className="text-3xl font-bold text-brand-teal mb-10">
-              QAR {product.price.toFixed(2)}
+              Rs. {product.price.toFixed(2)}
             </div>
 
             <div className="space-y-8 mb-12">
@@ -181,7 +181,7 @@ export default function ProductDetailPage() {
               </div>
               <div className="flex flex-col items-center text-center gap-2">
                 <Truck className="text-brand-teal" size={24} />
-                <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Qatar Delivery</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Pakistan Delivery</span>
               </div>
               <div className="flex flex-col items-center text-center gap-2">
                 <RefreshCcw className="text-brand-teal" size={24} />

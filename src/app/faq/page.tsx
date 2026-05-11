@@ -11,8 +11,8 @@ const faqs = [
   {
     category: 'Ordering & Delivery',
     questions: [
-      { q: 'How long does delivery take within Qatar?', a: 'We offer same-day delivery for orders placed before 12 PM in Doha. For the rest of Qatar, delivery typically takes 24-48 hours.' },
-      { q: 'What are the delivery charges?', a: 'We offer free delivery for all orders over QAR 300. For orders below that, a flat rate of QAR 25 applies.' },
+      { q: 'How long does delivery take within Pakistan?', a: 'We offer same-day delivery for orders placed before 12 PM in Lahore. For the rest of Pakistan, delivery typically takes 24-48 hours.' },
+      { q: 'What are the delivery charges?', a: 'We offer free delivery for all orders over Rs. 5000. For orders below that, a flat rate of Rs. 250 applies.' },
       { q: 'Can I track my order?', a: 'Yes! Once your order is dispatched, you will receive a tracking link via SMS and email to monitor your delivery in real-time.' },
     ]
   },
