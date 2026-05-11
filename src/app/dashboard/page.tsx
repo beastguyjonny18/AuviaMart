@@ -17,7 +17,8 @@ import {
 import { cn } from '@/lib/utils';
 import CountUp from 'react-countup';
 import { useState, useEffect } from 'react';
-import { getDashboardStatsAction } from '@/lib/actions';
+import { getDashboardStatsAction, getOrdersAction } from '@/lib/actions';
+import Link from 'next/link';
 
 export default function DashboardOverview() {
   const [stats, setStats] = useState<any>(null);
@@ -25,8 +26,12 @@ export default function DashboardOverview() {
 
   useEffect(() => {
     async function fetchStats() {
-      const data = await getDashboardStatsAction();
-      setStats(data);
+      const statsData = await getDashboardStatsAction();
+      const ordersData = await getOrdersAction();
+      setStats({
+        ...statsData,
+        recentOrders: ordersData.slice(0, 5)
+      });
       setLoading(false);
     }
     fetchStats();
@@ -59,8 +64,8 @@ export default function DashboardOverview() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-serif mb-2">Good morning, Roshaan</h1>
-        <p className="text-gray-500">Here&apos;s what&apos;s happening with AuviaMart today.</p>
+        <h1 className="text-3xl font-serif mb-2 text-brand-navy">Management *Overview*</h1>
+        <p className="text-gray-500 italic">Welcome back. Here&apos;s the latest curation performance.</p>
       </div>
 
       {loading ? (
@@ -77,7 +82,7 @@ export default function DashboardOverview() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="p-6 bg-white dark:bg-surface-card-dark rounded-3xl border shadow-sm"
+                className="p-6 bg-white dark:bg-surface-card-dark rounded-3xl border shadow-sm marble-gloss"
               >
                 <div className="flex justify-between items-start mb-4">
                   <div className={cn("p-3 rounded-2xl bg-gray-50 dark:bg-white/5", kpi.color)}>
@@ -94,7 +99,7 @@ export default function DashboardOverview() {
                 <p className="text-sm text-gray-500 mb-1">{kpi.label}</p>
                 <h3 className="text-2xl font-bold">
                   {kpi.prefix}
-                  <CountUp end={kpi.value} decimals={kpi.value % 1 !== 0 ? 2 : 0} duration={2} />
+                  <CountUp end={kpi.value} decimals={kpi.value % 1 !== 0 ? 2 : 0} duration={2} separator="," />
                   {kpi.suffix}
                 </h3>
               </motion.div>
@@ -102,8 +107,7 @@ export default function DashboardOverview() {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Revenue Chart */}
-            <div className="lg:col-span-2 p-8 bg-white dark:bg-surface-card-dark rounded-3xl border shadow-sm">
+            <div className="lg:col-span-2 p-8 bg-white dark:bg-surface-card-dark rounded-3xl border shadow-sm marble-gloss">
               <h3 className="text-xl font-serif mb-8">Revenue Overview</h3>
               <div className="h-[350px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -133,9 +137,8 @@ export default function DashboardOverview() {
               </div>
             </div>
 
-            {/* Top Products */}
-            <div className="p-8 bg-white dark:bg-surface-card-dark rounded-3xl border shadow-sm">
-              <h3 className="text-xl font-serif mb-8">Top Products</h3>
+            <div className="p-8 bg-white dark:bg-surface-card-dark rounded-3xl border shadow-sm marble-gloss">
+              <h3 className="text-xl font-serif mb-8">Top Categories</h3>
               <div className="h-[350px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={topProducts} layout="vertical">
@@ -153,9 +156,11 @@ export default function DashboardOverview() {
             </div>
           </div>
 
-          {/* Recent Orders Table */}
-          <div className="p-8 bg-white dark:bg-surface-card-dark rounded-3xl border shadow-sm overflow-x-auto">
-            <h3 className="text-xl font-serif mb-8">Recent Orders</h3>
+          <div className="p-8 bg-white dark:bg-surface-card-dark rounded-3xl border shadow-sm overflow-x-auto marble-gloss">
+            <div className="flex justify-between items-center mb-8">
+              <h3 className="text-xl font-serif">Recent Orders</h3>
+              <Link href="/dashboard/orders" className="text-brand-teal font-bold text-sm hover:underline">View All Orders</Link>
+            </div>
             <table className="w-full">
               <thead>
                 <tr className="text-left text-xs font-bold uppercase tracking-widest text-gray-400 border-b dark:border-white/10">
@@ -167,26 +172,31 @@ export default function DashboardOverview() {
                 </tr>
               </thead>
               <tbody className="divide-y dark:divide-white/10">
-                {[
-                  { id: '#ORD-7241', user: 'Khalid Al-Thani', status: 'Delivered', amount: 'Rs. 450.00', color: 'bg-green-500' },
-                  { id: '#ORD-7242', user: 'Sarah Jenkins', status: 'Processing', amount: 'Rs. 120.00', color: 'bg-blue-500' },
-                  { id: '#ORD-7243', user: 'Ahmed Hassan', status: 'Pending', amount: 'Rs. 85.00', color: 'bg-amber-500' },
-                  { id: '#ORD-7244', user: 'Fatima Ali', status: 'Delivered', amount: 'Rs. 230.00', color: 'bg-green-500' },
-                ].map((order) => (
+                {(stats?.recentOrders || []).map((order: any) => (
                   <tr key={order.id} className="group hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
-                    <td className="py-4 text-sm font-bold">{order.id}</td>
-                    <td className="py-4 text-sm">{order.user}</td>
+                    <td className="py-4 text-sm font-bold text-brand-teal">{order.id}</td>
+                    <td className="py-4 text-sm">{order.userEmail || 'Guest'}</td>
                     <td className="py-4">
-                      <span className={cn("px-3 py-1 rounded-full text-[10px] font-bold text-white", order.color)}>
+                      <span className={cn(
+                        "px-3 py-1 rounded-full text-[10px] font-bold",
+                        order.status === 'Delivered' ? "bg-green-100 text-green-700" :
+                        order.status === 'Pending' ? "bg-amber-100 text-amber-700" :
+                        "bg-blue-100 text-blue-700"
+                      )}>
                         {order.status}
                       </span>
                     </td>
-                    <td className="py-4 text-sm font-bold">{order.amount}</td>
+                    <td className="py-4 text-sm font-bold text-brand-navy">Rs. {order.totalPrice?.toLocaleString()}</td>
                     <td className="py-4 text-right">
-                      <button className="text-brand-teal hover:underline text-sm font-bold">Details</button>
+                      <Link href="/dashboard/orders" className="text-brand-teal hover:underline text-sm font-bold">Details</Link>
                     </td>
                   </tr>
                 ))}
+                {(!stats?.recentOrders || stats.recentOrders.length === 0) && (
+                  <tr>
+                    <td colSpan={5} className="py-8 text-center text-gray-400 italic">No recent orders found.</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

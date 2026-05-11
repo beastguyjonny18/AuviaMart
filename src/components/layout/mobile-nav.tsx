@@ -26,8 +26,8 @@ export function MobileNav() {
     { icon: Home, label: 'Home', href: '/' },
     { icon: LayoutGrid, label: 'Shop', href: '/products' },
     { icon: isAdmin ? LayoutDashboard : ShoppingBag, label: isAdmin ? 'Admin' : 'Orders', href: isAdmin ? '/dashboard' : '/orders' },
+    { icon: User, label: 'Profile', href: '/profile' },
     { icon: ShoppingCart, label: 'Cart', href: '/cart' },
-    { icon: Heart, label: 'Wishlist', href: '/wishlist' },
   ];
 
   return (

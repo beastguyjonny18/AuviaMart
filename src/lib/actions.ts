@@ -202,12 +202,23 @@ export async function getDashboardStatsAction() {
   try {
     const productsSnapshot = await adminDb.collection('products').count().get();
     const usersSnapshot = await adminDb.collection('users').count().get();
+    const ordersSnapshot = await adminDb.collection('orders').get();
+    
+    let totalRevenue = 0;
+    let ordersToday = 0;
+    const today = new Date().toISOString().split('T')[0];
+
+    ordersSnapshot.docs.forEach(doc => {
+      const data = doc.data();
+      if (data.totalPrice) totalRevenue += data.totalPrice;
+      if (data.createdAt && data.createdAt.startsWith(today)) ordersToday++;
+    });
     
     return {
       totalProducts: productsSnapshot.data().count,
       totalUsers: usersSnapshot.data().count,
-      totalRevenue: 124500, // Mock
-      ordersToday: 48,      // Mock
+      totalRevenue,
+      ordersToday,
     };
   } catch (error: any) {
     console.error('Error fetching dashboard stats:', error);

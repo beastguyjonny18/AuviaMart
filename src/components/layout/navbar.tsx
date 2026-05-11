@@ -124,11 +124,11 @@ export function Navbar() {
             </div>
           ) : (
             <Link 
-              href="/auth/signin"
+              href="/profile"
               className="flex items-center gap-2 bg-white/10 hover:bg-brand-teal text-white px-6 py-2.5 rounded-2xl transition-all active:scale-95 font-bold text-xs uppercase tracking-widest shadow-xl shadow-black/10 group"
             >
               <User size={16} className="group-hover:text-white transition-colors" />
-              <span className="hidden sm:inline">Sign In</span>
+              <span className="hidden sm:inline">Profile</span>
             </Link>
           )}
         </div>
