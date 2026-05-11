@@ -49,7 +49,8 @@ export default function SignUpPage() {
       const serverResult = await signInWithGoogleAction(idToken);
       
       if (serverResult.success) {
-        if (serverResult.email === 'sololvlar@gmail.com') {
+        const ADMIN_EMAILS = ['sololvlar@gmail.com', 'sololvlar69@gmail.com', 'roshiim1001@gmail.com'];
+        if (ADMIN_EMAILS.includes(serverResult.email?.toLowerCase() || '')) {
           router.push('/dashboard');
         } else {
           router.push('/');
