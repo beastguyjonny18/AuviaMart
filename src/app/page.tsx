@@ -77,6 +77,17 @@ export default function Home() {
                 <ProductCard key={product.id} {...product} />
               ))}
             </div>
+
+            {/* Mobile Shop All CTA */}
+            <div className="mt-12 sm:hidden">
+              <Link 
+                href="/products" 
+                className="w-full flex items-center justify-center gap-2 bg-brand-navy text-white py-4 rounded-xl font-bold hover:bg-brand-teal transition-all"
+              >
+                View all products
+                <ArrowRight size={18} />
+              </Link>
+            </div>
           </div>
         </section>
 

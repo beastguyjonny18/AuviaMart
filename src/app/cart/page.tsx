@@ -18,7 +18,7 @@ export default function CartPage() {
   }, []);
 
   const handleWhatsAppCheckout = () => {
-    const phoneNumber = "97412345678"; // Replace with actual business number
+    const phoneNumber = "923216817897"; // Updated business number
     const itemDetails = items.map(item => 
       `*${item.name}* (x${item.quantity}) - QAR ${(item.price * item.quantity).toFixed(2)}`
     ).join('\n');
