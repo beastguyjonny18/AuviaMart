@@ -7,21 +7,21 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 const slides = [
   {
     image: '/products/1778480431596.jpeg',
-    title: 'Spring *Renewal*',
-    subtitle: 'Revitalize your home with our curated organic essentials.',
-    cta: 'Shop Now',
+    title: 'Smart *Living*',
+    subtitle: 'Innovative portable solutions for the modern lifestyle in Qatar.',
+    cta: 'Shop Appliances',
   },
   {
-    image: '/products/1778480439773.jpeg',
-    title: 'Pure *Elegance*',
-    subtitle: 'Discover the beauty of sustainably sourced lifestyle products.',
-    cta: 'Explore More',
+    image: '/products/1778480407791.jpeg',
+    title: 'Modern *Art*',
+    subtitle: 'Transform your space with our premium 3D DIY wall clocks.',
+    cta: 'Explore Decor',
   },
   {
-    image: '/products/1778480446230.jpeg',
-    title: 'Daily *Vitality*',
-    subtitle: 'Premium nutrients and organic snacks for your well-being.',
-    cta: 'View Collection',
+    image: '/products/1778480422145.jpeg',
+    title: 'Tech *Companion*',
+    subtitle: 'Stay connected with the latest Ultra Series smartwatches.',
+    cta: 'View Tech',
   },
 ];
 
@@ -39,7 +39,7 @@ export function HeroCarousel() {
   const prev = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <section className="relative h-[100svh] lg:h-[75vh] w-full overflow-hidden bg-brand-navy">
+    <section className="relative h-[100svh] lg:h-[75vh] w-full overflow-hidden bg-brand-teal/10 dark:bg-brand-navy">
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -53,9 +53,9 @@ export function HeroCarousel() {
             className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] scale-110 animate-slow-zoom"
             style={{ backgroundImage: `url(${slides[current].image})` }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/60 to-transparent dark:from-brand-navy dark:via-brand-navy/20" />
           
-          <div className="relative h-full container mx-auto px-4 flex flex-col justify-center items-start text-white">
+          <div className="relative h-full container mx-auto px-4 flex flex-col justify-center items-start text-slate-900 dark:text-white">
             <motion.h1
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/layout/navbar';
 import { MobileNav } from '@/components/layout/mobile-nav';
@@ -9,45 +9,49 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { useCartStore, useWishlistStore } from '@/store/use-store';
 import Link from 'next/link';
-
-const product = {
-  id: '1',
-  name: 'Premium Manuka Honey MGO 500+',
-  brand: 'NEW ZEALAND PURE',
-  price: 245.00,
-  rating: 4.9,
-  reviews: 128,
-  description: 'Sourced from the pristine forests of New Zealand, our MGO 500+ Manuka Honey is certified for its high methylglyoxal content. This premium honey offers unique wellness properties and a rich, complex flavor profile that is unmatched.',
-  images: [
-    'https://images.unsplash.com/photo-1587049352846-4a222e784d38?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1471943033881-a173bb01c046?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?q=80&w=1200&auto=format&fit=crop',
-  ],
-  ingredients: '100% Raw New Zealand Manuka Honey',
-  nutrition: {
-    energy: '1400kJ / 335kcal',
-    protein: '0.2g',
-    fat: '0g',
-    carbs: '82g',
-    sugars: '82g'
-  }
-};
+import { useParams, useRouter } from 'next/navigation';
+import { products } from '@/lib/products';
 
 export default function ProductDetailPage() {
+  const { slug } = useParams();
+  const router = useRouter();
+  const product = products.find(p => p.slug === slug);
+  
   const [activeImg, setActiveImg] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   const [isAdded, setIsAdded] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
   const addItem = useCartStore((state) => state.addItem);
   const { toggleItem, hasItem } = useWishlistStore();
-  const isWishlisted = hasItem(product.id);
+
+  if (!product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+          <Link href="/products" className="text-brand-teal hover:underline">Return to Shop</Link>
+        </div>
+      </div>
+    );
+  }
+
+  const isWishlisted = mounted && hasItem(product.id);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleAddToCart = () => {
-    addItem({ ...product, image: product.images[0], quantity });
+    addItem({ ...product, quantity });
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };
+
+  // For now, products have only one image in our mock data. 
+  // We'll wrap it in an array for the gallery logic.
+  const images = [product.image];
 
   return (
     <div className="min-h-screen bg-white dark:bg-surface-dark">
@@ -67,29 +71,31 @@ export default function ProductDetailPage() {
           
           {/* Image Gallery */}
           <div className="space-y-6">
-            <div className="relative aspect-square rounded-3xl overflow-hidden bg-gray-50 dark:bg-surface-card-dark">
+            <div className="relative aspect-square rounded-3xl overflow-hidden bg-white dark:bg-surface-dark shadow-inner">
               <Image
-                src={product.images[activeImg]}
+                src={images[activeImg]}
                 alt={product.name}
                 fill
                 className="object-cover"
                 priority
               />
             </div>
-            <div className="grid grid-cols-3 gap-4">
-              {product.images.map((img, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveImg(i)}
-                  className={cn(
-                    "relative aspect-square rounded-xl overflow-hidden border-2 transition-all",
-                    activeImg === i ? "border-brand-teal" : "border-transparent opacity-60 hover:opacity-100"
-                  )}
-                >
-                  <Image src={img} alt="" fill className="object-cover" />
-                </button>
-              ))}
-            </div>
+            {images.length > 1 && (
+              <div className="grid grid-cols-4 gap-4">
+                {images.map((img, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveImg(i)}
+                    className={cn(
+                      "relative aspect-square rounded-xl overflow-hidden border-2 transition-all",
+                      activeImg === i ? "border-brand-teal" : "border-transparent opacity-60 hover:opacity-100"
+                    )}
+                  >
+                    <Image src={img} alt="" fill className="object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Info */}
@@ -115,7 +121,7 @@ export default function ProductDetailPage() {
                   ))}
                   <span className="ml-2 text-sm font-bold">{product.rating}</span>
                 </div>
-                <span className="text-sm text-gray-400">({product.reviews} reviews)</span>
+                <span className="text-sm text-gray-400">(48 reviews)</span>
               </div>
             </div>
 
@@ -171,15 +177,15 @@ export default function ProductDetailPage() {
             <div className="grid grid-cols-3 gap-4 pt-8 border-t dark:border-white/10">
               <div className="flex flex-col items-center text-center gap-2">
                 <ShieldCheck className="text-brand-teal" size={24} />
-                <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Pure & Certified</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Authentic Product</span>
               </div>
               <div className="flex flex-col items-center text-center gap-2">
                 <Truck className="text-brand-teal" size={24} />
-                <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Fast Delivery</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Qatar Delivery</span>
               </div>
               <div className="flex flex-col items-center text-center gap-2">
                 <RefreshCcw className="text-brand-teal" size={24} />
-                <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Easy Returns</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">7-Day Return</span>
               </div>
             </div>
           </div>
@@ -187,13 +193,13 @@ export default function ProductDetailPage() {
 
         {/* Tabs Section */}
         <div className="mt-24">
-          <div className="flex border-b dark:border-white/10 mb-12 relative">
-            {['description', 'ingredients', 'nutrition', 'reviews'].map((tab) => (
+          <div className="flex border-b dark:border-white/10 mb-12 relative overflow-x-auto no-scrollbar">
+            {['description', 'features', 'reviews'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={cn(
-                  "px-8 py-4 text-sm font-bold uppercase tracking-widest transition-all relative",
+                  "px-8 py-4 text-sm font-bold uppercase tracking-widest transition-all relative whitespace-nowrap",
                   activeTab === tab ? "text-brand-teal" : "text-gray-400 hover:text-gray-600"
                 )}
               >
@@ -217,34 +223,24 @@ export default function ProductDetailPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                 >
-                  <p>{product.description}</p>
+                  <p className="text-lg">{product.description}</p>
                 </motion.div>
               )}
-              {activeTab === 'ingredients' && (
+              {activeTab === 'features' && (
                 <motion.div
-                  key="ing"
+                  key="feat"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                 >
-                  <p className="font-bold">{product.ingredients}</p>
-                  <p className="mt-4">Free from additives, preservatives, and artificial colors.</p>
-                </motion.div>
-              )}
-              {activeTab === 'nutrition' && (
-                <motion.div
-                  key="nut"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="grid grid-cols-2 gap-4 max-w-xs"
-                >
-                  {Object.entries(product.nutrition).map(([key, val]) => (
-                    <div key={key} className="flex justify-between border-b dark:border-white/10 pb-2">
-                      <span className="capitalize">{key}</span>
-                      <span className="font-bold">{val}</span>
-                    </div>
-                  ))}
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {product.features.map((feature, i) => (
+                      <li key={i} className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-brand-teal" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -256,3 +252,4 @@ export default function ProductDetailPage() {
     </div>
   );
 }
+

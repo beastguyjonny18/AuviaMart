@@ -7,17 +7,9 @@ import { MobileNav } from '@/components/layout/mobile-nav';
 import { ProductCard } from '@/components/products/product-card';
 import { SlidersHorizontal, X, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { products as allProducts } from '@/lib/products';
 
-const allProducts = [
-  { id: '1', name: 'Premium Manuka Honey MGO 500+', brand: 'NEW ZEALAND PURE', price: 245.00, image: '/products/1778480407790.jpeg', badge: 'BEST SELLER', rating: 4.9, category: 'Wellness' },
-  { id: '2', name: 'Organic Cold Pressed Extra Virgin Olive Oil', brand: 'TERRA DEL SOL', price: 85.00, image: '/products/1778480407791.jpeg', rating: 4.8, category: 'Organic Foods' },
-  { id: '3', name: 'Raw Organic Cacao Powder 500g', brand: 'VITALITY FOODS', price: 65.00, image: '/products/1778480422145.jpeg', badge: 'NEW', rating: 4.7, category: 'Organic Foods' },
-  { id: '4', name: 'Himalayan Pink Salt Grinder', brand: 'NATURAL HARVEST', price: 35.00, image: '/products/1778480424461.jpeg', rating: 4.6, category: 'Organic Foods' },
-  { id: '5', name: 'Organic Turmeric Capsules', brand: 'WELLNESS CO', price: 120.00, image: '/products/1778482106500.jpeg', rating: 4.8, category: 'Wellness' },
-  { id: '6', name: 'Bamboo Kitchen Starter Set', brand: 'ECO HOUSE', price: 180.00, image: '/products/1778482258101.jpeg', badge: 'NEW', rating: 4.5, category: 'Happy House' },
-];
-
-const categories = ['All', 'Organic Foods', 'Wellness', 'Happy House', 'Beauty', 'Baby'];
+const categories = ['All', 'Home Decor', 'Home Appliances', 'Electronics', 'Beauty'];
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -29,7 +21,7 @@ export default function ProductsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-surface-light dark:bg-surface-dark">
+    <div className="min-h-screen bg-white dark:bg-surface-dark">
       <Navbar />
       
       <div className="container mx-auto px-4 py-12">
@@ -67,12 +59,12 @@ export default function ProductsPage() {
             </div>
             
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-brand-teal mb-6">Dietary</h3>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-brand-teal mb-6">Availability</h3>
               <div className="space-y-3">
-                {['Organic', 'Vegan', 'Gluten-Free', 'Keto'].map(diet => (
-                  <label key={diet} className="flex items-center gap-3 text-sm text-gray-500 cursor-pointer hover:text-brand-teal">
+                {['In Stock', 'Pre-Order'].map(status => (
+                  <label key={status} className="flex items-center gap-3 text-sm text-gray-500 cursor-pointer hover:text-brand-teal">
                     <input type="checkbox" className="w-4 h-4 rounded accent-brand-teal" />
-                    {diet}
+                    {status}
                   </label>
                 ))}
               </div>
@@ -83,14 +75,14 @@ export default function ProductsPage() {
           <div className="lg:hidden flex items-center justify-between mb-8">
             <button
               onClick={() => setIsFilterOpen(true)}
-              className="flex items-center gap-2 bg-white dark:bg-surface-card-dark px-6 py-3 rounded-full border shadow-sm"
+              className="flex items-center gap-2 bg-white dark:bg-white px-6 py-3 rounded-full border shadow-sm"
             >
               <SlidersHorizontal size={18} />
               <span className="text-sm font-medium">Filters</span>
             </button>
             
             <div className="relative">
-              <select className="bg-white dark:bg-surface-card-dark border rounded-full px-6 py-3 text-sm outline-none appearance-none">
+              <select className="bg-white dark:bg-white border rounded-full px-6 py-3 text-sm outline-none appearance-none">
                 <option>Featured</option>
                 <option>Price: Low to High</option>
                 <option>Price: High to Low</option>
@@ -174,12 +166,12 @@ export default function ProductsPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-brand-teal mb-4">Dietary</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-brand-teal mb-4">Availability</h3>
                   <div className="grid grid-cols-2 gap-4">
-                    {['Organic', 'Vegan', 'Gluten-Free', 'Keto'].map(diet => (
-                      <label key={diet} className="flex items-center gap-3 text-sm text-gray-500 cursor-pointer">
+                    {['In Stock', 'Pre-Order'].map(status => (
+                      <label key={status} className="flex items-center gap-3 text-sm text-gray-500 cursor-pointer">
                         <input type="checkbox" className="w-5 h-5 rounded-lg accent-brand-teal" />
-                        {diet}
+                        {status}
                       </label>
                     ))}
                   </div>

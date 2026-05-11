@@ -2,15 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Search, ShoppingCart, Heart, User, Sun, Moon, Mic, Globe } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import { Search, ShoppingCart, Heart, User, Mic, Globe } from 'lucide-react';
 import { Logo } from '@/components/shared/logo';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useCartStore, useWishlistStore } from '@/store/use-store';
 
 export function Navbar() {
-  const { theme, setTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const { scrollY } = useScroll();
   const cartCount = useCartStore((state) => state.totalItems());
@@ -31,7 +29,7 @@ export function Navbar() {
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300 border-b",
         isScrolled 
-          ? "bg-white/90 dark:bg-surface-dark/90 backdrop-blur-md py-2" 
+          ? "bg-white/95 dark:bg-surface-dark/90 backdrop-blur-md py-2" 
           : "bg-white dark:bg-surface-dark py-4"
       )}
     >
@@ -44,8 +42,8 @@ export function Navbar() {
           </div>
           <input
             type="text"
-            placeholder="Search for organic essentials..."
-            className="w-full bg-gray-100 dark:bg-white/10 rounded-full py-3 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-brand-teal transition-all"
+            placeholder="Search for tech, decor, and more..."
+            className="w-full bg-white dark:bg-white rounded-full py-3 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-brand-teal transition-all"
           />
           <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
             <Mic size={20} />
@@ -53,13 +51,6 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-2 md:gap-4">
-          <button
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="tap-target hover:text-brand-teal transition-colors"
-          >
-            {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
-          </button>
-
           <Link href="/wishlist" className="tap-target relative hover:text-brand-teal transition-colors hidden sm:flex">
             <Heart size={24} />
             {wishlistCount > 0 && (

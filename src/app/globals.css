@@ -11,24 +11,25 @@
   --color-brand-navy: #0d3b55;
   --color-accent-gold: #e8a44a;
   
-  --color-surface-light: #f7f5f0;
-  --color-surface-dark: #0f1a20;
-  --color-surface-card-dark: #1a2a35;
-  --color-surface-input-dark: #0d1f28;
+  --color-surface-light: #f8fbff;
+  --color-surface-dark: #f7f5f0;
+  --color-surface-card-dark: #ffffff;
+  --color-surface-input-dark: #f8fbff;
 
-  --color-text-primary-light: #1a1a1a;
-  --color-text-primary-dark: #f0ede8;
+  --color-text-primary-light: #0d1f28;
+  --color-text-primary-dark: #1a1a1a;
 }
 
 :root {
+  --background: #ffffff;
+  --foreground: #0d1f28;
+}
+
+.dark {
   --background: #f7f5f0;
   --foreground: #1a1a1a;
 }
 
-.dark {
-  --background: #0f1a20;
-  --foreground: #f0ede8;
-}
 
 @layer base {
   * {

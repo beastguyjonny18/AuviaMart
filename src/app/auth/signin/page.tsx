@@ -32,7 +32,7 @@ export default function SignInPage() {
       </div>
 
       {/* Right Side: Auth Form */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-surface-light dark:bg-surface-dark relative overflow-hidden">
+      <div className="flex-1 flex items-center justify-center p-6 bg-white dark:bg-surface-dark relative overflow-hidden">
         {/* Mobile Backdrop */}
         <div className="lg:hidden absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516594798141-f735d5108f3b?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center blur-sm opacity-20" />
         
@@ -57,7 +57,7 @@ export default function SignInPage() {
                   <input
                     type="email"
                     required
-                    className="w-full bg-white dark:bg-surface-input-dark border border-gray-200 dark:border-white/10 rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-brand-teal outline-none transition-all"
+                    className="w-full bg-white dark:bg-white border border-gray-200 dark:border-gray-300 rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-brand-teal outline-none transition-all"
                     placeholder="name@example.com"
                   />
                 </div>
@@ -114,7 +114,7 @@ export default function SignInPage() {
 
               <button
                 type="button"
-                className="w-full bg-white dark:bg-surface-card-dark border border-gray-200 dark:border-white/10 py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-white/5 transition-all"
+                className="w-full bg-white dark:bg-white border border-gray-200 dark:border-gray-300 py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-100 transition-all"
               >
                 <Globe size={20} />
                 <span className="font-medium">Sign in with Google</span>

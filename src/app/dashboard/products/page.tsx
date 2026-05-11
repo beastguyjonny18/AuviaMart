@@ -5,12 +5,13 @@ import { Plus, Search, Filter, MoreVertical, Edit2, Trash2, Eye } from 'lucide-r
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
-const products = [
-  { id: '1', name: 'Premium Manuka Honey MGO 500+', brand: 'NEW ZEALAND PURE', price: 245.00, stock: 45, status: 'Active', image: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?q=80&w=100&auto=format&fit=crop' },
-  { id: '2', name: 'Organic Cold Pressed Olive Oil', brand: 'TERRA DEL SOL', price: 85.00, stock: 120, status: 'Active', image: 'https://images.unsplash.com/photo-1474979266404-7eaacbad93c5?q=80&w=100&auto=format&fit=crop' },
-  { id: '3', name: 'Raw Organic Cacao Powder', brand: 'VITALITY FOODS', price: 65.00, stock: 0, status: 'Out of Stock', image: 'https://images.unsplash.com/photo-1544473244-f6895e69ad93?q=80&w=100&auto=format&fit=crop' },
-  { id: '4', name: 'Himalayan Pink Salt', brand: 'NATURAL HARVEST', price: 35.00, stock: 85, status: 'Active', image: 'https://images.unsplash.com/photo-1549474843-ed8300404db3?q=80&w=100&auto=format&fit=crop' },
-];
+import { products as allProducts } from '@/lib/products';
+
+const products = allProducts.map(p => ({
+  ...p,
+  stock: Math.floor(Math.random() * 100),
+  status: 'Active'
+}));
 
 export default function DashboardProducts() {
   return (
@@ -33,10 +34,10 @@ export default function DashboardProducts() {
           <input
             type="text"
             placeholder="Search products by name, brand, or SKU..."
-            className="w-full bg-white dark:bg-surface-card-dark border rounded-xl py-3 pl-12 pr-4 outline-none focus:ring-2 focus:ring-brand-teal transition-all"
+            className="w-full bg-white dark:bg-white border rounded-xl py-3 pl-12 pr-4 outline-none focus:ring-2 focus:ring-brand-teal transition-all"
           />
         </div>
-        <button className="px-6 py-3 bg-white dark:bg-surface-card-dark border rounded-xl flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
+        <button className="px-6 py-3 bg-white dark:bg-white border rounded-xl flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-100 transition-all">
           <Filter size={20} className="text-gray-400" />
           <span>Filters</span>
         </button>

@@ -35,10 +35,10 @@ const revenueData = [
 ];
 
 const topProducts = [
-  { name: 'Manuka Honey', sales: 450, color: '#1a5f7a' },
-  { name: 'Olive Oil', sales: 380, color: '#0d3b55' },
-  { name: 'Cacao Powder', sales: 320, color: '#e8a44a' },
-  { name: 'Himalayan Salt', sales: 290, color: '#25d366' },
+  { name: 'Air Cooler', sales: 450, color: '#1a5f7a' },
+  { name: 'DIY Clock', sales: 380, color: '#0d3b55' },
+  { name: 'Smart Watch', sales: 320, color: '#e8a44a' },
+  { name: 'Calligraphy', sales: 290, color: '#25d366' },
 ];
 
 export default function DashboardOverview() {
