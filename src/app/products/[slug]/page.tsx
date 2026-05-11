@@ -4,19 +4,18 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/layout/navbar';
 import { MobileNav } from '@/components/layout/mobile-nav';
-import { Star, ShieldCheck, Truck, RefreshCcw, Minus, Plus, Heart, ShoppingCart, ChevronRight } from 'lucide-react';
+import { Star, ShieldCheck, Truck, RefreshCcw, Minus, Plus, Heart, ShoppingCart, ChevronRight, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { useCartStore, useWishlistStore } from '@/store/use-store';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { products } from '@/lib/products';
+import { getProductBySlugAction } from '@/lib/actions';
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
-  const router = useRouter();
-  const product = products.find(p => p.slug === slug);
-  
+  const [product, setProduct] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
@@ -25,6 +24,26 @@ export default function ProductDetailPage() {
   
   const addItem = useCartStore((state) => state.addItem);
   const { toggleItem, hasItem } = useWishlistStore();
+
+  useEffect(() => {
+    setMounted(true);
+    async function fetchProduct() {
+      if (typeof slug === 'string') {
+        const data = await getProductBySlugAction(slug);
+        setProduct(data);
+        setLoading(false);
+      }
+    }
+    fetchProduct();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-surface-dark">
+        <Loader2 className="animate-spin text-brand-teal" size={40} />
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -39,18 +58,12 @@ export default function ProductDetailPage() {
 
   const isWishlisted = mounted && hasItem(product.id);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const handleAddToCart = () => {
     addItem({ ...product, quantity });
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };
 
-  // For now, products have only one image in our mock data. 
-  // We'll wrap it in an array for the gallery logic.
   const images = [product.image];
 
   return (
@@ -80,22 +93,6 @@ export default function ProductDetailPage() {
                 priority
               />
             </div>
-            {images.length > 1 && (
-              <div className="grid grid-cols-4 gap-4">
-                {images.map((img, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveImg(i)}
-                    className={cn(
-                      "relative aspect-square rounded-xl overflow-hidden border-2 transition-all",
-                      activeImg === i ? "border-brand-teal" : "border-transparent opacity-60 hover:opacity-100"
-                    )}
-                  >
-                    <Image src={img} alt="" fill className="object-cover" />
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
 
           {/* Product Info */}
@@ -115,18 +112,18 @@ export default function ProductDetailPage() {
                       size={18}
                       className={cn(
                         "fill-accent-gold",
-                        i < Math.floor(product.rating) ? "text-accent-gold" : "text-gray-200 dark:text-gray-700"
+                        i < Math.floor(product.rating || 5) ? "text-accent-gold" : "text-gray-200 dark:text-gray-700"
                       )}
                     />
                   ))}
-                  <span className="ml-2 text-sm font-bold">{product.rating}</span>
+                  <span className="ml-2 text-sm font-bold">{product.rating || 5.0}</span>
                 </div>
                 <span className="text-sm text-gray-400">(48 reviews)</span>
               </div>
             </div>
 
             <div className="text-3xl font-bold text-brand-teal mb-10">
-              Rs. {product.price.toFixed(2)}
+              Rs. {Number(product.price).toFixed(2)}
             </div>
 
             <div className="space-y-8 mb-12">
@@ -234,12 +231,12 @@ export default function ProductDetailPage() {
                   exit={{ opacity: 0, y: -10 }}
                 >
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {product.features.map((feature, i) => (
+                    {product.features?.map((feature: string, i: number) => (
                       <li key={i} className="flex items-center gap-3">
                         <div className="w-1.5 h-1.5 rounded-full bg-brand-teal" />
                         <span>{feature}</span>
                       </li>
-                    ))}
+                    )) || <li>No features listed.</li>}
                   </ul>
                 </motion.div>
               )}
@@ -252,4 +249,3 @@ export default function ProductDetailPage() {
     </div>
   );
 }
-

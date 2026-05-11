@@ -4,13 +4,14 @@
 AuviaMart is a high-end, full-stack e-commerce platform designed with a "Phone-First" responsive strategy and a premium aesthetic. It features a deep teal and gold palette, sophisticated typography, and fluid animations.
 
 ## 2. Technical Specification
-- **Framework:** Next.js 14 (App Router)
+- **Framework:** Next.js 16 (App Router)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS (Custom brand configuration)
+- **Styling:** Tailwind CSS 4
 - **Animations:** Framer Motion
 - **Icons:** Lucide React
-- **Authentication:** NextAuth.js (Email/Password + Google)
-- **State Management:** Zustand (Cart, Wishlist, Auth)
+- **Authentication:** Firebase Admin SDK (Server Actions + Secure Cookies)
+- **Database:** Firestore (nam5)
+- **State Management:** Zustand (Cart, Wishlist)
 - **Theming:** `next-themes` (Dark/Light mode with persistence)
 - **Typography:**
   - `Playfair Display`: Headings & Brand accents
@@ -32,31 +33,30 @@ AuviaMart is a high-end, full-stack e-commerce platform designed with a "Phone-F
 ## 4. Implementation Roadmap
 
 ### Phase 1: Infrastructure & Theming
-- [ ] Initialize Next.js project with Tailwind and TypeScript.
-- [ ] Configure `tailwind.config.ts` with brand colors and fonts.
-- [ ] Implement `ThemeProvider` and basic Layout (Desktop & Mobile).
-- [ ] Setup Lucide icons and base UI components (Button, Input, Card).
+- [x] Initialize Next.js project with Tailwind and TypeScript.
+- [x] Configure brand colors and fonts.
+- [x] Implement ThemeProvider and basic Layout (Desktop & Mobile).
 
 ### Phase 2: Navigation & Global UI
-- [ ] Desktop Navbar with sticky behavior and logo-shrink animation.
-- [ ] Mobile Bottom Tab Bar with glassmorphism and active indicator.
-- [ ] Announcement Ticker and floating WhatsApp pulse button.
+- [x] Desktop Navbar with sticky behavior and logo-shrink animation.
+- [x] Mobile Bottom Tab Bar with glassmorphism.
+- [x] Announcement Ticker and floating WhatsApp pulse button.
 
-### Phase 3: Authentication Flow
-- [ ] Sign In / Sign Up split-screen layouts.
-- [ ] Form validation and password strength meter.
-- [ ] NextAuth.js integration (mocked for prototype).
+### Phase 3: Authentication Flow (Secure Server-Side)
+- [x] Sign In / Sign Up split-screen layouts.
+- [x] Form validation and password strength meter.
+- [x] Firebase Admin integration with Server Actions & Middleware.
 
 ### Phase 4: Homepage & Product Catalog
-- [ ] Hero Carousel with Framer Motion transitions.
-- [ ] Homepage sections: "Standards", "Exclusives", "Blog".
-- [ ] Product Listing Page with Filter Sidebar and Sort.
-- [ ] Product Detail Page with image gallery and tabbed info.
+- [x] Hero Carousel with Framer Motion transitions.
+- [x] Homepage sections: "Standards", "Exclusives".
+- [ ] Connect Product Listing Page to Firestore.
+- [ ] Product Detail Page dynamic routing.
 
 ### Phase 5: Commerce & Admin
-- [ ] Zustand Cart/Wishlist implementation.
-- [ ] Slide-out Cart Drawer and Checkout page.
-- [ ] Admin Dashboard: KPI Cards, Charts (Recharts), and Kanban Order board.
+- [x] Zustand Cart/Wishlist implementation.
+- [ ] Admin Dashboard: Connect KPI Cards and Charts to Firestore.
+- [ ] Implement CRUD for Products in Admin Dashboard.
 
 ## 5. Visual Consistency & Quality
 - **Dark Mode:** Rigorous inversion testing to ensure Brand Teal remains accessible.

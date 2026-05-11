@@ -1,22 +1,33 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/layout/navbar';
 import { MobileNav } from '@/components/layout/mobile-nav';
 import { ProductCard } from '@/components/products/product-card';
-import { SlidersHorizontal, X, ChevronDown } from 'lucide-react';
+import { SlidersHorizontal, X, ChevronDown, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { products as allProducts } from '@/lib/products';
+import { getProductsAction } from '@/lib/actions';
 
 const categories = ['All', 'Home Decor', 'Home Appliances', 'Electronics', 'Beauty'];
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState('Featured');
 
-  const filteredProducts = allProducts.filter(p => 
+  useEffect(() => {
+    async function fetchProducts() {
+      const data = await getProductsAction();
+      setProducts(data);
+      setLoading(false);
+    }
+    fetchProducts();
+  }, []);
+
+  const filteredProducts = products.filter(p => 
     selectedCategory === 'All' || p.category === selectedCategory
   );
 
@@ -53,20 +64,8 @@ export default function ProductsPage() {
                 <input type="range" className="w-full accent-brand-teal" />
                 <div className="flex justify-between text-xs text-gray-500">
                   <span>Rs. 0</span>
-                  <span>Rs. 500+</span>
+                  <span>Rs. 50,000+</span>
                 </div>
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-brand-teal mb-6">Availability</h3>
-              <div className="space-y-3">
-                {['In Stock', 'Pre-Order'].map(status => (
-                  <label key={status} className="flex items-center gap-3 text-sm text-gray-500 cursor-pointer hover:text-brand-teal">
-                    <input type="checkbox" className="w-4 h-4 rounded accent-brand-teal" />
-                    {status}
-                  </label>
-                ))}
               </div>
             </div>
           </aside>
@@ -96,7 +95,9 @@ export default function ProductsPage() {
           <div className="flex-1">
             <div className="flex items-end justify-between mb-8 hidden lg:flex">
               <p className="text-sm text-gray-500">
-                Showing <span className="text-foreground font-bold">{filteredProducts.length}</span> products
+                {loading ? 'Loading...' : (
+                  <>Showing <span className="text-foreground font-bold">{filteredProducts.length}</span> products</>
+                )}
               </p>
               <div className="flex items-center gap-4">
                 <span className="text-xs font-bold uppercase tracking-widest opacity-40">Sort By:</span>
@@ -109,11 +110,23 @@ export default function ProductsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {filteredProducts.map(product => (
-                <ProductCard key={product.id} {...(product as any)} />
-              ))}
-            </div>
+            {loading ? (
+              <div className="flex items-center justify-center py-20">
+                <Loader2 className="animate-spin text-brand-teal" size={40} />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {filteredProducts.map(product => (
+                  <ProductCard key={product.id} {...(product as any)} />
+                ))}
+              </div>
+            )}
+            
+            {!loading && filteredProducts.length === 0 && (
+              <div className="text-center py-20">
+                <p className="text-gray-500">No products found in this category.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -161,18 +174,6 @@ export default function ProductsPage() {
                       >
                         {cat}
                       </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-brand-teal mb-4">Availability</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    {['In Stock', 'Pre-Order'].map(status => (
-                      <label key={status} className="flex items-center gap-3 text-sm text-gray-500 cursor-pointer">
-                        <input type="checkbox" className="w-5 h-5 rounded-lg accent-brand-teal" />
-                        {status}
-                      </label>
                     ))}
                   </div>
                 </div>

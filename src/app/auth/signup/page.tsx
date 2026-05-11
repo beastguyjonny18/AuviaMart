@@ -6,9 +6,7 @@ import { Eye, EyeOff, Mail, Lock, User, Phone, Globe } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import confetti from 'canvas-confetti';
-import { auth, db } from '@/lib/firebase';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { signUpAction } from '@/lib/actions';
 import { useRouter } from 'next/navigation';
 
 export default function SignUpPage() {
@@ -36,20 +34,10 @@ export default function SignUpPage() {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
 
-      await updateProfile(user, { displayName: fullName });
+    const result = await signUpAction({ email, password, fullName, phoneNumber });
 
-      // Save additional user data to Firestore
-      await setDoc(doc(db, 'users', user.uid), {
-        fullName,
-        email,
-        phoneNumber,
-        createdAt: new Date().toISOString(),
-      });
-
+    if (result?.success) {
       confetti({
         particleCount: 150,
         spread: 70,
@@ -60,28 +48,9 @@ export default function SignUpPage() {
       setTimeout(() => {
         router.push('/dashboard');
       }, 2000);
-    } catch (err: any) {
-      setError(err.message || 'Failed to create account');
+    } else {
+      setError(result?.error || 'Failed to create account. Please try again.');
       setIsLoading(false);
-    }
-  };
-
-  const handleGoogleSignUp = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      // Check if user exists in Firestore, if not create
-      await setDoc(doc(db, 'users', user.uid), {
-        fullName: user.displayName,
-        email: user.email,
-        createdAt: new Date().toISOString(),
-      }, { merge: true });
-
-      router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign up with Google');
     }
   };
 
@@ -101,7 +70,7 @@ export default function SignUpPage() {
             </p>
           </div>
           <div className="text-sm opacity-60">
-            © 2026 AuviaMart. All rights reserved.
+            © 2026 AuviaMart Pakistan. All rights reserved.
           </div>
         </div>
       </div>
@@ -164,14 +133,14 @@ export default function SignUpPage() {
                 <label className="text-sm font-medium">Phone Number</label>
                 <div className="relative">
                   <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                  <div className="absolute left-11 top-1/2 -translate-y-1/2 text-gray-400 font-medium">+974</div>
+                  <div className="absolute left-11 top-1/2 -translate-y-1/2 text-gray-400 font-medium">+92</div>
                   <input
                     type="tel"
                     required
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     className="w-full bg-white dark:bg-surface-input-dark border border-gray-200 dark:border-white/10 rounded-xl py-3 pl-24 pr-4 focus:ring-2 focus:ring-brand-teal outline-none transition-all"
-                    placeholder="1234 5678"
+                    placeholder="321 6817897"
                   />
                 </div>
               </div>
@@ -211,17 +180,10 @@ export default function SignUpPage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 pt-2">
-                <input type="checkbox" id="terms" required className="w-4 h-4 mt-1 accent-brand-teal" />
-                <label htmlFor="terms" className="text-sm text-gray-600 dark:text-gray-400">
-                  I agree to the <Link href="/terms" className="text-brand-teal hover:underline">Terms of Service</Link> and <Link href="/privacy" className="text-brand-teal hover:underline">Privacy Policy</Link>.
-                </label>
-              </div>
-
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-brand-teal text-white py-4 rounded-xl font-medium hover:bg-brand-navy transition-all flex items-center justify-center gap-2"
+                className="w-full bg-brand-teal text-white py-4 rounded-xl font-medium hover:bg-brand-navy transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-teal/20"
               >
                 {isLoading ? (
                   <motion.div
@@ -230,22 +192,6 @@ export default function SignUpPage() {
                     className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                   />
                 ) : 'Create Account'}
-              </button>
-
-              <div className="relative flex items-center justify-center">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-200 dark:border-white/10"></div>
-                </div>
-                <span className="relative px-4 bg-transparent text-sm text-gray-500">or sign up with</span>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleGoogleSignUp}
-                className="w-full bg-white dark:bg-white border border-gray-200 dark:border-gray-300 py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-100 transition-all"
-              >
-                <Globe size={20} />
-                <span className="font-medium">Sign up with Google</span>
               </button>
             </form>
 

@@ -5,8 +5,7 @@ import { Logo } from '@/components/shared/logo';
 import { Eye, EyeOff, Mail, Lock, Globe } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
-import { auth } from '@/lib/firebase';
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { signInAction } from '@/lib/actions';
 import { useRouter } from 'next/navigation';
 
 export default function SignInPage() {
@@ -21,22 +20,14 @@ export default function SignInPage() {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign in');
-      setIsLoading(false);
-    }
-  };
 
-  const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
+    const result = await signInAction({ email, password });
+
+    if (result?.success) {
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign in with Google');
+    } else {
+      setError(result?.error || 'Invalid credentials. Please try again.');
+      setIsLoading(false);
     }
   };
 
@@ -56,7 +47,7 @@ export default function SignInPage() {
             </p>
           </div>
           <div className="text-sm opacity-60">
-            © 2026 AuviaMart. All rights reserved.
+            © 2026 AuviaMart Pakistan. All rights reserved.
           </div>
         </div>
       </div>
@@ -126,15 +117,10 @@ export default function SignInPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <input type="checkbox" id="remember" className="w-4 h-4 accent-brand-teal" />
-                <label htmlFor="remember" className="text-sm text-gray-600 dark:text-gray-400">Remember me for 30 days</label>
-              </div>
-
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-brand-teal text-white py-4 rounded-xl font-medium hover:bg-brand-navy transition-all flex items-center justify-center gap-2"
+                className="w-full bg-brand-teal text-white py-4 rounded-xl font-medium hover:bg-brand-navy transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-teal/20"
               >
                 {isLoading ? (
                   <motion.div
@@ -143,22 +129,6 @@ export default function SignInPage() {
                     className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                   />
                 ) : 'Sign In'}
-              </button>
-
-              <div className="relative flex items-center justify-center">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-200 dark:border-white/10"></div>
-                </div>
-                <span className="relative px-4 bg-transparent text-sm text-gray-500">or continue with</span>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleGoogleSignIn}
-                className="w-full bg-white dark:bg-white border border-gray-200 dark:border-gray-300 py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-100 transition-all"
-              >
-                <Globe size={20} />
-                <span className="font-medium">Sign in with Google</span>
               </button>
             </form>
 

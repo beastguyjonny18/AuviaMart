@@ -6,15 +6,26 @@ import { AnnouncementTicker } from "@/components/layout/announcement-ticker";
 import { WhatsAppButton } from "@/components/layout/whatsapp-button";
 import { HeroCarousel } from "@/components/home/hero-carousel";
 import { ProductCard } from "@/components/products/product-card";
-import { CheckCircle2, ArrowRight } from "lucide-react";
+import { CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { products } from "@/lib/products";
+import { useState, useEffect } from "react";
+import { getProductsAction } from "@/lib/actions";
 import { motion } from "framer-motion";
 
-const featuredProducts = products.slice(0, 4);
-
 export default function Home() {
+  const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const data = await getProductsAction();
+      setFeaturedProducts(data.slice(0, 4));
+      setLoading(false);
+    }
+    fetchProducts();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <AnnouncementTicker />
@@ -72,11 +83,17 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {featuredProducts.map((product) => (
-                <ProductCard key={product.id} {...product} />
-              ))}
-            </div>
+            {loading ? (
+              <div className="flex items-center justify-center py-20">
+                <Loader2 className="animate-spin text-brand-teal" size={40} />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {featuredProducts.map((product) => (
+                  <ProductCard key={product.id} {...product} />
+                ))}
+              </div>
+            )}
 
             {/* Mobile Shop All CTA */}
             <div className="mt-12 sm:hidden">

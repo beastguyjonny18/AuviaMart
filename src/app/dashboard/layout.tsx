@@ -20,6 +20,8 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/shared/logo';
+import { logoutAction } from '@/lib/actions';
+import { useRouter } from 'next/navigation';
 
 const menuItems = [
   { icon: LayoutDashboard, label: 'Overview', href: '/dashboard' },
@@ -65,7 +67,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </nav>
 
         <div className="p-4 border-t dark:border-white/10">
-          <button className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
+          <button 
+            onClick={async () => {
+              await logoutAction();
+              window.location.href = '/auth/signin';
+            }}
+            className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"
+          >
             <LogOut size={20} />
             Logout
           </button>
