@@ -1,8 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Search, Filter, Mail, Phone, Calendar, Loader2, User } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 import { getUsersAction } from '@/lib/actions';
 

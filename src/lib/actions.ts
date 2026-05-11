@@ -3,11 +3,16 @@
 import { adminAuth, adminDb } from '@/lib/firebase-admin';
 import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
+import { Product } from './products';
 
 const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY;
 
-export async function signInAction(data: any) {
+export async function signInAction(data: { email: string; password: any }) {
   const { email, password } = data;
+
+  if (!FIREBASE_API_KEY) {
+    return { error: 'FIREBASE_API_KEY is not configured in environment variables.' };
+  }
 
   try {
     const response = await fetch(
@@ -33,9 +38,39 @@ export async function signInAction(data: any) {
       path: '/',
     });
 
-    return { success: true };
+    return { success: true, email: result.email };
   } catch (error: any) {
     console.error('Sign-in error:', error);
+    return { error: error.message };
+  }
+}
+
+export async function signInWithGoogleAction(idToken: string) {
+  try {
+    // Verify the token and set the session cookie
+    const decodedToken = await adminAuth.verifyIdToken(idToken);
+    
+    // Check if user exists in our 'users' collection, if not, create it
+    const userDoc = await adminDb.collection('users').doc(decodedToken.uid).get();
+    if (!userDoc.exists) {
+      await adminDb.collection('users').doc(decodedToken.uid).set({
+        fullName: decodedToken.name || 'Google User',
+        email: decodedToken.email,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    const cookieStore = await cookies();
+    cookieStore.set('session', idToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24 * 5,
+      path: '/',
+    });
+
+    return { success: true, email: decodedToken.email };
+  } catch (error: any) {
+    console.error('Google sign-in action error:', error);
     return { error: error.message };
   }
 }
@@ -67,6 +102,21 @@ export async function signUpAction(data: any) {
 export async function logoutAction() {
   const cookieStore = await cookies();
   cookieStore.delete('session');
+}
+
+export async function getSessionAction() {
+  const cookieStore = await cookies();
+  const session = cookieStore.get('session');
+  
+  if (!session) return null;
+  
+  try {
+    const payloadBase64 = session.value.split('.')[1];
+    const payload = JSON.parse(Buffer.from(payloadBase64, 'base64').toString());
+    return payload;
+  } catch (error) {
+    return null;
+  }
 }
 
 // Product Management Actions

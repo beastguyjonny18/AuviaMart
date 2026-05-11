@@ -11,13 +11,13 @@
   --color-brand-navy: #0d3b55;
   --color-accent-gold: #e8a44a;
   
-  --color-surface-light: #f8fbff;
-  --color-surface-dark: #f7f5f0;
+  --color-surface-light: #ffffff;
+  --color-surface-dark: #f8fbff;
   --color-surface-card-dark: #ffffff;
-  --color-surface-input-dark: #f8fbff;
+  --color-surface-input-dark: #ffffff;
 
   --color-text-primary-light: #0d1f28;
-  --color-text-primary-dark: #1a1a1a;
+  --color-text-primary-dark: #0d1f28;
 }
 
 :root {
@@ -25,15 +25,15 @@
   --foreground: #0d1f28;
 }
 
+/* Force light premium aesthetic even in dark mode preferred systems */
 .dark {
-  --background: #f7f5f0;
-  --foreground: #1a1a1a;
+  --background: #ffffff;
+  --foreground: #0d1f28;
 }
-
 
 @layer base {
   * {
-    @apply border-gray-200/50 dark:border-white/10;
+    @apply border-gray-200/50;
   }
   body {
     @apply bg-background text-foreground transition-colors duration-300;
@@ -46,7 +46,7 @@
 /* Custom Utilities */
 @layer utilities {
   .glass-morphism {
-    @apply backdrop-blur-lg bg-white/80 dark:bg-surface-dark/80 border-t border-gray-200/50 dark:border-white/10;
+    @apply backdrop-blur-lg bg-white/80 border-t border-gray-200/50;
   }
   
   .tap-target {

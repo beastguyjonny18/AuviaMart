@@ -15,6 +15,7 @@ export default function CartPage() {
 
   useEffect(() => {
     setMounted(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
   }, []);
 
   const handleWhatsAppCheckout = () => {

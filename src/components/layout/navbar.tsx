@@ -7,6 +7,8 @@ import { Logo } from '@/components/shared/logo';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useCartStore, useWishlistStore } from '@/store/use-store';
+import { getSessionAction, logoutAction } from '@/lib/actions';
+import { useRouter } from 'next/navigation';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,20 +16,39 @@ export function Navbar() {
   const cartCount = useCartStore((state) => state.totalItems());
   const wishlistCount = useWishlistStore((state) => state.items.length);
   const [mounted, setMounted] = useState(false);
+  const [session, setSession] = useState<any>(null);
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    
+    async function checkSession() {
+      const sess = await getSessionAction();
+      setSession(sess);
+    }
+    checkSession();
+
     return scrollY.on('change', (latest) => {
       setIsScrolled(latest > 50);
     });
   }, [scrollY]);
 
+  const handleLogout = async () => {
+    await logoutAction();
+    setSession(null);
+    router.push('/');
+    router.refresh();
+  };
+
   if (!mounted) return null;
+
+  const isAdmin = session?.email === 'sololvlar@gmail.com';
 
   return (
     <nav
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300 border-b border-white/10",
+        "sticky top-0 z-[100] w-full transition-all duration-300 border-b border-white/10",
         isScrolled 
           ? "bg-brand-navy/95 backdrop-blur-md py-1 shadow-lg" 
           : "bg-brand-navy py-2"
@@ -82,16 +103,41 @@ export function Navbar() {
             <span className="text-sm font-medium">EN</span>
           </button>
 
-          <Link href="/auth/signin" className="hidden lg:flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-6 py-2 rounded-full transition-colors">
-            <User size={20} />
-            <span className="text-sm font-medium">Sign In</span>
-          </Link>
-          
-          <Link href="/auth/signin" className="lg:hidden tap-target">
-            <User size={24} />
-          </Link>
+          {session ? (
+            <div className="flex items-center gap-2">
+              {isAdmin ? (
+                <Link 
+                  href="/dashboard" 
+                  className="flex items-center gap-2 bg-accent-gold/20 hover:bg-accent-gold/30 border border-accent-gold/30 text-accent-gold px-4 lg:px-6 py-2 rounded-full transition-all group active:scale-95"
+                >
+                  <User size={20} />
+                  <span className="text-sm font-medium hidden sm:inline">Dashboard</span>
+                </Link>
+              ) : (
+                <button 
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-4 lg:px-6 py-2 rounded-full transition-all group active:scale-95"
+                >
+                  <User size={20} className="group-hover:text-accent-gold transition-colors" />
+                  <span className="text-sm font-medium hidden sm:inline">Sign Out</span>
+                </button>
+              )}
+            </div>
+          ) : (
+            <button 
+              onClick={() => {
+                console.log('Sign In Clicked');
+                router.push('/auth/signin');
+              }}
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-4 lg:px-6 py-2 rounded-full transition-all group active:scale-95 cursor-pointer"
+            >
+              <User size={20} className="group-hover:text-accent-gold transition-colors" />
+              <span className="text-sm font-medium hidden sm:inline">Sign In</span>
+            </button>
+          )}
         </div>
       </div>
     </nav>
   );
 }
+

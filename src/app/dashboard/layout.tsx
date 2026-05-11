@@ -38,9 +38,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0a0f12]">
+    <div className="min-h-screen bg-gray-50/50">
       {/* Sidebar - Desktop */}
-      <aside className="hidden lg:flex flex-col w-64 fixed inset-y-0 left-0 bg-white dark:bg-surface-dark border-r z-50">
+      <aside className="hidden lg:flex flex-col w-64 fixed inset-y-0 left-0 bg-brand-teal text-white z-50">
         <div className="p-8">
           <Logo shrink />
         </div>
@@ -55,24 +55,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 className={cn(
                   "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all group",
                   isActive 
-                    ? "bg-brand-teal text-white shadow-lg shadow-brand-teal/20" 
-                    : "text-gray-500 hover:bg-gray-50 dark:hover:bg-white/5"
+                    ? "bg-white/10 text-white shadow-sm border border-white/10" 
+                    : "text-white/70 hover:bg-white/5 hover:text-white"
                 )}
               >
-                <item.icon size={20} className={cn(isActive ? "text-white" : "text-gray-400 group-hover:text-brand-teal")} />
+                <item.icon size={20} className={cn(isActive ? "text-white" : "text-white/60 group-hover:text-white")} />
                 {item.label}
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-4 border-t dark:border-white/10">
+        <div className="p-4 border-t border-white/10">
           <button 
             onClick={async () => {
               await logoutAction();
               window.location.href = '/auth/signin';
             }}
-            className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"
+            className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-sm font-medium text-white/70 hover:bg-red-500/10 hover:text-red-300 transition-all"
           >
             <LogOut size={20} />
             Logout
@@ -81,7 +81,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Header - Mobile & Desktop */}
-      <header className="lg:ml-64 bg-white dark:bg-surface-dark border-b h-20 sticky top-0 z-40">
+      <header className="lg:ml-64 bg-white border-b h-20 sticky top-0 z-40">
         <div className="h-full px-4 md:px-8 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
@@ -90,18 +90,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             >
               <Menu size={24} />
             </button>
-            <div className="hidden md:flex items-center gap-3 bg-gray-50 dark:bg-white/5 rounded-full px-4 py-2 border w-64">
+            <div className="hidden md:flex items-center gap-3 bg-gray-50 rounded-full px-4 py-2 border w-64">
               <Search size={18} className="text-gray-400" />
-              <input type="text" placeholder="Search..." className="bg-transparent border-none outline-none text-sm w-full" />
+              <input type="text" placeholder="Search..." className="bg-transparent border-none outline-none text-sm w-full text-gray-700" />
             </div>
           </div>
 
           <div className="flex items-center gap-4">
             <button className="relative tap-target text-gray-400 hover:text-brand-teal transition-colors">
               <Bell size={24} />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-surface-dark" />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
             </button>
-            <div className="flex items-center gap-3 pl-4 border-l dark:border-white/10">
+            <div className="flex items-center gap-3 pl-4 border-l">
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-bold">Roshaan</p>
                 <p className="text-[10px] text-gray-400 uppercase tracking-widest">Admin</p>

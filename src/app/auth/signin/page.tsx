@@ -5,12 +5,15 @@ import { Logo } from '@/components/shared/logo';
 import { Eye, EyeOff, Mail, Lock, Globe } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
-import { signInAction } from '@/lib/actions';
+import { signInAction, signInWithGoogleAction } from '@/lib/actions';
 import { useRouter } from 'next/navigation';
+import { auth } from '@/lib/firebase';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -24,10 +27,41 @@ export default function SignInPage() {
     const result = await signInAction({ email, password });
 
     if (result?.success) {
-      router.push('/dashboard');
+      if (result.email === 'sololvlar@gmail.com') {
+        router.push('/dashboard');
+      } else {
+        router.push('/');
+      }
     } else {
       setError(result?.error || 'Invalid credentials. Please try again.');
       setIsLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setIsGoogleLoading(true);
+    setError('');
+    const provider = new GoogleAuthProvider();
+    
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
+      
+      const serverResult = await signInWithGoogleAction(idToken);
+      
+      if (serverResult.success) {
+        if (serverResult.email === 'sololvlar@gmail.com') {
+          router.push('/dashboard');
+        } else {
+          router.push('/');
+        }
+      } else {
+        throw new Error(serverResult.error);
+      }
+    } catch (error: any) {
+      console.error('Google Sign-In Error:', error);
+      setError(error.message || 'Failed to sign in with Google');
+      setIsGoogleLoading(false);
     }
   };
 
@@ -76,6 +110,35 @@ export default function SignInPage() {
               </div>
             )}
 
+            {/* Google Sign-In Button */}
+            <button
+              onClick={handleGoogleSignIn}
+              disabled={isGoogleLoading}
+              className="w-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 py-3 rounded-xl font-medium flex items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-white/10 transition-all mb-6"
+            >
+              {isGoogleLoading ? (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                  className="w-5 h-5 border-2 border-brand-teal/30 border-t-brand-teal rounded-full"
+                />
+              ) : (
+                <>
+                  <Globe size={20} className="text-brand-teal" />
+                  <span>Sign in with Google</span>
+                </>
+              )}
+            </button>
+
+            <div className="relative mb-8">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200 dark:border-white/10"></div>
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-white dark:bg-[#151b1e] px-4 text-gray-500">Or continue with</span>
+              </div>
+            </div>
+
             <form className="space-y-6" onSubmit={handleSignIn}>
               <div className="space-y-2">
                 <label className="text-sm font-medium">Email Address</label>
@@ -104,7 +167,7 @@ export default function SignInPage() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-white dark:bg-surface-input-dark border border-gray-200 dark:border-white/10 rounded-xl py-3 pl-12 pr-12 focus:ring-2 focus:ring-brand-teal outline-none transition-all"
+                    className="w-full bg-white dark:bg-white border border-gray-200 dark:border-gray-300 rounded-xl py-3 pl-12 pr-12 focus:ring-2 focus:ring-brand-teal outline-none transition-all"
                     placeholder="••••••••"
                   />
                   <button

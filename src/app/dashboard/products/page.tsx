@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Search, Filter, Edit2, Trash2, Eye, X, Loader2 } from 'lucide-react';
+import { Plus, Search, Filter, Edit2, Trash2, X, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -15,16 +15,16 @@ export default function DashboardProducts() {
   const [searchQuery, setSearchQuery] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
   const fetchProducts = async () => {
     setLoading(true);
     const data = await getProductsAction();
     setProducts(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

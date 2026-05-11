@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Users, MousePointer2, Loader2, Package } from 'lucide-react';
+import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Users, Loader2, Package } from 'lucide-react';
 import { 
   AreaChart, 
   Area, 

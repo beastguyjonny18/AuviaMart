@@ -29,6 +29,7 @@ export function ProductCard({ id, slug, name, brand, price, image, badge, rating
 
   useEffect(() => {
     setMounted(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
   }, []);
 
   const handleAddToCart = (e: React.MouseEvent) => {

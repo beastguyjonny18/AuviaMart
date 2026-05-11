@@ -11,7 +11,7 @@ const navItems = [
   { icon: LayoutGrid, label: 'Categories', href: '/categories' },
   { icon: ShoppingCart, label: 'Cart', href: '/cart' },
   { icon: Heart, label: 'Wishlist', href: '/wishlist' },
-  { icon: User, label: 'Profile', href: '/profile' },
+  { icon: User, label: 'Profile', href: '/auth/signin' },
 ];
 
 export function MobileNav() {

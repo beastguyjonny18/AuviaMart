@@ -1,9 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Search, Filter, ShoppingBag, Clock, CheckCircle2, MoreVertical, Eye, Download, Loader2 } from 'lucide-react';
+import { Search, Filter, MoreVertical, Eye, Download, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const mockOrders = [
   { id: 'ORD-7241', customer: 'Khalid Al-Thani', date: '2026-05-10', status: 'Delivered', amount: 12500, items: 2 },

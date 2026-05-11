@@ -15,7 +15,7 @@ export function Logo({ shrink = false }: { shrink?: boolean }) {
         className="relative overflow-hidden rounded-xl bg-transparent flex-shrink-0"
       >
         <Image
-          src="/icon.png"
+          src="/logo.png"
           alt="AuviaMart Logo"
           fill
           className="object-contain"

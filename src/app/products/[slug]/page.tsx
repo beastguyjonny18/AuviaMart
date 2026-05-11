@@ -27,8 +27,8 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     setMounted(true);
-    async function fetchProduct() {
-      if (typeof slug === 'string') {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    async function fetchProduct() {      if (typeof slug === 'string') {
         const data = await getProductBySlugAction(slug);
         setProduct(data);
         setLoading(false);

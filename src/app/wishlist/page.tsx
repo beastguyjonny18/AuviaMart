@@ -16,6 +16,7 @@ export default function WishlistPage() {
 
   useEffect(() => {
     setMounted(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
   }, []);
 
   if (!mounted) return null;
