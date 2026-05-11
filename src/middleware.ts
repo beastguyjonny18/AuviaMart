@@ -17,26 +17,26 @@ export async function middleware(request: NextRequest) {
       const payloadBase64 = session.value.split('.')[1];
       const payload = JSON.parse(Buffer.from(payloadBase64, 'base64').toString());
 
-      if (!ADMIN_EMAILS.includes(payload.email)) {
+      if (!ADMIN_EMAILS.some(email => email.toLowerCase() === payload.email?.toLowerCase())) {
         return NextResponse.redirect(new URL('/', request.url));
       }
-    } catch {
+      } catch {
       return NextResponse.redirect(new URL('/auth/signin', request.url));
-    }
-  }
+      }
+      }
 
-  // Handle users visiting auth pages
-  if (pathname.startsWith('/auth')) {
-    if (session) {
+      // Handle users visiting auth pages
+      if (pathname.startsWith('/auth')) {
+      if (session) {
       try {
         const payloadBase64 = session.value.split('.')[1];
         const payload = JSON.parse(Buffer.from(payloadBase64, 'base64').toString());
 
         // If admin, go to dashboard. If normal user, go to home.
-        const dest = ADMIN_EMAILS.includes(payload.email) ? '/dashboard' : '/';
+        const isAdmin = ADMIN_EMAILS.some(email => email.toLowerCase() === payload.email?.toLowerCase());
+        const dest = isAdmin ? '/dashboard' : '/';
         return NextResponse.redirect(new URL(dest, request.url));
-      } catch {
-        return NextResponse.next();
+      } catch {        return NextResponse.next();
       }
     }
   }

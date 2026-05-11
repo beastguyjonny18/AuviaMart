@@ -41,7 +41,7 @@ export default function Home() {
         <HeroCarousel />
 
         {/* AuviaMart Exclusives Section */}
-        <section className="py-24 relative overflow-hidden bg-surface-dark">
+        <section className="section-padding relative overflow-hidden bg-surface-dark">
           <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
             <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-teal rounded-full blur-[120px]" />
             <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent-gold rounded-full blur-[120px]" />
@@ -53,11 +53,11 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-end justify-between mb-12"
+              className="flex items-end justify-between mb-8 md:mb-12"
             >
               <div className="max-w-md">
-                <h2 className="text-4xl md:text-5xl mb-4 italic">AuviaMart *Exclusives*</h2>
-                <p className="opacity-70 text-lg">Hand-picked premium selections found nowhere else in Pakistan.</p>
+                <h2 className="text-3xl md:text-5xl mb-4 italic">AuviaMart *Exclusives*</h2>
+                <p className="opacity-70 text-sm md:text-lg">Hand-picked premium selections found nowhere else in Pakistan.</p>
               </div>
               <Link href="/products" className="hidden sm:flex items-center gap-2 text-brand-teal font-bold hover:gap-4 transition-all group">
                 Shop all 
@@ -70,17 +70,26 @@ export default function Home() {
                 <Loader2 className="animate-spin text-brand-teal" size={40} />
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {featuredProducts.map((product) => (
-                  <ProductCard key={product.id} {...product} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                {featuredProducts.map((product, i) => (
+                  <motion.div
+                    key={product.id}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <ProductCard {...product} />
+                  </motion.div>
                 ))}
               </div>
             )}
 
-            <div className="mt-12 sm:hidden">
+            {/* Mobile Shop All CTA */}
+            <div className="mt-8 md:mt-12 sm:hidden">
               <Link 
                 href="/products" 
-                className="w-full flex items-center justify-center gap-2 bg-brand-navy text-white py-5 rounded-2xl font-bold hover:bg-brand-teal transition-all shadow-xl shadow-brand-navy/20"
+                className="w-full flex items-center justify-center gap-2 bg-brand-navy text-white py-4 rounded-2xl font-bold hover:bg-brand-teal transition-all shadow-xl shadow-brand-navy/20 active:scale-95"
               >
                 View all products
                 <ArrowRight size={18} />
@@ -90,27 +99,27 @@ export default function Home() {
         </section>
 
         {/* The AuviaMart Standard Section */}
-        <section className="py-24 bg-white overflow-hidden">
+        <section className="section-padding bg-white overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col lg:flex-row gap-20 items-center">
+            <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
               <motion.div 
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="lg:w-2/5"
+                className="lg:w-2/5 text-center lg:text-left"
               >
-                <h2 className="text-4xl md:text-6xl mb-8 italic leading-tight">The *AuviaMart* <br/>Standard</h2>
-                <p className="text-xl opacity-80 mb-10 leading-relaxed">
+                <h2 className="text-4xl md:text-6xl mb-6 md:mb-8 italic leading-tight">The *AuviaMart* <br className="hidden md:block"/>Standard</h2>
+                <p className="text-base md:text-xl opacity-80 mb-8 md:mb-10 leading-relaxed">
                   Excellence in every detail. We curate high-end tech, home essentials, and lifestyle products for the modern home in Pakistan.
                 </p>
-                <Link href="/about" className="inline-flex items-center gap-4 bg-brand-teal text-white px-8 py-4 rounded-full font-bold hover:bg-brand-navy transition-all group shadow-xl shadow-brand-teal/20">
+                <Link href="/about" className="inline-flex items-center gap-4 bg-brand-teal text-white px-8 py-4 rounded-full font-bold hover:bg-brand-navy transition-all group shadow-xl shadow-brand-teal/20 active:scale-95">
                   Our Philosophy
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </motion.div>
               
-              <div className="lg:w-3/5 grid grid-cols-1 sm:grid-cols-2 gap-8 w-full">
+              <div className="lg:w-3/5 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 w-full">
                 {[
                   { title: 'Premium Quality', desc: 'Sourced from top manufacturers globally.' },
                   { title: 'Nationwide Delivery', desc: 'Same-day delivery in Islamabad, next-day across Pakistan.' },
@@ -123,13 +132,13 @@ export default function Home() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: i * 0.1 }}
-                    className="p-10 bg-surface-dark rounded-3xl border border-transparent hover:border-brand-teal/20 transition-all group shadow-sm hover:shadow-2xl hover:-translate-y-2 marble-gloss"
+                    className="p-8 md:p-10 bg-surface-dark rounded-3xl border border-transparent hover:border-brand-teal/20 transition-all group shadow-sm hover:shadow-2xl marble-gloss"
                   >
-                    <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-brand-teal mb-8 group-hover:scale-110 group-hover:bg-brand-teal group-hover:text-white transition-all shadow-inner">
+                    <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl flex items-center justify-center text-brand-teal mb-6 md:mb-8 group-hover:scale-110 group-hover:bg-brand-teal group-hover:text-white transition-all shadow-inner">
                       <CheckCircle2 size={32} />
                     </div>
-                    <h3 className="text-2xl mb-4 italic">{item.title}</h3>
-                    <p className="text-gray-500 leading-relaxed">{item.desc}</p>
+                    <h3 className="text-xl md:text-2xl mb-3 md:mb-4 italic">{item.title}</h3>
+                    <p className="text-sm md:text-base text-gray-500 leading-relaxed">{item.desc}</p>
                   </motion.div>
                 ))}
               </div>
@@ -138,7 +147,7 @@ export default function Home() {
         </section>
 
         {/* Smart Living Section (CTA) */}
-        <section className="relative h-[70vh] min-h-[600px] flex items-center overflow-hidden">
+        <section className="relative h-[60vh] md:h-[70vh] min-h-[500px] md:min-h-[600px] flex items-center overflow-hidden">
           <motion.div 
             initial={{ scale: 1.1 }}
             whileInView={{ scale: 1 }}
@@ -152,26 +161,26 @@ export default function Home() {
               className="object-cover"
             />
           </motion.div>
-          <div className="absolute inset-0 bg-brand-navy/40 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-brand-navy/50 backdrop-blur-[2px]" />
           <div className="container mx-auto px-4 relative z-10">
-            <div className="max-w-2xl text-white">
+            <div className="max-w-2xl text-white text-center md:text-left">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <h2 className="text-6xl md:text-8xl mb-8 font-serif leading-none italic">
+                <h2 className="text-5xl md:text-8xl mb-6 md:mb-8 font-serif leading-tight italic">
                   {settings?.ctaTitle?.split('*').map((part: string, i: number) => 
                     i % 2 === 1 ? <span key={i} className="text-accent-gold">{part}</span> : part
                   ) || "Smart Living"}
                 </h2>
-                <p className="text-xl md:text-2xl mb-12 opacity-90 leading-relaxed font-light">
+                <p className="text-lg md:text-2xl mb-8 md:mb-12 opacity-90 leading-relaxed font-light">
                   {settings?.ctaDescription || "Discover the future of home decor and appliances."}
                 </p>
                 <Link
                   href="/products"
-                  className="inline-flex items-center gap-4 bg-brand-teal text-white px-12 py-5 rounded-full text-xl font-bold hover:bg-white hover:text-brand-teal transition-all group shadow-2xl shadow-black/20"
+                  className="inline-flex items-center gap-4 bg-brand-teal text-white px-10 md:px-12 py-4 md:py-5 rounded-full text-lg md:text-xl font-bold hover:bg-white hover:text-brand-teal transition-all group shadow-2xl shadow-black/20 active:scale-95"
                 >
                   {settings?.ctaButtonText || "Shop Now"}
                   <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
@@ -182,21 +191,21 @@ export default function Home() {
         </section>
 
         {/* Blog / Articles Section */}
-        <section className="py-24 bg-white dark:bg-surface-dark">
+        <section className="section-padding bg-white">
           <div className="container mx-auto px-4">
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <h2 className="text-4xl mb-4 italic">The Journal</h2>
-              <p className="opacity-70 text-lg">Insights into modern living, decor tips, and the stories behind our curation.</p>
+            <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
+              <h2 className="text-3xl md:text-4xl mb-4 italic">The Journal</h2>
+              <p className="opacity-70 text-sm md:text-lg">Insights into modern living, decor tips, and the stories behind our curation.</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               {[
                 { title: 'Choosing the Perfect Wall Clock', cat: 'DECOR', image: '/products/1778482277813.jpeg' },
                 { title: 'Staying Cool: Portable Solutions', cat: 'LIFESTYLE', image: '/products/1778482277815.jpeg' },
                 { title: 'Smart Tech for Daily Vitality', cat: 'TECHNOLOGY', image: '/products/1778482293739.jpeg' },
               ].map((article, i) => (
                 <Link key={i} href={`/blog/${i}`} className="group">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-3xl mb-6 shadow-md group-hover:shadow-2xl transition-all duration-500">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-3xl mb-4 md:mb-6 shadow-md group-hover:shadow-2xl transition-all duration-500">
                     <Image
                       src={article.image}
                       alt={article.title}
@@ -207,8 +216,8 @@ export default function Home() {
                       {article.cat}
                     </div>
                   </div>
-                  <h3 className="text-2xl font-serif mb-3 group-hover:text-brand-teal transition-colors italic">{article.title}</h3>
-                  <span className="text-brand-teal font-bold text-sm flex items-center gap-2">
+                  <h3 className="text-xl md:text-2xl font-serif mb-2 md:mb-3 group-hover:text-brand-teal transition-colors italic">{article.title}</h3>
+                  <span className="text-brand-teal font-bold text-xs md:text-sm flex items-center gap-2">
                     Read More <ArrowRight size={16} />
                   </span>
                 </Link>
