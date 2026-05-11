@@ -1,9 +1,10 @@
 'use client';
 
-import { Search, Filter, MoreVertical, Eye, Download, Loader2, CheckCircle2, Clock, Package } from 'lucide-react';
+import { Search, MoreVertical, Eye, Download, Loader2, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
-import { getOrdersAction, updateOrderStatusAction } from '@/lib/actions';
+import { getOrdersAction, updateOrderStatusAction, deleteOrderAction } from '@/lib/actions';
+import Link from 'next/link';
 
 export default function DashboardOrders() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -30,6 +31,17 @@ export default function DashboardOrders() {
     }
   };
 
+  const handleOrderDelete = async (orderId: string) => {
+    if (!confirm("Are you sure you want to delete this order record forever?")) return;
+    
+    const result = await deleteOrderAction(orderId);
+    if (result.success) {
+      fetchOrders();
+    } else {
+      alert("Error deleting order: " + result.error);
+    }
+  };
+
   const filteredOrders = orders.filter(o => 
     o.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (o.userEmail && o.userEmail.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -49,8 +61,8 @@ export default function DashboardOrders() {
     <div className="space-y-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-serif mb-2">Orders</h1>
-          <p className="text-gray-500">Manage and track customer purchases.</p>
+          <h1 className="text-3xl font-serif mb-2 text-brand-navy font-bold">Orders *Management*</h1>
+          <p className="text-gray-500 italic text-sm">Manage and track your premium customer purchases.</p>
         </div>
         <button className="bg-brand-teal text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-brand-navy transition-all shadow-lg shadow-brand-teal/20">
           <Download size={20} />
@@ -66,52 +78,52 @@ export default function DashboardOrders() {
             placeholder="Search by order ID or email..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white dark:bg-white border rounded-xl py-3 pl-12 pr-4 outline-none focus:ring-2 focus:ring-brand-teal transition-all"
+            className="w-full bg-white dark:bg-white border rounded-xl py-3 pl-12 pr-4 outline-none focus:ring-2 focus:ring-brand-teal transition-all shadow-sm"
           />
         </div>
       </div>
 
-      <div className="bg-white dark:bg-surface-card-dark rounded-3xl border shadow-sm overflow-x-auto">
+      <div className="bg-white dark:bg-surface-card-dark rounded-3xl border shadow-sm overflow-x-auto marble-gloss">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <Loader2 className="animate-spin text-brand-teal" size={40} />
-            <p className="text-gray-500 font-medium">Loading orders...</p>
+            <p className="text-gray-500 font-medium italic">Processing secure order data...</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="text-left text-xs font-bold uppercase tracking-widest text-gray-400 border-b dark:border-white/10">
-                <th className="p-6">Order ID</th>
-                <th className="p-6">Customer</th>
-                <th className="p-6">Date</th>
-                <th className="p-6">Amount</th>
-                <th className="p-6">Status</th>
-                <th className="p-6 text-right">Action</th>
+              <tr className="text-left text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 border-b dark:border-white/10">
+                <th className="p-6">Reference</th>
+                <th className="p-6">Client Identity</th>
+                <th className="p-6">Placement Date</th>
+                <th className="p-6">Valuation</th>
+                <th className="p-6">Curation Status</th>
+                <th className="p-6 text-right">Administrative</th>
               </tr>
             </thead>
             <tbody className="divide-y dark:divide-white/10">
               {filteredOrders.map((order) => (
-                <tr key={order.id} className="group hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
+                <tr key={order.id} className="group hover:bg-gray-50/50 dark:hover:bg-white/5 transition-all">
                   <td className="p-6">
                     <p className="text-sm font-bold text-brand-teal">{order.id}</p>
                     <p className="text-[10px] text-gray-400">{Array.isArray(order.items) ? order.items.length : 0} items</p>
                   </td>
                   <td className="p-6">
-                    <p className="text-sm font-bold">{order.userEmail || 'Guest'}</p>
-                    <p className="text-[10px] text-gray-400">{order.userId || 'No ID'}</p>
+                    <p className="text-sm font-bold text-brand-navy">{order.userEmail || 'Guest Client'}</p>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-tighter">{order.userId || 'PUBLIC_SESSION'}</p>
                   </td>
                   <td className="p-6">
-                    <p className="text-sm text-gray-500">{new Date(order.createdAt).toLocaleDateString()}</p>
+                    <p className="text-sm text-gray-500 font-medium">{new Date(order.createdAt).toLocaleDateString()}</p>
                   </td>
                   <td className="p-6">
-                    <p className="text-sm font-bold">Rs. {order.totalPrice?.toLocaleString() || '0'}</p>
+                    <p className="text-sm font-black text-brand-navy">Rs. {order.totalPrice?.toLocaleString() || '0'}</p>
                   </td>
                   <td className="p-6">
                     <select 
                       value={order.status}
                       onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
                       className={cn(
-                        "px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase outline-none border-none cursor-pointer appearance-none text-center",
+                        "px-4 py-1.5 rounded-full text-[9px] font-black tracking-widest uppercase outline-none border-none cursor-pointer appearance-none text-center shadow-sm",
                         getStatusColor(order.status)
                       )}
                     >
@@ -123,11 +135,14 @@ export default function DashboardOrders() {
                   </td>
                   <td className="p-6 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <button className="p-2 text-gray-400 hover:text-brand-teal hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-all">
+                      <Link href="/dashboard/orders" className="p-2 text-gray-400 hover:text-brand-teal hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-all">
                         <Eye size={18} />
-                      </button>
-                      <button className="p-2 text-gray-400 hover:text-brand-navy hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-all">
-                        <MoreVertical size={18} />
+                      </Link>
+                      <button 
+                        onClick={() => handleOrderDelete(order.id)}
+                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-white/5 rounded-lg transition-all"
+                      >
+                        <Trash2 size={18} />
                       </button>
                     </div>
                   </td>
@@ -135,8 +150,8 @@ export default function DashboardOrders() {
               ))}
               {filteredOrders.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="p-20 text-center text-gray-500">
-                    No orders found.
+                  <td colSpan={6} className="p-24 text-center text-gray-400 italic font-serif">
+                    No order reconciliations found in the secure archives.
                   </td>
                 </tr>
               )}

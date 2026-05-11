@@ -205,13 +205,18 @@ export async function getDashboardStatsAction() {
     const ordersSnapshot = await adminDb.collection('orders').get();
     
     let totalRevenue = 0;
+    let successfulOrdersCount = 0;
     let ordersToday = 0;
     const today = new Date().toISOString().split('T')[0];
 
     ordersSnapshot.docs.forEach(doc => {
       const data = doc.data();
-      if (data.totalPrice) totalRevenue += data.totalPrice;
-      if (data.createdAt && data.createdAt.startsWith(today)) ordersToday++;
+      // Only count non-cancelled orders for revenue and successful counts
+      if (data.status !== 'Cancelled') {
+        if (data.totalPrice) totalRevenue += data.totalPrice;
+        successfulOrdersCount++;
+        if (data.createdAt && data.createdAt.startsWith(today)) ordersToday++;
+      }
     });
     
     return {
@@ -219,6 +224,7 @@ export async function getDashboardStatsAction() {
       totalUsers: usersSnapshot.data().count,
       totalRevenue,
       ordersToday,
+      totalOrders: successfulOrdersCount
     };
   } catch (error: any) {
     console.error('Error fetching dashboard stats:', error);
@@ -228,6 +234,18 @@ export async function getDashboardStatsAction() {
       totalRevenue: 0,
       ordersToday: 0,
     };
+  }
+}
+
+export async function deleteOrderAction(orderId: string) {
+  try {
+    await adminDb.collection('orders').doc(orderId).delete();
+    revalidatePath('/dashboard/orders');
+    revalidatePath('/dashboard');
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error deleting order:', error);
+    return { error: error.message };
   }
 }
 
