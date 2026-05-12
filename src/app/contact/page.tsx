@@ -16,143 +16,100 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-surface-dark">
+    <div className="min-h-screen bg-white">
       <Navbar />
       
-      <main className="container mx-auto px-4 py-16 lg:py-24">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-20">
+      <main>
+        {/* Goru-style Hero Section */}
+        <section className="relative h-[40vh] flex items-center bg-[#f4f7f9] overflow-hidden border-b border-gray-100">
+          <div className="container mx-auto px-4 relative z-10 text-center lg:text-left">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-2xl"
+            >
+              <h1 className="text-[48px] md:text-[72px] font-bold text-text-primary font-heading leading-tight mb-6">
+                Get In <span className="text-brand-teal font-light italic">Touch</span>
+              </h1>
+              <p className="text-[18px] md:text-[20px] text-text-secondary font-medium">
+                We&apos;re here to help you curate your perfect home.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        <section className="py-24 container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row gap-16">
             
-            {/* Contact Info */}
-            <div className="lg:w-2/5 space-y-12">
-              <div>
-                <h1 className="text-5xl font-serif italic mb-6">Get in *Touch*</h1>
-                <p className="text-lg opacity-60">We&apos;re here to help. Reach out to us via any of these channels or use the form.</p>
-              </div>
-
-              <div className="space-y-8">
-                <div className="flex items-start gap-6">
-                  <div className="w-12 h-12 bg-brand-teal/10 rounded-xl flex items-center justify-center text-brand-teal shrink-0">
-                    <Mail size={24} />
+            {/* Contact Info Grid */}
+            <div className="lg:w-2/5 space-y-0 border-t border-l border-gray-100 bg-white">
+              {[
+                { icon: Mail, title: 'Email Us', value: 'support@auviamart.store', color: 'text-brand-teal' },
+                { icon: MessageSquare, title: 'WhatsApp', value: '+92 321 6817897', color: 'text-green-500' },
+                { icon: Phone, title: 'Call Us', value: '+92 321 6817897', color: 'text-blue-500' },
+                { icon: MapPin, title: 'Visit Us', value: 'Gulberg III, Lahore, PK', color: 'text-accent-gold' },
+              ].map((item, i) => (
+                <div key={i} className="p-12 border-r border-b border-gray-100 hover:bg-[#f4f7f9] transition-all duration-400 group">
+                  <div className={cn("w-16 h-16 bg-white border-2 border-gray-100 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform", item.color)}>
+                    <item.icon size={32} strokeWidth={1.5} />
                   </div>
-                  <div>
-                    <h3 className="font-bold text-sm uppercase tracking-widest opacity-40 mb-1">Email Us</h3>
-                    <p className="text-lg font-medium">support@auviamart.store</p>
-                  </div>
+                  <h3 className="text-sm font-bold uppercase tracking-widest text-text-primary/40 mb-2 font-heading">{item.title}</h3>
+                  <p className="text-xl font-bold text-text-primary font-heading">{item.value}</p>
                 </div>
-
-                <div className="flex items-start gap-6">
-                  <div className="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center text-green-500 shrink-0">
-                    <MessageSquare size={24} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm uppercase tracking-widest opacity-40 mb-1">WhatsApp</h3>
-                    <p className="text-lg font-medium">+92 321 6817897</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-6">
-                  <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500 shrink-0">
-                    <Phone size={24} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm uppercase tracking-widest opacity-40 mb-1">Call Us</h3>
-                    <p className="text-lg font-medium">+92 321 6817897</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-6">
-                  <div className="w-12 h-12 bg-accent-gold/10 rounded-xl flex items-center justify-center text-accent-gold shrink-0">
-                    <MapPin size={24} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm uppercase tracking-widest opacity-40 mb-1">Visit Us</h3>
-                    <p className="text-lg font-medium">Main Boulevard, Gulberg III<br />Lahore, Pakistan</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Social Links Placeholder */}
-              <div className="pt-8 border-t dark:border-white/10">
-                <h3 className="font-bold text-xs uppercase tracking-[0.3em] opacity-40 mb-6">Follow Us</h3>
-                <div className="flex gap-4">
-                  {['Instagram', 'Facebook', 'Twitter', 'TikTok'].map(social => (
-                    <span key={social} className="text-sm font-bold hover:text-brand-teal cursor-pointer transition-colors">
-                      {social}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
 
-            {/* Contact Form */}
+            {/* Contact Form Section */}
             <div className="lg:w-3/5">
-              <div className="bg-white dark:bg-surface-dark p-8 md:p-12 rounded-[40px] shadow-xl shadow-brand-teal/5">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-[#f4f7f9] p-8 md:p-16 relative overflow-hidden">
+                {/* Background Label */}
+                <div className="absolute right-0 bottom-0 opacity-5 pointer-events-none translate-x-1/4 translate-y-1/4">
+                   <h2 className="text-[120px] font-black uppercase font-heading whitespace-nowrap">Message</h2>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-widest opacity-40 ml-2">Full Name</label>
                       <input
                         required
                         type="text"
-                        placeholder="John Doe"
-                        className="w-full bg-white dark:bg-surface-dark border-none rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-brand-teal transition-all"
+                        placeholder="Your Name *"
+                        className="w-full bg-white border-2 border-transparent border-b-gray-200 py-5 px-0 outline-none focus:border-b-brand-teal transition-all text-text-primary font-medium placeholder:text-text-secondary/40"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-widest opacity-40 ml-2">Email Address</label>
                       <input
                         required
                         type="email"
-                        placeholder="john@example.com"
-                        className="w-full bg-white dark:bg-surface-dark border-none rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-brand-teal transition-all"
+                        placeholder="Email Address *"
+                        className="w-full bg-white border-2 border-transparent border-b-gray-200 py-5 px-0 outline-none focus:border-b-brand-teal transition-all text-text-primary font-medium placeholder:text-text-secondary/40"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest opacity-40 ml-2">Subject</label>
-                      <select className="w-full bg-white dark:bg-white border-none rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-brand-teal transition-all appearance-none">
-                      <option>Product Inquiry</option>
-                      <option>Order Status</option>
-                      <option>Returns & Refunds</option>
-                      <option>Partnership</option>
-                      <option>Other</option>
-                    </select>
+                    <input
+                      type="text"
+                      placeholder="Subject"
+                      className="w-full bg-white border-2 border-transparent border-b-gray-200 py-5 px-0 outline-none focus:border-b-brand-teal transition-all text-text-primary font-medium placeholder:text-text-secondary/40"
+                    />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest opacity-40 ml-2">Message</label>
                     <textarea
                       required
                       rows={6}
-                      placeholder="How can we help you?"
-                      className="w-full bg-white dark:bg-surface-dark border-none rounded-2xl py-4 px-6 outline-none focus:ring-2 focus:ring-brand-teal transition-all resize-none"
+                      placeholder="Message *"
+                      className="w-full bg-white border-2 border-transparent border-b-gray-200 py-5 px-0 outline-none focus:border-b-brand-teal transition-all resize-none text-text-primary font-medium placeholder:text-text-secondary/40"
                     />
                   </div>
 
                   <button
                     disabled={formState !== 'idle'}
                     type="submit"
-                    className="w-full bg-brand-teal text-white py-5 rounded-2xl font-bold text-lg shadow-lg shadow-brand-teal/20 hover:bg-brand-navy transition-all flex items-center justify-center gap-3"
+                    className="goru-btn w-full lg:w-auto"
                   >
-                    {formState === 'idle' && (
-                      <>
-                        <Send size={20} />
-                        Send Message
-                      </>
-                    )}
-                    {formState === 'sending' && (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-                      >
-                        <Zap size={20} />
-                      </motion.div>
-                    )}
-                    {formState === 'sent' && (
-                      <>✓ Message Sent</>
-                    )}
+                    {formState === 'idle' ? 'Send Message' : formState === 'sending' ? 'Sending...' : '✓ Sent'}
                   </button>
                 </form>
               </div>
@@ -166,3 +123,5 @@ export default function ContactPage() {
     </div>
   );
 }
+
+import { cn } from "@/lib/utils";

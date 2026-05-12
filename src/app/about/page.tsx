@@ -4,7 +4,8 @@ import { Navbar } from "@/components/layout/navbar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ShieldCheck, Zap, Heart, Globe } from "lucide-react";
+import { ShieldCheck, Zap, Heart, Globe, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const stats = [
   { label: 'Products Curated', value: '500+' },
@@ -15,112 +16,110 @@ const stats = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-surface-dark">
+    <div className="min-h-screen bg-white">
       <Navbar />
       
       <main>
-        {/* Hero Section */}
-        <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-brand-navy dark:bg-brand-navy">
-          <div className="absolute inset-0 z-0">
+        {/* Goru-style Hero Section */}
+        <section className="relative h-[50vh] flex items-center bg-[#f4f7f9] overflow-hidden border-b border-gray-100">
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-2xl"
+            >
+              <h1 className="text-[48px] md:text-[72px] font-bold text-text-primary font-heading leading-tight mb-6">
+                The AuviaMart <br/><span className="text-brand-teal font-light">Story</span>
+              </h1>
+              <p className="text-[18px] md:text-[20px] text-text-secondary font-medium max-w-xl">
+                Redefining modern living in Pakistan through premium curation and exceptional service.
+              </p>
+            </motion.div>
+          </div>
+          
+          <div className="hidden lg:block absolute right-0 top-0 w-1/2 h-full">
             <Image
               src="/products/1778482194382.jpeg"
               alt="About AuviaMart"
               fill
-              className="object-cover opacity-40 grayscale"
+              className="object-cover grayscale opacity-20"
             />
           </div>
-          <div className="relative z-10 text-center text-white px-4">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-5xl md:text-7xl font-serif italic mb-6"
-            >
-              The *AuviaMart* Story
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-xl md:text-2xl opacity-80 max-w-2xl mx-auto"
-            >
-              Redefining modern living in Pakistan through premium curation and exceptional service.
-            </motion.p>
-          </div>
         </section>
 
-        {/* Mission Section */}
-        <section className="py-24 container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-serif mb-8">Our Mission</h2>
-            <p className="text-lg md:text-xl leading-relaxed opacity-70 mb-12">
-              At Auvia Mart, we believe that your home is your sanctuary. Our mission is to provide Pakistan with a 
-              personally curated selection of high-end home decor, innovative appliances, and lifestyle essentials 
-              that blend aesthetic beauty with modern functionality.
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {stats.map((stat, i) => (
-                <div key={i} className="p-6 bg-gray-50 dark:bg-surface-dark rounded-2xl">
-                  <div className="text-3xl font-bold text-brand-teal mb-2">{stat.value}</div>
-                  <div className="text-xs font-bold uppercase tracking-widest opacity-50">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+        {/* Goru-style Mission Section */}
+        <section className="py-24 bg-white border-b border-gray-100 relative overflow-hidden">
+          <div className="hidden xl:block absolute left-[5%] top-1/2 -translate-y-1/2">
+            <span className="vertical-label !text-text-primary/10 text-[24px]">Our <span className="font-light">Mission</span></span>
           </div>
-        </section>
 
-        {/* Values Section */}
-        <section className="py-24 bg-white dark:bg-surface-dark">
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-serif mb-16 text-center">Our Core Values</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="flex flex-col lg:flex-row gap-16 items-center">
+              <div className="lg:w-1/2">
+                <h2 className="goru-section-title">Our Mission</h2>
+                <p className="text-[18px] leading-[32px] text-text-secondary font-medium mb-12">
+                  At Auvia Mart, we believe that your home is your sanctuary. Our mission is to provide Pakistan with a 
+                  personally curated selection of high-end home decor, innovative appliances, and lifestyle essentials 
+                  that blend aesthetic beauty with modern functionality.
+                </p>
+                <div className="grid grid-cols-2 gap-0 border-t border-l border-gray-100 bg-white">
+                  {stats.map((stat, i) => (
+                    <div key={i} className="p-10 border-r border-b border-gray-100 hover:bg-[#f4f7f9] transition-colors duration-400">
+                      <div className="text-[36px] font-bold text-brand-teal font-heading mb-2">{stat.value}</div>
+                      <div className="text-[12px] font-bold uppercase tracking-widest text-text-secondary">{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="lg:w-1/2 w-full">
+                 <div className="relative aspect-[4/3] bg-[#f4f7f9] p-8">
+                    <Image
+                      src="/products/1778480800636.jpeg"
+                      alt="Mission"
+                      fill
+                      className="object-cover border-[15px] border-white shadow-2xl"
+                    />
+                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Goru-style Values Section */}
+        <section className="py-24 bg-[#f4f7f9] border-b border-gray-100">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+               <h2 className="goru-section-title">Our Core Values</h2>
+               <p className="goru-section-desc mx-auto">We travel the world to bring unique, exclusive pieces found nowhere else.</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-0 border-t border-l border-gray-100 bg-white">
               {[
-                { icon: ShieldCheck, title: 'Uncompromising Quality', desc: 'Every product in our catalog undergoes rigorous quality checks before reaching your door.' },
-                { icon: Zap, title: 'Innovation First', desc: 'We source the latest tech and trends to keep your home at the forefront of modern living.' },
-                { icon: Heart, title: 'Customer Obsession', desc: 'Our relationship with you begins at checkout. We provide 24/7 support for all our products.' },
-                { icon: Globe, title: 'Global Sourcing', desc: 'We travel the world to bring unique, exclusive pieces that you won’t find anywhere else in Pakistan.' },
+                { icon: ShieldCheck, title: 'Quality', desc: 'Every product undergoes rigorous quality checks before reaching your door.' },
+                { icon: Zap, title: 'Innovation', desc: 'We source the latest tech to keep your home at the forefront of modern living.' },
+                { icon: Heart, title: 'Service', desc: 'Our relationship begins at checkout. We provide 24/7 support for all products.' },
+                { icon: Globe, title: 'Sourcing', desc: 'Unique, exclusive pieces that you won’t find anywhere else in Pakistan.' },
               ].map((value, i) => (
-                <div key={i} className="p-8 bg-white dark:bg-white rounded-3xl shadow-sm hover:shadow-xl transition-shadow group">
-                  <div className="w-16 h-16 bg-brand-teal/10 rounded-2xl flex items-center justify-center text-brand-teal mb-6 group-hover:scale-110 transition-transform">
-                    <value.icon size={32} />
+                <div key={i} className="p-12 border-r border-b border-gray-100 hover:bg-[#f4f7f9] transition-all duration-400 group">
+                  <div className="w-20 h-20 bg-white border-2 border-gray-100 flex items-center justify-center text-text-primary mb-8 group-hover:bg-brand-teal group-hover:text-white group-hover:border-brand-teal transition-all duration-400">
+                    <value.icon size={40} strokeWidth={1} />
                   </div>
-                  <h3 className="text-xl font-bold mb-4">{value.title}</h3>
-                  <p className="text-sm opacity-60 leading-relaxed">{value.desc}</p>
+                  <h3 className="text-[20px] font-bold font-heading mb-4 uppercase tracking-widest text-text-primary">{value.title}</h3>
+                  <p className="text-[14px] text-text-secondary leading-relaxed font-medium">{value.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Founder Section */}
-        <section className="py-24 container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
-            <div className="lg:w-1/2 relative aspect-[4/5] w-full max-w-md rounded-3xl overflow-hidden shadow-2xl">
-              <Image
-                src="/products/1778480800636.jpeg"
-                alt="Founder"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="lg:w-1/2">
-              <span className="text-brand-teal font-bold uppercase tracking-widest text-xs mb-4 block">A Message from our Founder</span>
-              <h2 className="text-4xl md:text-5xl font-serif italic mb-8">&ldquo;We curate for the discerning home.&rdquo;</h2>
-              <div className="space-y-6 opacity-70 text-lg leading-relaxed">
-                <p>
-                  AuviaMart was born out of a simple need: the desire for premium, reliable, and stylish home essentials in Pakistan. 
-                  As a resident of Islamabad, I found it difficult to find a single destination that offered both quality and aesthetic appeal.
-                </p>
-                <p>
-                  Today, we are proud to be that destination. Whether it is our signature 3D DIY clocks or our ultra-portable 
-                  cooling solutions, every item we sell is something we would (and do) use in our own homes.
-                </p>
-              </div>
-              <div className="mt-12">
-                <div className="text-2xl font-serif italic">Roshaan Tasneem</div>
-                <div className="text-sm uppercase tracking-widest font-bold opacity-40 mt-1">Founder, Auvia Mart</div>
-              </div>
-            </div>
-          </div>
+        {/* Goru-style CTA */}
+        <section className="py-24 bg-white text-center">
+           <div className="container mx-auto px-4">
+              <h2 className="text-[48px] font-bold text-text-primary font-heading mb-8">Ready to transform your home?</h2>
+              <Link href="/products" className="goru-btn">
+                 Shop Collection
+              </Link>
+           </div>
         </section>
       </main>
 

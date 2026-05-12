@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/layout/navbar';
 import { MobileNav } from '@/components/layout/mobile-nav';
 import { ProductCard } from '@/components/products/product-card';
-import { SlidersHorizontal, X, ChevronDown, Loader2 } from 'lucide-react';
+import { SlidersHorizontal, X, ChevronDown, Loader2, Grid } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getProductsAction } from '@/lib/actions';
 
@@ -32,106 +32,114 @@ export default function ProductsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-white dark:bg-surface-dark">
+    <div className="min-h-screen bg-white font-sans">
       <Navbar />
       
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col lg:flex-row gap-12">
+      {/* Goru-style Page Header */}
+      <section className="bg-[#f4f7f9] py-16 border-b border-gray-100">
+        <div className="container mx-auto px-4">
+          <h1 className="text-[48px] font-bold text-text-primary font-heading">Shop</h1>
+          <p className="text-text-secondary text-[16px] font-medium">Home / <span className="text-brand-teal">Product Collection</span></p>
+        </div>
+      </section>
+
+      <div className="container mx-auto px-4 py-20">
+        <div className="flex flex-col lg:flex-row gap-16">
           
-          {/* Desktop Filter Sidebar */}
-          <aside className="hidden lg:block w-64 space-y-10 sticky top-28 h-fit">
+          {/* Goru-style Sidebar */}
+          <aside className="hidden lg:block w-72 space-y-12">
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-brand-teal mb-6">Categories</h3>
+              <h3 className="text-[20px] font-bold text-text-primary font-heading mb-8 border-b border-gray-100 pb-4 relative">
+                Product Categories
+                <div className="absolute bottom-0 left-0 w-12 h-[2px] bg-brand-teal" />
+              </h3>
               <div className="space-y-4">
                 {categories.map(cat => (
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
                     className={cn(
-                      "block text-sm transition-colors hover:text-brand-teal",
-                      selectedCategory === cat ? "text-brand-teal font-bold" : "text-gray-500"
+                      "flex items-center justify-between w-full text-[16px] transition-all duration-300 hover:text-brand-teal font-medium",
+                      selectedCategory === cat ? "text-brand-teal" : "text-text-secondary"
                     )}
                   >
-                    {cat}
+                    <span>{cat}</span>
+                    <span className="text-[12px] opacity-40">({products.filter(p => p.category === cat || cat === 'All').length})</span>
                   </button>
                 ))}
               </div>
             </div>
 
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-brand-teal mb-6">Price Range</h3>
-              <div className="space-y-4">
-                <input type="range" className="w-full accent-brand-teal" />
-                <div className="flex justify-between text-xs text-gray-500">
+            <div className="bg-[#f4f7f9] p-8">
+              <h3 className="text-[20px] font-bold text-text-primary font-heading mb-6">Price Filter</h3>
+              <div className="space-y-6">
+                <input type="range" className="w-full accent-brand-teal h-1 bg-gray-200 rounded-none appearance-none cursor-pointer" />
+                <div className="flex items-center justify-between text-[14px] font-bold text-text-primary">
                   <span>Rs. 0</span>
                   <span>Rs. 50,000+</span>
                 </div>
+                <button className="w-full py-3 border-2 border-text-primary text-[12px] font-bold uppercase tracking-widest hover:bg-text-primary hover:text-white transition-all">
+                  Filter Now
+                </button>
               </div>
             </div>
           </aside>
 
-          {/* Mobile Filter Toggle */}
-          <div className="lg:hidden flex items-center justify-between mb-8">
-            <button
-              onClick={() => setIsFilterOpen(true)}
-              className="flex items-center gap-2 bg-white dark:bg-white px-6 py-3 rounded-full border shadow-sm"
-            >
-              <SlidersHorizontal size={18} />
-              <span className="text-sm font-medium">Filters</span>
-            </button>
-            
-            <div className="relative">
-              <select className="bg-white dark:bg-white border rounded-full px-6 py-3 text-sm outline-none appearance-none">
-                <option>Featured</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Newest</option>
-              </select>
-              <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50" />
-            </div>
-          </div>
-
-          {/* Product Grid */}
+          {/* Goru-style Product Content */}
           <div className="flex-1">
-            <div className="flex items-end justify-between mb-8 hidden lg:flex">
-              <p className="text-sm text-gray-500">
-                {loading ? 'Loading...' : (
-                  <>Showing <span className="text-foreground font-bold">{filteredProducts.length}</span> products</>
+            <div className="flex items-center justify-between mb-12 border-b border-gray-100 pb-6">
+              <p className="text-[16px] text-text-secondary font-medium">
+                {loading ? 'Discovering...' : (
+                  <>Showing <span className="text-text-primary font-bold">{filteredProducts.length}</span> results</>
                 )}
               </p>
-              <div className="flex items-center gap-4">
-                <span className="text-xs font-bold uppercase tracking-widest opacity-40">Sort By:</span>
-                <select className="bg-transparent border-b border-gray-200 py-1 text-sm outline-none focus:border-brand-teal transition-colors">
-                  <option>Featured</option>
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
-                  <option>Newest</option>
-                </select>
+              
+              <div className="flex items-center gap-8">
+                <div className="hidden md:flex items-center gap-2">
+                  <Grid size={20} className="text-brand-teal" />
+                  <span className="text-gray-200">|</span>
+                </div>
+                <div className="relative">
+                  <select 
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value)}
+                    className="bg-transparent text-[14px] font-bold text-text-primary outline-none cursor-pointer pr-8 appearance-none"
+                  >
+                    <option>Default Sorting</option>
+                    <option>Price: Low to High</option>
+                    <option>Price: High to Low</option>
+                    <option>Newest Arrivals</option>
+                  </select>
+                  <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
               </div>
             </div>
 
             {loading ? (
-              <div className="flex items-center justify-center py-20">
-                <Loader2 className="animate-spin text-brand-teal" size={40} />
+              <div className="flex items-center justify-center py-40">
+                <Loader2 className="animate-spin text-brand-teal" size={48} strokeWidth={1.5} />
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-gray-100 bg-white">
                 {filteredProducts.map(product => (
-                  <ProductCard key={product.id} {...(product as any)} />
+                  <div key={product.id} className="border-r border-b border-gray-100 p-8 hover:bg-[#f4f7f9] transition-all duration-400">
+                    <ProductCard {...(product as any)} />
+                  </div>
                 ))}
               </div>
             )}
             
             {!loading && filteredProducts.length === 0 && (
-              <div className="text-center py-20">
-                <p className="text-gray-500">No products found in this category.</p>
+              <div className="text-center py-40 bg-[#f4f7f9]">
+                <h3 className="text-[24px] font-bold text-text-primary font-heading mb-4">No Products Found</h3>
+                <p className="text-text-secondary font-medium">Try selecting a different category or adjusting filters.</p>
               </div>
             )}
           </div>
         </div>
       </div>
 
-      {/* Mobile Filter Drawer */}
+      {/* Mobile Filter Overlay */}
       <AnimatePresence>
         {isFilterOpen && (
           <>
@@ -140,36 +148,34 @@ export default function ProductsPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsFilterOpen(false)}
-              className="fixed inset-0 bg-black/60 z-[60] backdrop-blur-sm"
+              className="fixed inset-0 bg-black/60 z-[200] backdrop-blur-sm"
             />
             <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-x-0 bottom-0 z-[70] bg-white dark:bg-surface-dark rounded-t-3xl max-h-[85vh] overflow-y-auto p-8"
+              className="fixed inset-y-0 left-0 z-[210] w-[80%] bg-white p-8 overflow-y-auto"
             >
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-serif italic">Filters</h2>
-                <button onClick={() => setIsFilterOpen(false)} className="tap-target">
-                  <X size={24} />
+              <div className="flex items-center justify-between mb-12">
+                <h2 className="text-[24px] font-bold text-text-primary font-heading">Filters</h2>
+                <button onClick={() => setIsFilterOpen(false)} className="p-2 border-2 border-gray-100">
+                  <X size={20} />
                 </button>
               </div>
               
               {/* Filter Content */}
-              <div className="space-y-10">
+              <div className="space-y-12">
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-brand-teal mb-4">Categories</h3>
-                  <div className="flex flex-wrap gap-2">
+                  <h3 className="text-[18px] font-bold text-text-primary font-heading mb-6 border-b-2 border-brand-teal w-fit pb-1">Categories</h3>
+                  <div className="flex flex-col gap-4">
                     {categories.map(cat => (
                       <button
                         key={cat}
-                        onClick={() => setSelectedCategory(cat)}
+                        onClick={() => { setSelectedCategory(cat); setIsFilterOpen(false); }}
                         className={cn(
-                          "px-6 py-2 rounded-full border text-sm transition-all",
-                          selectedCategory === cat 
-                            ? "bg-brand-teal text-white border-brand-teal" 
-                            : "bg-gray-50 dark:bg-white/5"
+                          "text-left text-[16px] font-medium transition-all",
+                          selectedCategory === cat ? "text-brand-teal font-bold translate-x-2" : "text-text-secondary"
                         )}
                       >
                         {cat}
@@ -177,18 +183,22 @@ export default function ProductsPage() {
                     ))}
                   </div>
                 </div>
-
-                <button
-                  onClick={() => setIsFilterOpen(false)}
-                  className="w-full bg-brand-teal text-white py-4 rounded-2xl font-bold shadow-lg shadow-brand-teal/20"
-                >
-                  Apply Filters
-                </button>
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
+
+      {/* Mobile Sticky Filter Button */}
+      <div className="lg:hidden fixed bottom-24 left-1/2 -translate-x-1/2 z-50">
+         <button 
+           onClick={() => setIsFilterOpen(true)}
+           className="bg-brand-navy text-white px-8 py-4 rounded-none shadow-2xl flex items-center gap-3 font-bold uppercase tracking-widest text-[12px]"
+         >
+           <SlidersHorizontal size={16} />
+           Filters
+         </button>
+      </div>
 
       <MobileNav />
     </div>

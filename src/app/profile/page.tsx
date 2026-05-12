@@ -10,11 +10,11 @@ import {
   Phone, 
   MapPin, 
   ShoppingBag, 
-  Settings, 
   LogOut, 
   ChevronRight,
   Loader2,
-  Package
+  Package,
+  Heart
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getSessionAction, getUserOrdersAction, logoutAction, getUsersAction } from "@/lib/actions";
@@ -32,7 +32,6 @@ export default function ProfilePage() {
     async function fetchData() {
       const sess = await getSessionAction();
       if (sess?.email) {
-        // Fetch full user doc
         const users = await getUsersAction();
         const fullProfile = users.find((u:any) => u.email === sess.email);
         setSession({ ...sess, ...fullProfile });
@@ -53,8 +52,8 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
-        <Loader2 className="animate-spin text-brand-teal" size={40} />
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+        <Loader2 className="animate-spin text-brand-teal" size={48} strokeWidth={1.5} />
       </div>
     );
   }
@@ -65,133 +64,119 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-surface-dark">
+    <div className="min-h-screen bg-white">
       <Navbar />
       
-      <main className="flex-1 container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12">
+      {/* Goru-style Header */}
+      <section className="bg-[#f4f7f9] py-16 border-b border-gray-100">
+        <div className="container mx-auto px-4">
+          <h1 className="text-[48px] font-bold text-text-primary font-heading">My Account</h1>
+          <p className="text-text-secondary text-[16px] font-medium">Dashboard / <span className="text-brand-teal">Profile</span></p>
+        </div>
+      </section>
+
+      <main className="container mx-auto px-4 py-20 lg:py-32">
+        <div className="flex flex-col lg:flex-row gap-16">
           
-          {/* Sidebar / Info */}
-          <aside className="lg:w-1/3 space-y-8">
-            <div className="bg-white rounded-[2.5rem] p-8 border marble-gloss shadow-xl text-center relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-2 bg-brand-teal" />
-              <div className="w-24 h-24 bg-brand-teal text-white rounded-full flex items-center justify-center text-4xl font-bold mx-auto mb-6 shadow-lg">
-                {session.name?.[0] || session.email?.[0]?.toUpperCase()}
-              </div>
-              <h1 className="text-2xl font-serif italic mb-1">{session.name || 'User'}</h1>
-              <p className="text-gray-500 text-sm mb-8">{session.email}</p>
-              
-              <div className="space-y-4 text-left">
-                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
-                  <Mail size={18} className="text-brand-teal" />
-                  <div>
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Email</p>
-                    <p className="text-sm font-medium">{session.email}</p>
-                  </div>
+          {/* Goru-style Sidebar */}
+          <aside className="lg:w-1/3">
+             <div className="border-t border-l border-gray-100 bg-white mb-12">
+                <div className="p-12 border-r border-b border-gray-100 flex flex-col items-center text-center">
+                   <div className="w-24 h-24 bg-brand-navy text-white flex items-center justify-center text-[32px] font-bold font-heading mb-6">
+                      {session.name?.[0] || session.email?.[0]?.toUpperCase()}
+                   </div>
+                   <h2 className="text-[24px] font-bold text-text-primary font-heading mb-2">{session.name || 'Premium User'}</h2>
+                   <p className="text-brand-teal font-bold uppercase tracking-widest text-[12px]">Platinum Member</p>
                 </div>
-                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
-                  <Phone size={18} className="text-brand-teal" />
-                  <div>
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Phone</p>
-                    <p className="text-sm font-medium">{session.phone_number || 'Not provided'}</p>
-                  </div>
+                
+                <div className="p-8 border-r border-b border-gray-100 space-y-4">
+                   <div className="flex items-center gap-4 text-[14px] font-bold text-text-primary uppercase tracking-widest">
+                      <Mail size={16} className="text-brand-teal" />
+                      <span className="opacity-40 w-20">Email:</span>
+                      <span className="lowercase">{session.email}</span>
+                   </div>
+                   <div className="flex items-center gap-4 text-[14px] font-bold text-text-primary uppercase tracking-widest">
+                      <Phone size={16} className="text-brand-teal" />
+                      <span className="opacity-40 w-20">Phone:</span>
+                      <span>{session.phone_number || '---'}</span>
+                   </div>
                 </div>
-              </div>
 
-              <button 
-                onClick={handleLogout}
-                className="w-full mt-10 flex items-center justify-center gap-2 text-red-500 font-bold hover:bg-red-50 py-3 rounded-xl transition-all"
-              >
-                <LogOut size={18} />
-                Sign Out
-              </button>
-            </div>
-
-            <div className="bg-brand-navy rounded-[2rem] p-8 text-white shadow-xl relative overflow-hidden group">
-               <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-brand-teal/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
-               <h3 className="text-xl font-serif italic mb-4">Membership</h3>
-               <p className="opacity-70 text-sm leading-relaxed mb-6">Enjoy exclusive early access to our curated premium curations.</p>
-               <div className="inline-block bg-accent-gold text-brand-navy px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
-                 Platinum Member
-               </div>
-            </div>
+                <button 
+                  onClick={handleLogout}
+                  className="w-full py-8 border-r border-b border-gray-100 text-[14px] font-bold uppercase tracking-widest text-red-500 hover:bg-[#f4f7f9] transition-all flex items-center justify-center gap-3"
+                >
+                  <LogOut size={18} />
+                  Sign Out Account
+                </button>
+             </div>
           </aside>
 
-          {/* Main Content / Orders */}
-          <div className="flex-1 space-y-8">
-            <div className="flex items-center justify-between">
-              <h2 className="text-3xl font-serif italic">Recent *Orders*</h2>
-              <Link href="/orders" className="text-brand-teal font-bold text-sm flex items-center gap-1 hover:underline">
-                View All <ChevronRight size={16} />
-              </Link>
-            </div>
-
-            {orders.length === 0 ? (
-              <div className="bg-white rounded-[2.5rem] p-16 text-center border marble-gloss shadow-xl">
-                <Package size={64} className="mx-auto mb-6 text-gray-200" />
-                <h3 className="text-xl font-serif mb-2">No orders found</h3>
-                <p className="text-gray-500 mb-8 max-w-sm mx-auto">Discover our premium collections and place your first order via WhatsApp.</p>
-                <Link href="/products" className="inline-flex items-center gap-2 bg-brand-teal text-white px-8 py-4 rounded-full font-bold hover:bg-brand-navy transition-all">
-                  Shop Now
+          {/* Main Content area */}
+          <div className="flex-1">
+             <div className="flex items-center justify-between mb-12 border-b border-gray-100 pb-6">
+                <h3 className="text-[24px] font-bold text-text-primary font-heading">Recent Activity</h3>
+                <Link href="/orders" className="text-[14px] font-bold uppercase tracking-widest text-brand-teal flex items-center gap-2 hover:translate-x-2 transition-transform">
+                   All Orders <ArrowRight size={16} />
                 </Link>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {orders.slice(0, 3).map((order) => (
-                  <Link key={order.id} href="/orders">
-                    <div className="bg-white p-6 rounded-[2rem] border marble-gloss shadow-md hover:shadow-xl transition-all flex items-center justify-between group">
-                      <div className="flex items-center gap-6">
-                        <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-brand-teal group-hover:bg-brand-teal group-hover:text-white transition-colors">
-                          <ShoppingBag size={24} />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{order.id}</p>
-                          <h4 className="font-bold text-brand-navy">{new Date(order.createdAt).toLocaleDateString()}</h4>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center gap-8">
-                        <div className="text-right hidden sm:block">
-                          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Amount</p>
-                          <p className="font-black text-brand-teal">Rs. {order.totalPrice.toLocaleString()}</p>
-                        </div>
-                        <div className={cn(
-                          "px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest",
-                          order.status === 'Pending' ? "bg-amber-100 text-amber-700" :
-                          order.status === 'Delivered' ? "bg-green-100 text-green-700" :
-                          "bg-blue-100 text-blue-700"
-                        )}>
-                          {order.status}
-                        </div>
-                        <ChevronRight size={20} className="text-gray-300 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
+             </div>
 
-            {/* Quick Links */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8">
-              <Link href="/wishlist" className="p-8 bg-white rounded-[2rem] border marble-gloss shadow-md hover:shadow-xl transition-all flex flex-col justify-between h-48 group">
-                <div className="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center group-hover:bg-red-500 group-hover:text-white transition-all shadow-inner">
-                  <Package size={24} />
+             {orders.length === 0 ? (
+               <div className="p-20 bg-[#f4f7f9] text-center border-t border-l border-gray-100 group">
+                  <div className="absolute right-0 bottom-0 border-r border-b border-gray-100 w-full h-full pointer-events-none" />
+                  <Package size={64} strokeWidth={1} className="mx-auto mb-8 text-gray-200" />
+                  <h4 className="text-[20px] font-bold text-text-primary font-heading mb-8">No order history found</h4>
+                  <Link href="/products" className="goru-btn">Start Shopping</Link>
+               </div>
+             ) : (
+               <div className="border-t border-l border-gray-100">
+                  {orders.slice(0, 3).map((order) => (
+                    <div key={order.id} className="p-8 border-r border-b border-gray-100 flex items-center justify-between hover:bg-[#f4f7f9] transition-all group">
+                       <div className="flex items-center gap-8">
+                          <div className="w-16 h-16 bg-white border-2 border-gray-100 flex items-center justify-center text-text-primary font-bold">
+                             <ShoppingBag size={24} strokeWidth={1.5} />
+                          </div>
+                          <div>
+                             <span className="text-[12px] font-bold uppercase tracking-widest text-brand-teal mb-1 block">#{order.id.substring(0, 8)}</span>
+                             <h4 className="text-[18px] font-bold text-text-primary font-heading">{new Date(order.createdAt).toLocaleDateString()}</h4>
+                          </div>
+                       </div>
+                       <div className="flex items-center gap-12">
+                          <div className="text-right hidden sm:block">
+                             <span className="text-[10px] font-bold text-text-primary/40 uppercase tracking-widest mb-1 block">Total Amount</span>
+                             <p className="text-[16px] font-bold text-text-primary font-heading">Rs. {order.totalPrice.toLocaleString()}</p>
+                          </div>
+                          <div className="text-right">
+                             <span className="text-[10px] font-bold text-text-primary/40 uppercase tracking-widest mb-1 block">Status</span>
+                             <span className={cn(
+                               "text-[12px] font-bold uppercase tracking-widest",
+                               order.status === 'Pending' ? "text-amber-600" : "text-brand-teal"
+                             )}>
+                               {order.status}
+                             </span>
+                          </div>
+                       </div>
+                    </div>
+                  ))}
+               </div>
+             )}
+
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-l border-t border-gray-100 mt-12 bg-white">
+                <Link href="/wishlist" className="p-12 border-r border-b border-gray-100 hover:bg-[#f4f7f9] transition-all group">
+                   <div className="w-16 h-16 bg-white border-2 border-gray-100 flex items-center justify-center text-red-500 mb-8 group-hover:scale-110 transition-transform">
+                      <Heart size={32} strokeWidth={1.5} />
+                   </div>
+                   <h4 className="text-[20px] font-bold text-text-primary font-heading mb-4 uppercase tracking-widest">My Wishlist</h4>
+                   <p className="text-[14px] text-text-secondary font-medium">Your saved premium selections.</p>
+                </Link>
+                <div className="p-12 border-r border-b border-gray-100 opacity-40 grayscale">
+                   <div className="w-16 h-16 bg-white border-2 border-gray-100 flex items-center justify-center text-blue-500 mb-8">
+                      <MapPin size={32} strokeWidth={1.5} />
+                   </div>
+                   <h4 className="text-[20px] font-bold text-text-primary font-heading mb-4 uppercase tracking-widest">Shipping Addresses</h4>
+                   <p className="text-[14px] text-text-secondary font-medium">Manage your delivery destinations.</p>
                 </div>
-                <div>
-                  <h4 className="text-xl font-serif italic mb-1">Wishlist</h4>
-                  <p className="text-gray-400 text-xs">Saved premium selections.</p>
-                </div>
-              </Link>
-              <div className="p-8 bg-white rounded-[2rem] border marble-gloss shadow-md hover:shadow-xl transition-all flex flex-col justify-between h-48 group opacity-50 cursor-not-allowed">
-                <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center shadow-inner">
-                  <MapPin size={24} />
-                </div>
-                <div>
-                  <h4 className="text-xl font-serif italic mb-1">Addresses</h4>
-                  <p className="text-gray-400 text-xs">Manage shipping destinations.</p>
-                </div>
-              </div>
-            </div>
+             </div>
           </div>
 
         </div>
@@ -202,3 +187,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+import { ArrowRight } from "lucide-react";

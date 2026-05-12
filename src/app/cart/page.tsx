@@ -17,10 +17,10 @@ export default function CartPage() {
 
   useEffect(() => {
     setMounted(true);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
   }, []);
 
   const handleWhatsAppCheckout = async () => {
+    if (items.length === 0) return;
     setIsProcessing(true);
     try {
       const session = await getSessionAction();
@@ -28,33 +28,40 @@ export default function CartPage() {
       const orderResult = await createOrderAction({
         items,
         totalPrice: totalPrice(),
-        userEmail: session?.email,
-        userId: session?.user_id || session?.uid
+        userEmail: session?.email || 'Guest',
+        userId: session?.user_id || session?.uid || 'Guest'
       });
 
       if (orderResult.success) {
         const phoneNumber = "923216817897";
         const itemDetails = items.map(item => 
-          `*${item.name}* (x${item.quantity}) - Rs. ${(item.price * item.quantity).toLocaleString()}`
+          `• *${item.name}* (x${item.quantity}) - Rs. ${(item.price * item.quantity).toLocaleString()}`
         ).join('\n');
         
-        const message = encodeURIComponent(
-          `🛍️ *New Order from AuviaMart*\n` +
-          `*Order ID:* ${orderResult.orderId}\n\n` +
-          `Hello! I would like to place an order for the following items:\n\n` +
+        const messageText = 
+          `🛍️ *NEW ORDER FROM AUVIAMART*\n` +
+          `──────────────────\n` +
+          `*Order ID:* #${orderResult.orderId}\n\n` +
+          `*Customer Details:*\n` +
+          `Email: ${session?.email || 'Guest User'}\n\n` +
+          `*Order Items:*\n` +
           `${itemDetails}\n\n` +
-          `*Total Amount:* Rs. ${totalPrice().toLocaleString()}\n\n` +
-          `Please confirm my order. Thank you!`
-        );
+          `──────────────────\n` +
+          `*TOTAL AMOUNT:* Rs. ${totalPrice().toLocaleString()}\n` +
+          `──────────────────\n\n` +
+          `Please confirm my order and share payment details. Thank you!`;
+
+        const encodedMessage = encodeURIComponent(messageText);
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
 
         clearCart();
-        window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+        window.open(whatsappUrl, '_blank');
       } else {
-        alert("Failed to initiate order: " + orderResult.error);
+        alert("Order Error: " + orderResult.error);
       }
     } catch (error) {
       console.error("Checkout error:", error);
-      alert("An unexpected error occurred.");
+      alert("Checkout failed. Please check your connection.");
     } finally {
       setIsProcessing(false);
     }
@@ -63,136 +70,150 @@ export default function CartPage() {
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-surface-light dark:bg-surface-dark">
+    <div className="min-h-screen bg-white">
       <Navbar />
       
-      <main className="container mx-auto px-4 py-12 pb-32">
-        <h1 className="text-4xl font-serif mb-12 italic">Your *Cart*</h1>
+      {/* Goru-style Page Header */}
+      <section className="bg-[#f4f7f9] py-16 border-b border-gray-100">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-[48px] font-bold text-text-primary font-heading">Shopping Cart</h1>
+          <p className="text-text-secondary text-[16px] font-medium">Home / <span className="text-brand-teal">Cart</span></p>
+        </div>
+      </section>
 
+      <main className="container mx-auto px-4 py-20">
         {items.length === 0 ? (
-          <div className="text-center py-24 bg-white dark:bg-surface-card-dark rounded-[2rem] border shadow-sm marble-gloss">
-            <div className="w-20 h-20 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-400">
-              <ShoppingBag size={40} />
+          <div className="text-center py-40 bg-[#f4f7f9] border border-gray-100">
+            <div className="w-24 h-24 bg-white border-2 border-gray-100 flex items-center justify-center mx-auto mb-8 text-brand-teal">
+              <ShoppingBag size={48} strokeWidth={1} />
             </div>
-            <h2 className="text-2xl font-serif mb-4 italic">Your cart is empty</h2>
-            <p className="text-gray-500 mb-8 max-w-sm mx-auto">
-              Looks like you haven&apos;t added anything to your cart yet. Explore our curated collections to find something special.
+            <h2 className="text-[32px] font-bold text-text-primary font-heading mb-6">Your cart is empty</h2>
+            <p className="text-text-secondary text-[18px] font-medium mb-12 max-w-md mx-auto leading-relaxed">
+              Looks like you haven&apos;t added anything to your cart yet. Explore our premium curation.
             </p>
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 bg-brand-teal text-white px-8 py-4 rounded-full font-bold hover:bg-brand-navy transition-all shadow-xl shadow-brand-teal/20"
-            >
-              Start Shopping
-              <ArrowRight size={18} />
+            <Link href="/products" className="goru-btn">
+              Return To Shop
             </Link>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-3 gap-12">
+          <div className="flex flex-col lg:flex-row gap-16">
             
-            <div className="lg:col-span-2 space-y-6">
-              <AnimatePresence mode="popLayout">
-                {items.map((item) => (
-                  <motion.div
-                    key={item.id}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    className="flex flex-col sm:flex-row gap-6 p-6 bg-white dark:bg-surface-card-dark rounded-[2rem] border shadow-sm group marble-gloss transition-all hover:shadow-xl"
-                  >
-                    <div className="relative w-full sm:w-32 aspect-square rounded-2xl overflow-hidden bg-gray-50">
-                      <Image src={item.image} alt={item.name} fill className="object-cover" />
-                    </div>
-                    
-                    <div className="flex-1 flex flex-col justify-between">
-                      <div className="flex justify-between items-start gap-4">
-                        <div>
-                          <span className="text-[10px] font-bold text-brand-teal uppercase tracking-widest block mb-1 opacity-60">
-                            {item.brand}
-                          </span>
-                          <h3 className="text-lg font-serif italic group-hover:text-brand-teal transition-colors">
-                            {item.name}
-                          </h3>
-                        </div>
-                        <button
+            <div className="lg:w-2/3">
+              <div className="border-t border-l border-gray-100 bg-white overflow-hidden">
+                <div className="hidden sm:grid grid-cols-6 bg-[#f4f7f9] border-b border-r border-gray-100 p-6 text-[14px] font-bold uppercase tracking-widest text-text-primary">
+                   <div className="col-span-3">Product</div>
+                   <div className="text-center">Price</div>
+                   <div className="text-center">Quantity</div>
+                   <div className="text-right">Total</div>
+                </div>
+
+                <AnimatePresence mode="popLayout">
+                  {items.map((item) => (
+                    <motion.div
+                      key={item.id}
+                      layout
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="grid grid-cols-1 sm:grid-cols-6 border-b border-r border-gray-100 p-8 items-center gap-6 group hover:bg-[#f4f7f9] transition-colors"
+                    >
+                      <div className="col-span-1 sm:col-span-3 flex items-center gap-6">
+                        <button 
                           onClick={() => removeItem(item.id)}
-                          className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                          className="text-gray-300 hover:text-red-500 transition-colors"
                         >
-                          <Trash2 size={20} />
+                          <X size={20} strokeWidth={3} />
                         </button>
+                        <div className="relative w-24 h-24 flex-shrink-0 bg-white border border-gray-100 p-2">
+                           <Image src={item.image} alt={item.name} fill className="object-contain" />
+                        </div>
+                        <div>
+                           <h3 className="text-[18px] font-bold text-text-primary font-heading line-clamp-1 hover:text-brand-teal transition-colors">
+                             <Link href={`/products/${item.id}`}>{item.name}</Link>
+                           </h3>
+                           <span className="text-[12px] font-bold uppercase tracking-widest text-brand-teal opacity-60">{item.brand}</span>
+                        </div>
                       </div>
 
-                      <div className="flex items-center justify-between mt-6">
-                        <div className="flex items-center border rounded-full px-4 py-1.5 bg-gray-50">
+                      <div className="text-center text-[16px] font-bold text-text-primary">
+                        <span className="sm:hidden text-[12px] uppercase opacity-40 mr-2">Price:</span>
+                        Rs. {item.price.toLocaleString()}
+                      </div>
+
+                      <div className="flex justify-center">
+                        <div className="flex items-center border-2 border-gray-100 bg-white h-12">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="p-1 hover:text-brand-teal transition-colors"
+                            className="px-4 hover:text-brand-teal transition-colors"
                           >
-                            <Minus size={16} />
+                            <Minus size={14} strokeWidth={3} />
                           </button>
-                          <span className="w-12 text-center font-bold font-serif">{item.quantity}</span>
+                          <span className="w-10 text-center font-bold text-text-primary text-[14px]">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="p-1 hover:text-brand-teal transition-colors"
+                            className="px-4 hover:text-brand-teal transition-colors"
                           >
-                            <Plus size={16} />
+                            <Plus size={14} strokeWidth={3} />
                           </button>
                         </div>
-                        <div className="text-xl font-bold text-brand-navy">
-                          Rs. {(item.price * item.quantity).toLocaleString()}
-                        </div>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+
+                      <div className="text-right text-[16px] font-bold text-brand-teal">
+                        <span className="sm:hidden text-[12px] uppercase opacity-40 mr-2">Total:</span>
+                        Rs. {(item.price * item.quantity).toLocaleString()}
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+
+              <div className="mt-12 flex flex-col sm:flex-row justify-between items-center gap-8">
+                 <div className="flex gap-4 w-full sm:w-auto">
+                    <input 
+                      placeholder="Coupon Code" 
+                      className="bg-white border-2 border-gray-100 px-6 py-4 outline-none focus:border-brand-teal transition-all flex-1 sm:w-64 text-[14px] font-medium"
+                    />
+                    <button className="goru-btn !h-[56px] !px-8 !text-[12px]">Apply</button>
+                 </div>
+                 <Link href="/products" className="text-[14px] font-bold uppercase tracking-widest text-text-primary hover:text-brand-teal transition-colors">
+                    Update Cart
+                 </Link>
+              </div>
             </div>
 
-            <div className="lg:col-span-1">
-              <div className="bg-white dark:bg-surface-card-dark rounded-[2.5rem] border p-8 shadow-xl sticky top-28 marble-gloss">
-                <h2 className="text-2xl font-serif mb-8 italic">Order *Summary*</h2>
+            <div className="lg:w-1/3">
+              <div className="bg-[#f4f7f9] p-10 border border-gray-100">
+                <h2 className="text-[24px] font-bold text-text-primary font-heading mb-8 border-b border-gray-200 pb-4 relative">
+                  Cart Totals
+                  <div className="absolute bottom-0 left-0 w-12 h-[2px] bg-brand-teal" />
+                </h2>
                 
-                <div className="space-y-4 mb-8">
-                  <div className="flex justify-between text-gray-500">
-                    <span className="text-sm">Subtotal ({totalItems()} items)</span>
-                    <span className="font-bold text-brand-navy">Rs. {totalPrice().toLocaleString()}</span>
+                <div className="space-y-6 mb-10">
+                  <div className="flex justify-between text-[16px] font-bold text-text-primary">
+                    <span>Subtotal</span>
+                    <span>Rs. {totalPrice().toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-gray-500">
-                    <span className="text-sm">Delivery Fee</span>
-                    <span className="text-green-600 font-black text-xs tracking-widest uppercase">FREE</span>
+                  <div className="flex justify-between text-[16px] font-bold text-text-primary">
+                    <span>Shipping</span>
+                    <span className="text-brand-teal">Free Shipping</span>
                   </div>
-                  <div className="pt-6 border-t flex justify-between items-center">
-                    <span className="text-lg font-serif italic">Total Amount</span>
-                    <span className="text-3xl font-black text-brand-teal">Rs. {totalPrice().toLocaleString()}</span>
+                  <div className="pt-6 border-t border-gray-200 flex justify-between items-center text-[20px] font-bold text-text-primary">
+                    <span>Total</span>
+                    <span className="text-brand-teal">Rs. {totalPrice().toLocaleString()}</span>
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <button 
-                    onClick={handleWhatsAppCheckout}
-                    disabled={isProcessing}
-                    className="w-full bg-brand-teal text-white py-5 rounded-2xl text-lg font-bold shadow-xl shadow-brand-teal/20 hover:bg-brand-navy transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group"
-                  >
-                    {isProcessing ? (
-                      <>
-                        <Loader2 className="animate-spin" size={20} />
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        Checkout via WhatsApp
-                        <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                <div className="mt-8 pt-8 border-t border-gray-50 flex items-center justify-center gap-6 opacity-30 grayscale scale-75">
-                  <span className="text-[10px] font-bold">VISA</span>
-                  <span className="text-[10px] font-bold">MASTERCARD</span>
-                  <span className="text-[10px] font-bold">AMEX</span>
-                  <span className="text-[10px] font-bold">APPLE PAY</span>
-                </div>
+                <button 
+                  onClick={handleWhatsAppCheckout}
+                  disabled={isProcessing}
+                  className="goru-btn w-full !bg-text-primary !text-white hover:!bg-brand-teal !border-none flex items-center justify-center gap-3 disabled:opacity-50"
+                >
+                  {isProcessing ? (
+                    <Loader2 className="animate-spin" size={20} />
+                  ) : (
+                    'Proceed to WhatsApp'
+                  )}
+                </button>
               </div>
             </div>
           </div>
