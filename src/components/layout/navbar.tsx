@@ -60,17 +60,17 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "sticky top-0 z-[100] w-full transition-all duration-500 border-b border-gray-100",
+          "sticky top-0 z-[100] w-full transition-all duration-500 border-b border-white/5",
           isScrolled 
-            ? "bg-white/95 backdrop-blur-xl py-2 shadow-xl" 
-            : "bg-white py-6"
+            ? "bg-brand-navy/95 backdrop-blur-xl py-2 shadow-2xl shadow-black/20" 
+            : "bg-brand-navy py-6"
         )}
       >
         <div className="container mx-auto px-4 md:px-12 flex items-center justify-between">
           
           {/* Logo Section */}
           <div className="flex-shrink-0">
-            <Logo shrink={isScrolled} />
+            <Logo shrink={isScrolled} transparent={true} />
           </div>
 
           {/* Main Menu (Goru Style) */}
@@ -81,7 +81,7 @@ export function Navbar() {
                 href={link.href}
                 className={cn(
                   "text-[16px] font-bold uppercase tracking-widest transition-colors duration-400 font-heading",
-                  pathname === link.href ? "text-brand-teal" : "text-text-primary hover:text-brand-teal"
+                  pathname === link.href ? "text-accent-gold" : "text-white hover:text-accent-gold"
                 )}
               >
                 {link.name}
@@ -90,37 +90,37 @@ export function Navbar() {
           </nav>
 
           {/* Header Icons (Goru Style) */}
-          <div className="flex items-center gap-6 text-text-primary">
+          <div className="flex items-center gap-6 text-white">
             <button 
               onClick={() => setIsSearchOpen(true)}
-              className="tap-target hover:text-brand-teal transition-all duration-400"
+              className="tap-target hover:text-accent-gold transition-all duration-400"
             >
               <Search size={22} strokeWidth={2} />
             </button>
 
-            <Link href="/wishlist" title="Wishlist" className="tap-target relative hover:text-brand-teal transition-all duration-400 hidden sm:flex">
+            <Link href="/wishlist" title="Wishlist" className="tap-target relative hover:text-accent-gold transition-all duration-400 hidden sm:flex">
               <Heart size={22} strokeWidth={2} />
               {wishlistCount > 0 && (
-                <span className="absolute top-2 right-2 bg-brand-teal text-white text-[9px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold">
+                <span className="absolute top-2 right-2 bg-accent-gold text-brand-navy text-[9px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-bold">
                   {wishlistCount}
                 </span>
               )}
             </Link>
 
-            <Link href="/cart" title="Cart" className="tap-target relative hover:text-brand-teal transition-all duration-400">
+            <Link href="/cart" title="Cart" className="tap-target relative hover:text-accent-gold transition-all duration-400">
                <div className="flex items-center gap-2">
                  <ShoppingCart size={22} strokeWidth={2} />
-                 <span className="text-[14px] font-bold text-text-primary">{cartCount}</span>
+                 <span className="text-[14px] font-bold">{cartCount}</span>
                </div>
             </Link>
 
-            <div className="h-8 w-[1px] bg-gray-100 mx-2 hidden md:block" />
+            <div className="h-8 w-[1px] bg-white/10 mx-2 hidden md:block" />
 
             {session ? (
               <div className="flex items-center gap-4">
                 <Link 
                   href={isAdmin ? "/dashboard" : "/profile"} 
-                  className="hidden md:flex items-center gap-2 text-[14px] font-bold uppercase tracking-widest hover:text-brand-teal transition-colors"
+                  className="hidden md:flex items-center gap-2 text-[14px] font-bold uppercase tracking-widest hover:text-accent-gold transition-colors"
                 >
                   <User size={18} />
                   <span>{isAdmin ? 'Admin' : 'Account'}</span>
@@ -129,7 +129,7 @@ export function Navbar() {
             ) : (
               <Link 
                 href="/auth/signin"
-                className="hidden md:flex items-center gap-2 text-[14px] font-bold uppercase tracking-widest hover:text-brand-teal transition-colors"
+                className="hidden md:flex items-center gap-2 text-[14px] font-bold uppercase tracking-widest hover:text-accent-gold transition-colors"
               >
                 <User size={18} />
                 <span>Account</span>
@@ -139,7 +139,7 @@ export function Navbar() {
             {/* Mobile Menu Toggle */}
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden tap-target hover:text-brand-teal transition-all"
+              className="lg:hidden tap-target hover:text-accent-gold transition-all"
             >
               <Menu size={24} />
             </button>
@@ -154,7 +154,7 @@ export function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-text-primary/95 backdrop-blur-2xl flex items-center justify-center p-4"
+            className="fixed inset-0 z-[200] bg-brand-navy/95 backdrop-blur-2xl flex items-center justify-center p-4"
           >
             <button 
               onClick={() => setIsSearchOpen(false)}
@@ -174,9 +174,9 @@ export function Navbar() {
                   autoFocus
                   type="text"
                   placeholder="Search Products..."
-                  className="w-full bg-transparent border-b-2 border-white/10 py-8 text-4xl md:text-7xl font-heading font-bold italic text-white placeholder:text-white/10 focus:outline-none focus:border-brand-teal transition-all"
+                  className="w-full bg-transparent border-b-2 border-white/10 py-8 text-4xl md:text-7xl font-heading font-bold italic text-white placeholder:text-white/10 focus:outline-none focus:border-accent-gold transition-all"
                 />
-                <button className="absolute right-0 top-1/2 -translate-y-1/2 text-brand-teal hover:scale-110 transition-transform">
+                <button className="absolute right-0 top-1/2 -translate-y-1/2 text-accent-gold hover:scale-110 transition-transform">
                   <ArrowRight size={48} strokeWidth={1.5} />
                 </button>
               </motion.div>
@@ -201,10 +201,10 @@ export function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 right-0 z-[160] w-full max-w-[300px] bg-white p-8 lg:hidden"
+              className="fixed inset-y-0 right-0 z-[160] w-full max-w-[300px] bg-brand-navy p-8 lg:hidden text-white"
             >
               <div className="flex justify-between items-center mb-12">
-                <Logo />
+                <Logo transparent={true} />
                 <button onClick={() => setIsMobileMenuOpen(false)}>
                   <X size={24} />
                 </button>
@@ -217,7 +217,7 @@ export function Navbar() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
                       "text-xl font-bold uppercase tracking-widest font-heading",
-                      pathname === link.href ? "text-brand-teal" : "text-text-primary"
+                      pathname === link.href ? "text-accent-gold" : "text-white"
                     )}
                   >
                     {link.name}
