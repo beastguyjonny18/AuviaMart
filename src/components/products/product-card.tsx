@@ -43,109 +43,77 @@ export function ProductCard({ id, slug, name, brand, price, image, badge, rating
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="group h-full"
-    >
-      <Link 
-        href={`/products/${slug}`} 
-        className="block h-full bg-white dark:bg-white rounded-[2.5rem] overflow-hidden marble-gloss border border-transparent hover:border-brand-teal/20 transition-all duration-700 hover:shadow-2xl p-4"
-      >
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-surface-light">
-          {/* Goru-style Badge */}
-          {badge && (
-            <div className="absolute top-5 left-5 z-10 bg-brand-navy text-white text-[9px] font-black px-4 py-2 rounded-full tracking-[0.2em] shadow-2xl flex items-center gap-2 border border-white/10">
-              <div className="w-1.5 h-1.5 rounded-full bg-accent-gold animate-pulse" />
+    <div className="group relative">
+      {/* Goru-style Image Container */}
+      <div className="relative aspect-square overflow-hidden bg-white mb-6">
+        {/* Badge */}
+        {badge && (
+          <div className="absolute top-4 left-4 z-10">
+            <p className={cn(
+              "text-[10px] font-bold uppercase tracking-widest px-3 py-1 text-white",
+              badge === 'SALE' ? "bg-red-500" : "bg-brand-teal"
+            )}>
               {badge}
-            </div>
-          )}
-          
-          {/* Floating Actions (Visible on Hover) */}
-          <div className="absolute top-5 right-5 z-10 flex flex-col gap-3 translate-x-12 group-hover:translate-x-0 transition-transform duration-500 ease-out">
-            <button
-              onClick={handleWishlist}
-              className={cn(
-                "w-11 h-11 rounded-2xl flex items-center justify-center shadow-xl backdrop-blur-md transition-all duration-300",
-                isWishlisted ? "bg-red-500 text-white" : "bg-white/90 text-brand-navy hover:bg-brand-teal hover:text-white"
-              )}
-            >
-              <Heart size={20} fill={isWishlisted ? "currentColor" : "none"} />
-            </button>
-            <div className="w-11 h-11 bg-white/90 text-brand-navy rounded-2xl flex items-center justify-center shadow-xl backdrop-blur-md hover:bg-brand-teal hover:text-white transition-all duration-300">
-               <Eye size={20} />
-            </div>
+            </p>
           </div>
+        )}
 
-          {/* Product Image with Goru-style Zoom */}
-          <div className="relative w-full h-full group-hover:scale-110 group-hover:rotate-2 transition-transform duration-1000 ease-out">
-            <Image
-              src={image}
-              alt={name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+        <Image
+          src={image}
+          alt={name}
+          fill
+          className="object-contain p-4 group-hover:scale-110 transition-transform duration-700 ease-out"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+        />
+
+        {/* Goru-style Hover Actions */}
+        <div className="absolute bottom-0 left-0 w-full translate-y-full group-hover:translate-y-0 transition-transform duration-400 bg-white/95 backdrop-blur-sm border-t border-gray-100 flex items-center justify-between">
+           <button 
+             onClick={handleAddToCart}
+             className="flex-1 py-4 flex items-center justify-center gap-2 text-[12px] font-bold uppercase tracking-widest text-text-primary hover:text-brand-teal transition-colors"
+           >
+             <ShoppingCart size={16} />
+             <span>{isAdded ? 'Added' : 'Add To Cart'}</span>
+           </button>
+           <div className="w-px h-10 bg-gray-100" />
+           <button 
+             onClick={handleWishlist}
+             className={cn(
+               "px-6 py-4 transition-colors",
+               isWishlisted ? "text-red-500" : "text-text-primary hover:text-brand-teal"
+             )}
+           >
+             <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
+           </button>
+        </div>
+      </div>
+
+      {/* Goru-style Details */}
+      <div className="space-y-2 text-center">
+        <h4 className="text-[18px] font-bold text-text-primary font-heading line-clamp-1 group-hover:text-brand-teal transition-colors duration-400">
+          <Link href={`/products/${slug}`}>{name}</Link>
+        </h4>
+        
+        <div className="flex items-center justify-center gap-1">
+          {[...Array(5)].map((_, i) => (
+            <Star 
+              key={i} 
+              size={12} 
+              className={cn(
+                "fill-accent-gold text-accent-gold",
+                i >= Math.floor(rating) && "fill-gray-200 text-gray-200"
+              )} 
             />
-          </div>
-
-          {/* Mobile Quick Add (Visible only on mobile/touch) */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[80%] lg:hidden">
-             <button 
-               onClick={handleAddToCart}
-               className="w-full py-3 bg-brand-teal text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-xl"
-             >
-               Quick Add
-             </button>
-          </div>
+          ))}
         </div>
 
-        {/* Product Info */}
-        <div className="p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="text-[9px] text-brand-teal uppercase tracking-[0.3em] font-black opacity-40">
-              {brand}
-            </span>
-            <div className="flex items-center gap-1.5">
-              <Star size={12} className="fill-accent-gold text-accent-gold" />
-              <span className="text-[10px] font-black">{rating}</span>
-            </div>
-          </div>
-          
-          <h3 className="text-xl font-serif italic line-clamp-2 min-h-[56px] group-hover:text-brand-teal transition-colors leading-tight">
-            {name}
-          </h3>
-          
-          <div className="flex items-center justify-between pt-4 border-t border-gray-50">
-            <div className="flex flex-col">
-               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest line-through mb-0.5">Rs. {(price * 1.2).toLocaleString()}</span>
-               <p className="text-2xl font-black text-brand-navy">Rs. {price.toLocaleString()}</p>
-            </div>
-            
-            <button
-              onClick={handleAddToCart}
-              className={cn(
-                "w-14 h-14 rounded-2xl transition-all flex items-center justify-center shadow-2xl relative overflow-hidden group/btn",
-                isAdded
-                  ? "bg-green-500 text-white"
-                  : "bg-brand-teal text-white hover:bg-brand-navy shadow-brand-teal/20"
-              )}
-            >
-              <AnimatePresence mode="wait">
-                {isAdded ? (
-                  <motion.span key="check" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>✓</motion.span>
-                ) : (
-                  <motion.div key="cart" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center justify-center">
-                    <ShoppingCart size={22} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </button>
-          </div>
+        <div className="text-[16px] font-bold text-text-primary">
+          <span className="text-brand-teal">Rs. {price.toLocaleString()}</span>
+          {badge === 'SALE' && (
+            <span className="ml-2 text-[14px] text-gray-400 line-through">Rs. {(price * 1.2).toLocaleString()}</span>
+          )}
         </div>
-      </Link>
-    </motion.div>
+      </div>
+    </div>
   );
 }
-

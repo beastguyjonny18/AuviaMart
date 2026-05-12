@@ -44,45 +44,38 @@ export default function Home() {
         
         <CategorySection />
 
-        {/* AuviaMart Exclusives Section */}
-        <section className="section-padding relative overflow-hidden bg-surface-light dark:bg-surface-dark">
-          <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-teal rounded-full blur-[120px]" />
-            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent-gold rounded-full blur-[120px]" />
+        {/* Goru-style Trending Products Section */}
+        <section className="py-24 bg-white overflow-hidden relative border-b border-gray-100">
+          <div className="hidden xl:block absolute right-[5%] top-1/2 -translate-y-1/2">
+            <span className="text-[24px] font-bold uppercase text-text-primary [writing-mode:vertical-lr] font-heading">
+              Trending <span className="font-light">Products</span>
+            </span>
           </div>
 
-          <div className="container mx-auto px-4 relative z-10">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-end justify-between mb-8 md:mb-16"
-            >
-              <div className="max-w-xl">
-                <span className="text-brand-teal font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Hand-picked selections</span>
-                <h2 className="text-4xl md:text-7xl mb-6 italic leading-tight">AuviaMart *Exclusives*</h2>
-                <p className="opacity-70 text-lg leading-relaxed max-w-md">Premium lifestyle pieces found nowhere else in Pakistan.</p>
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
+              <div className="max-w-2xl">
+                <h2 className="goru-section-title">Trending Products</h2>
+                <p className="goru-section-desc">
+                  Explore our most coveted premium pieces, hand-picked for the modern home in Pakistan.
+                </p>
               </div>
-              <Link href="/products" className="hidden sm:flex items-center gap-4 text-brand-teal font-black text-sm uppercase tracking-widest hover:gap-6 transition-all group border-b-2 border-brand-teal/20 pb-2">
-                Shop all 
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </motion.div>
+            </div>
 
             {loading ? (
               <div className="flex items-center justify-center py-20">
                 <Loader2 className="animate-spin text-brand-teal" size={40} />
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 border-t border-l border-gray-100">
                 {featuredProducts.map((product, i) => (
                   <motion.div
                     key={product.id}
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.8, delay: i * 0.1 }}
+                    className="border-r border-b border-gray-100 p-6 md:p-8 hover:bg-[#f4f7f9] transition-all duration-400"
                   >
                     <ProductCard {...product} />
                   </motion.div>
@@ -90,14 +83,9 @@ export default function Home() {
               </div>
             )}
 
-            {/* Mobile Shop All CTA */}
-            <div className="mt-12 sm:hidden">
-              <Link 
-                href="/products" 
-                className="w-full flex items-center justify-center gap-2 bg-brand-navy text-white py-5 rounded-2xl font-bold hover:bg-brand-teal transition-all shadow-xl shadow-brand-navy/20 active:scale-95"
-              >
-                View all products
-                <ArrowRight size={18} />
+            <div className="mt-16 text-center">
+              <Link href="/products" className="goru-btn">
+                View All Products
               </Link>
             </div>
           </div>
