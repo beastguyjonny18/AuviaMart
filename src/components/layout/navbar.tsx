@@ -151,32 +151,36 @@ export function Navbar() {
       <AnimatePresence>
         {isSearchOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, clipPath: "circle(0% at 50% 50%)" }}
+            animate={{ opacity: 1, clipPath: "circle(150% at 50% 50%)" }}
+            exit={{ opacity: 0, clipPath: "circle(0% at 50% 50%)" }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-[200] bg-brand-navy/95 backdrop-blur-2xl flex items-center justify-center p-4"
           >
-            <button 
+            <motion.button 
+              initial={{ scale: 0, rotate: -90 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
               onClick={() => setIsSearchOpen(false)}
               className="absolute top-8 right-8 text-white/40 hover:text-white transition-colors p-4"
             >
               <X size={40} strokeWidth={1} />
-            </button>
+            </motion.button>
 
             <div className="w-full max-w-4xl space-y-12">
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
+                initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.1 }}
+                transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="relative group"
               >
                 <input
                   autoFocus
                   type="text"
                   placeholder="Search Products..."
-                  className="w-full bg-transparent border-b-2 border-white/10 py-8 text-4xl md:text-7xl font-heading font-bold italic text-white placeholder:text-white/10 focus:outline-none focus:border-accent-gold transition-all"
+                  className="w-full bg-transparent border-b-2 border-white/10 py-8 text-4xl md:text-7xl font-heading font-bold italic text-white placeholder:text-white/10 focus:outline-none focus:border-brand-teal transition-all"
                 />
-                <button className="absolute right-0 top-1/2 -translate-y-1/2 text-accent-gold hover:scale-110 transition-transform">
+                <button className="absolute right-0 top-1/2 -translate-y-1/2 text-brand-teal hover:scale-110 transition-transform">
                   <ArrowRight size={48} strokeWidth={1.5} />
                 </button>
               </motion.div>
@@ -197,11 +201,11 @@ export function Navbar() {
               className="fixed inset-0 z-[150] bg-black/60 backdrop-blur-sm lg:hidden"
             />
             <motion.div 
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 right-0 z-[160] w-full max-w-[300px] bg-brand-navy p-8 lg:hidden text-white"
+              initial={{ x: '100%', skewX: 2 }}
+              animate={{ x: 0, skewX: 0 }}
+              exit={{ x: '100%', skewX: 2 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 150 }}
+              className="fixed inset-y-0 right-0 z-[160] w-full max-w-[320px] bg-brand-navy p-8 lg:hidden text-white"
             >
               <div className="flex justify-between items-center mb-12">
                 <Logo transparent={true} />
@@ -210,18 +214,24 @@ export function Navbar() {
                 </button>
               </div>
               <nav className="flex flex-col gap-6">
-                {navLinks.map((link) => (
-                  <Link
+                {navLinks.map((link, i) => (
+                  <motion.div
                     key={link.name}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={cn(
-                      "text-xl font-bold uppercase tracking-widest font-heading",
-                      pathname === link.href ? "text-accent-gold" : "text-white"
-                    )}
+                    initial={{ x: 50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.2 + (i * 0.1), duration: 0.5 }}
                   >
-                    {link.name}
-                  </Link>
+                    <Link
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={cn(
+                        "text-2xl font-bold uppercase tracking-widest font-heading transition-colors",
+                        pathname === link.href ? "text-accent-gold" : "text-white hover:text-accent-gold"
+                      )}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
                 ))}
               </nav>
             </motion.div>

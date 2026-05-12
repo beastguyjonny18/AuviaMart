@@ -50,20 +50,28 @@ export function CategorySection() {
           {categories.map((cat, i) => (
             <motion.div
               key={cat.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ 
+                delay: i * 0.08, 
+                duration: 1.2, 
+                ease: [0.16, 1, 0.3, 1] 
+              }}
               className="border-r border-b border-gray-100 last:border-r-0 md:[&:nth-child(9)]:border-r-0"
             >
               <Link 
                 href={`/products?category=${cat.slug}`}
-                className="group flex flex-col items-center justify-center py-12 px-4 transition-all duration-400 hover:bg-[#f4f7f9]"
+                className="group flex flex-col items-center justify-center py-12 px-4 transition-all duration-700 ease-[0.16,1,0.3,1] hover:bg-[#f4f7f9]"
               >
-                <div className="text-text-primary group-hover:text-brand-teal transition-colors duration-400 mb-6">
+                <motion.div 
+                  whileHover={{ scale: 1.15, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                  className="text-text-primary group-hover:text-brand-teal transition-colors duration-500 mb-6"
+                >
                   <cat.icon size={48} strokeWidth={1} />
-                </div>
-                <span className="text-[14px] font-bold uppercase tracking-widest text-text-primary text-center">
+                </motion.div>
+                <span className="text-[14px] font-bold uppercase tracking-widest text-text-primary text-center group-hover:tracking-[0.15em] transition-all duration-500">
                   {cat.name}
                 </span>
               </Link>

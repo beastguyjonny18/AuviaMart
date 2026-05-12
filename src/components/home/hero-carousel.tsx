@@ -75,7 +75,7 @@ export function HeroCarousel() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
           className="absolute inset-0"
         >
           <div className="container mx-auto px-4 h-full flex items-center">
@@ -83,41 +83,64 @@ export function HeroCarousel() {
               
               <div className="relative z-10 order-2 lg:order-1">
                 <motion.div
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  initial={{ y: 80, opacity: 0, skewY: 5 }}
+                  animate={{ y: 0, opacity: 1, skewY: 0 }}
+                  transition={{ 
+                    delay: 0.4, 
+                    duration: 1.2, 
+                    ease: [0.16, 1, 0.3, 1] 
+                  }}
                 >
                   <h1 
                     className="text-[40px] md:text-[60px] lg:text-[72px] leading-[1.1] font-bold text-text-primary mb-8"
                     dangerouslySetInnerHTML={{ __html: slides[current].title }}
                   />
-                  <p className="text-[18px] md:text-[24px] text-text-secondary mb-12 max-w-xl leading-relaxed">
+                  <motion.p 
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.6, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-[18px] md:text-[24px] text-text-secondary mb-12 max-w-xl leading-relaxed font-medium"
+                  >
                     {slides[current].subtitle}
-                  </p>
-                  <Link href="/products" className="goru-btn">
-                    {slides[current].cta}
-                  </Link>
+                  </motion.p>
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <Link href="/products" className="goru-btn">
+                      {slides[current].cta}
+                    </Link>
+                  </motion.div>
                 </motion.div>
               </div>
 
               <div className="relative order-1 lg:order-2 h-[40vh] lg:h-[70vh] flex items-center justify-center">
                 <motion.div
-                  initial={{ scale: 0.8, opacity: 0, x: 50 }}
-                  animate={{ scale: 1, opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  initial={{ scale: 0.8, opacity: 0, x: 100, rotate: 10 }}
+                  animate={{ scale: 1, opacity: 1, x: 0, rotate: 0 }}
+                  transition={{ 
+                    delay: 0.5, 
+                    duration: 1.5, 
+                    ease: [0.16, 1, 0.3, 1] 
+                  }}
                   className="relative w-full h-full"
                 >
                   <img 
                     src={slides[current].image} 
                     alt="Slider Image" 
-                    className="w-full h-full object-contain drop-shadow-2xl"
+                    className="w-full h-full object-contain drop-shadow-3xl"
                   />
                 </motion.div>
                 
-                {/* Decorative Shapes (Goru Style) */}
-                <div className="absolute -z-10 w-full h-full flex items-center justify-center">
-                   <div className="w-[80%] aspect-square bg-brand-teal/5 rounded-full animate-pulse" />
-                </div>
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.3, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute -z-10 w-full h-full flex items-center justify-center"
+                >
+                   <div className="w-[80%] aspect-square bg-brand-teal/5 rounded-full" />
+                </motion.div>
               </div>
 
             </div>

@@ -96,19 +96,25 @@ export default function Home() {
         {/* Goru-style The AuviaMart Standard Section */}
         <section className="py-24 bg-[#f4f7f9] overflow-hidden relative border-b border-gray-100">
            {/* Goru-style Vertical Label */}
-           <div className="hidden xl:block absolute right-[5%] top-1/2 -translate-y-1/2">
+           <motion.div 
+             initial={{ opacity: 0, x: 20 }}
+             whileInView={{ opacity: 1, x: 0 }}
+             viewport={{ once: true }}
+             transition={{ duration: 1, delay: 0.5 }}
+             className="hidden xl:block absolute right-[5%] top-1/2 -translate-y-1/2"
+           >
             <span className="text-[24px] font-bold uppercase text-text-primary [writing-mode:vertical-lr] font-heading">
               Our <span className="font-light">Philosophy</span>
             </span>
-          </div>
+          </motion.div>
 
           <div className="container mx-auto px-4">
             <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
               <motion.div 
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, x: -80, skewY: 2 }}
+                whileInView={{ opacity: 1, x: 0, skewY: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                 className="lg:w-2/5 text-center lg:text-left"
               >
                 <h2 className="goru-section-title">The *AuviaMart* Standard</h2>
@@ -120,7 +126,7 @@ export default function Home() {
                 </Link>
               </motion.div>
               
-              <div className="lg:w-3/5 grid grid-cols-1 sm:grid-cols-2 gap-0 border-t border-l border-gray-100 w-full bg-white">
+              <div className="lg:w-3/5 grid grid-cols-1 sm:grid-cols-2 gap-0 border-t border-l border-gray-100 w-full bg-white shadow-2xl">
                 {[
                   { title: 'Premium Quality', desc: 'Sourced from top manufacturers globally.' },
                   { title: 'Nationwide Delivery', desc: 'Same-day delivery in Islamabad, next-day across Pakistan.' },
@@ -129,15 +135,18 @@ export default function Home() {
                 ].map((item, i) => (
                   <motion.div 
                     key={i}
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: i * 0.1 }}
+                    transition={{ duration: 0.8, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
                     className="p-10 border-r border-b border-gray-100 hover:bg-[#f4f7f9] transition-all duration-400 group"
                   >
-                    <div className="w-16 h-16 rounded-none bg-white border-2 border-gray-100 flex items-center justify-center text-text-primary mb-8 group-hover:bg-brand-teal group-hover:text-white group-hover:border-brand-teal transition-all duration-400">
+                    <motion.div 
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      className="w-16 h-16 rounded-none bg-white border-2 border-gray-100 flex items-center justify-center text-text-primary mb-8 group-hover:bg-brand-teal group-hover:text-white group-hover:border-brand-teal transition-all duration-400 shadow-sm"
+                    >
                       <CheckCircle2 size={32} strokeWidth={1.5} />
-                    </div>
+                    </motion.div>
                     <h3 className="text-xl font-bold font-heading mb-4 uppercase tracking-widest">{item.title}</h3>
                     <p className="text-[14px] text-text-secondary leading-relaxed font-medium">{item.desc}</p>
                   </motion.div>
@@ -150,25 +159,26 @@ export default function Home() {
         {/* Goru-style Smart Living Section (CTA) */}
         <section className="relative h-[60vh] md:h-[80vh] min-h-[500px] md:min-h-[700px] flex items-center overflow-hidden bg-brand-navy">
           <motion.div 
-            initial={{ scale: 1.1 }}
-            whileInView={{ scale: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
+            initial={{ scale: 1.2, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 0.5 }}
+            viewport={{ once: true }}
+            transition={{ duration: 2, ease: "easeOut" }}
             className="absolute inset-0"
           >
             <Image
               src={settings?.ctaImage || "/products/1778482258100.jpeg"}
               alt="Happy House"
               fill
-              className="object-cover opacity-50"
+              className="object-cover"
             />
           </motion.div>
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-3xl text-white text-center md:text-left">
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 50, skewY: 2 }}
+                whileInView={{ opacity: 1, y: 0, skewY: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               >
                 <h2 className="text-[50px] md:text-[80px] lg:text-[100px] font-heading font-bold leading-tight mb-8">
                   {settings?.ctaTitle?.replace(/\*/g, '') || "Smart Living"}
@@ -190,42 +200,55 @@ export default function Home() {
         {/* Goru-style Journal Section */}
         <section className="py-24 bg-white relative border-b border-gray-100">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8"
+            >
               <div className="max-w-2xl">
                 <h2 className="goru-section-title">The Journal</h2>
                 <p className="goru-section-desc">
                   Insights into modern living, decor tips, and the stories behind our curation.
                 </p>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-l border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-l border-gray-100 shadow-2xl bg-white">
               {[
                 { title: 'Choosing the Perfect Wall Clock', cat: 'DECOR', image: '/products/1778482277813.jpeg' },
                 { title: 'Staying Cool: Portable Solutions', cat: 'LIFESTYLE', image: '/products/1778482277815.jpeg' },
                 { title: 'Smart Tech for Daily Vitality', cat: 'TECHNOLOGY', image: '/products/1778482293739.jpeg' },
               ].map((article, i) => (
-                <div key={i} className="border-r border-b border-gray-100 group">
-                  <Link href={`/blog/${i}`} className="block p-8 hover:bg-[#f4f7f9] transition-all duration-400 h-full">
-                    <div className="relative aspect-[4/3] overflow-hidden mb-8">
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  className="border-r border-b border-gray-100 group"
+                >
+                  <Link href={`/blog/${i}`} className="block p-8 hover:bg-[#f4f7f9] transition-all duration-700 h-full">
+                    <div className="relative aspect-[4/3] overflow-hidden mb-8 shadow-sm">
                       <Image
                         src={article.image}
                         alt={article.title}
                         fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-1000"
+                        className="object-cover group-hover:scale-110 transition-transform duration-[2s] ease-out"
                       />
-                      <div className="absolute top-4 left-4 bg-brand-teal px-4 py-1 text-[10px] font-bold text-white uppercase tracking-widest">
+                      <div className="absolute top-4 left-4 bg-brand-teal px-4 py-1 text-[10px] font-bold text-white uppercase tracking-widest z-10">
                         {article.cat}
                       </div>
                     </div>
                     <h3 className="text-2xl font-bold font-heading mb-6 group-hover:text-brand-teal transition-colors duration-400 leading-tight">
                       {article.title}
                     </h3>
-                    <span className="text-[12px] font-bold uppercase tracking-widest text-text-primary group-hover:text-brand-teal transition-colors flex items-center gap-2">
+                    <span className="text-[12px] font-bold uppercase tracking-widest text-text-primary group-hover:text-brand-teal transition-all duration-400 flex items-center gap-2 group-hover:gap-4">
                       Read More <ArrowRight size={14} />
                     </span>
                   </Link>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

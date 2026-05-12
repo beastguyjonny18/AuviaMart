@@ -55,16 +55,22 @@ export function WeeklyDeal() {
 
           <div className="lg:w-1/2">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: -80, skewX: -5 }}
+              whileInView={{ opacity: 1, x: 0, skewX: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               className="space-y-8"
             >
               <h2 className="text-[48px] font-bold text-text-primary font-heading">Weekly Deal</h2>
 
-              <div className="text-[24px] font-bold text-brand-teal font-heading">
+              <motion.div 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="text-[24px] font-bold text-brand-teal font-heading"
+              >
                 Rs. 8,500.00
-              </div>
+              </motion.div>
 
               <p className="text-text-secondary text-[18px] leading-[30px] max-w-lg font-medium">
                 Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequid.
@@ -77,43 +83,63 @@ export function WeeklyDeal() {
                   { label: 'Hours', value: timeLeft.hours },
                   { label: 'Mins', value: timeLeft.minutes },
                   { label: 'Secs', value: timeLeft.seconds },
-                ].map((item) => (
-                  <div key={item.label} className="flex flex-col items-center min-w-[70px] border-r last:border-0 border-gray-100 pr-4 md:pr-6">
-                    <span className="text-[36px] font-bold text-text-primary font-heading leading-tight mb-1">
-                      {item.value < 10 ? `0${item.value}` : item.value}
-                    </span>
+                ].map((item, i) => (
+                  <motion.div 
+                    key={item.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 + (i * 0.1), duration: 0.8 }}
+                    className="flex flex-col items-center min-w-[70px] border-r last:border-0 border-gray-100 pr-4 md:pr-6"
+                  >
+                    <AnimatePresence mode="wait">
+                      <motion.span 
+                        key={item.value}
+                        initial={{ y: 10, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -10, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        className="text-[36px] font-bold text-text-primary font-heading leading-tight mb-1"
+                      >
+                        {item.value < 10 ? `0${item.value}` : item.value}
+                      </motion.span>
+                    </AnimatePresence>
                     <span className="text-[14px] font-medium text-text-secondary">{item.label}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
-              <div className="pt-4">
+              <motion.div 
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="pt-4"
+              >
                 <Link href="/products/air-cooler" className="goru-btn">
                   Shop Now
                 </Link>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
 
           <div className="lg:w-1/2 w-full">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.8, x: 80, rotate: 5 }}
+              whileInView={{ opacity: 1, scale: 1, x: 0, rotate: 0 }}
               viewport={{ once: true }}
-              className="relative aspect-[4/3] w-full"
+              transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+              className="relative aspect-[4/3] w-full group"
             >
-              <div className="absolute inset-0 bg-[#f4f7f9] rounded-none -z-10 translate-x-12 translate-y-12" />
-              <div className="relative w-full h-full bg-white p-8">
+              <div className="absolute inset-0 bg-[#f4f7f9] rounded-none -z-10 translate-x-12 translate-y-12 transition-transform duration-1000 group-hover:translate-x-16 group-hover:translate-y-16" />
+              <div className="relative w-full h-full bg-white p-8 overflow-hidden">
                 <Image
                   src="/products/Portable fan cooler.jpeg"
                   alt="Weekly Deal Product"
                   fill
-                  className="object-contain"
+                  className="object-contain transition-transform duration-1000 group-hover:scale-110"
                 />
               </div>
             </motion.div>
           </div>
-
         </div>
       </div>
     </section>
