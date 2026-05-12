@@ -3,8 +3,9 @@
 import { Navbar } from "@/components/layout/navbar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, MessageSquare, Zap } from "lucide-react";
+import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export default function ContactPage() {
   const [formState, setFormState] = useState<'idle' | 'sending' | 'sent'>('idle');
@@ -116,12 +117,10 @@ export default function ContactPage() {
             </div>
 
           </div>
-        </div>
+        </section>
       </main>
 
       <MobileNav />
     </div>
   );
 }
-
-import { cn } from "@/lib/utils";

@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/layout/navbar';
 import { MobileNav } from '@/components/layout/mobile-nav';
-import { Trash2, Minus, Plus, ArrowRight, ShoppingBag, Loader2 } from 'lucide-react';
+import { Trash2, Minus, Plus, ArrowRight, ShoppingBag, Loader2, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCartStore } from '@/store/use-store';
